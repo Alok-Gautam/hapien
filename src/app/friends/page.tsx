@@ -313,15 +313,15 @@ export default function FriendsPage() {
           <div className="mb-6">
             <Link
               href="/profile"
-              className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 mb-4 transition-colors"
+              className="flex items-center gap-2 text-neutral-400 hover:text-neutral-100 mb-4 transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
               Back to Profile
             </Link>
-            <h1 className="text-2xl font-display font-bold text-neutral-900">
+            <h1 className="text-2xl font-display font-bold text-neutral-100">
               Friends
             </h1>
-            <p className="text-neutral-600 mt-1">
+            <p className="text-neutral-400 mt-1">
               Manage your connections
             </p>
           </div>
@@ -335,7 +335,7 @@ export default function FriendsPage() {
                 placeholder="Search for friends..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-white rounded-xl border border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-dark-card rounded-xl border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
               />
             </div>
 
@@ -357,7 +357,7 @@ export default function FriendsPage() {
                         size="md"
                       />
                       <div>
-                        <p className="font-medium text-neutral-900">
+                        <p className="font-medium text-neutral-100">
                           {searchUser.name}
                         </p>
                         {searchUser.bio && (
@@ -377,7 +377,7 @@ export default function FriendsPage() {
                       </Button>
                     )}
                     {isAlreadyFriend(searchUser.id) && (
-                      <span className="text-sm text-primary-600 flex items-center gap-1">
+                      <span className="text-sm text-primary-400 flex items-center gap-1">
                         <UserCheck className="w-4 h-4" />
                         Friends
                       </span>
@@ -409,7 +409,7 @@ export default function FriendsPage() {
               <TabsTrigger value="requests">
                 Requests
                 {pendingReceived.length > 0 && (
-                  <span className="ml-1.5 text-xs bg-primary-500 text-white px-1.5 py-0.5 rounded-full">
+                  <span className="ml-1.5 text-xs bg-primary-900/300 text-white px-1.5 py-0.5 rounded-full">
                     {pendingReceived.length}
                   </span>
                 )}
@@ -466,7 +466,7 @@ export default function FriendsPage() {
                               href={`/profile/${friendUser.id}`}
                               className="flex-1"
                             >
-                              <h3 className="font-semibold text-neutral-900 hover:text-primary-600 transition-colors">
+                              <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
                                 {friendUser.name}
                               </h3>
                               {friendUser.bio && (
@@ -530,7 +530,7 @@ export default function FriendsPage() {
                               href={`/profile/${requestUser.id}`}
                               className="flex-1"
                             >
-                              <h3 className="font-semibold text-neutral-900 hover:text-primary-600 transition-colors">
+                              <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
                                 {requestUser.name}
                               </h3>
                               {requestUser.bio && (
@@ -603,7 +603,7 @@ export default function FriendsPage() {
                               href={`/profile/${targetUser.id}`}
                               className="flex-1"
                             >
-                              <h3 className="font-semibold text-neutral-900 hover:text-primary-600 transition-colors">
+                              <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
                                 {targetUser.name}
                               </h3>
                               <p className="text-sm text-neutral-400 flex items-center gap-1">
@@ -671,7 +671,7 @@ export default function FriendsPage() {
                                 href={`/profile/${suggestion.id}`}
                                 className="flex-1"
                               >
-                                <h3 className="font-semibold text-neutral-900 hover:text-primary-600 transition-colors">
+                                <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
                                   {suggestion.name}
                                 </h3>
                                 {suggestion.bio && (

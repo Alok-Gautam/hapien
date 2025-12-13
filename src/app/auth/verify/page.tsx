@@ -115,14 +115,14 @@ function VerifyContent() {
 
   if (!phone) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-warm">
+      <div className="min-h-screen flex items-center justify-center bg-dark-bg">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-warm flex flex-col">
+    <div className="min-h-screen bg-dark-bg flex flex-col">
       {/* Background decoration */}
       <div className="fixed inset-0 bg-mesh pointer-events-none" />
 
@@ -130,7 +130,7 @@ function VerifyContent() {
       <header className="relative z-10 px-4 py-4">
         <Link
           href="/auth/login"
-          className="inline-flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors"
+          className="inline-flex items-center gap-2 text-neutral-400 hover:text-neutral-200 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
           <span>Change number</span>
@@ -149,21 +149,21 @@ function VerifyContent() {
             <div className="w-14 h-14 rounded-2xl bg-gradient-primary flex items-center justify-center shadow-glow mx-auto mb-6">
               <span className="text-white font-bold text-2xl">H</span>
             </div>
-            <h1 className="font-display text-3xl font-bold text-neutral-900 mb-2">
+            <h1 className="font-display text-3xl font-bold text-neutral-100 mb-2">
               Verify your number
             </h1>
-            <p className="text-neutral-600">
+            <p className="text-neutral-400">
               We sent a 6-digit code to{' '}
-              <span className="font-medium text-neutral-900">{formatPhone(phone)}</span>
+              <span className="font-medium text-neutral-200">{formatPhone(phone)}</span>
             </p>
           </div>
 
           {/* Verify Card */}
-          <div className="bg-white rounded-3xl shadow-soft p-8">
+          <div className="bg-dark-card rounded-3xl shadow-soft border border-dark-border p-8">
             <div className="space-y-6">
               {/* OTP Input */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-neutral-700 text-center">
+                <label className="block text-sm font-medium text-neutral-300 text-center">
                   Enter verification code
                 </label>
                 <div 
@@ -180,7 +180,7 @@ function VerifyContent() {
                       value={digit}
                       onChange={(e) => handleOtpChange(index, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(index, e)}
-                      className="w-11 h-14 sm:w-12 sm:h-16 text-center text-2xl font-bold rounded-xl border-2 border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
+                      className="w-11 h-14 sm:w-12 sm:h-16 text-center text-2xl font-bold rounded-xl border-2 border-dark-border bg-dark-bg text-neutral-100 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
                       autoFocus={index === 0}
                     />
                   ))}
@@ -192,15 +192,15 @@ function VerifyContent() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-3 bg-red-50 border border-red-200 rounded-xl"
+                  className="p-3 bg-tertiary-900/50 border border-tertiary-700 rounded-xl"
                 >
-                  <p className="text-sm text-red-600 text-center">{error}</p>
+                  <p className="text-sm text-tertiary-300 text-center">{error}</p>
                 </motion.div>
               )}
 
               {/* Loading indicator */}
               {isLoading && (
-                <div className="flex items-center justify-center gap-2 text-primary-600">
+                <div className="flex items-center justify-center gap-2 text-primary-400">
                   <Loader2 className="w-5 h-5 animate-spin" />
                   <span className="text-sm">Verifying...</span>
                 </div>
@@ -210,7 +210,7 @@ function VerifyContent() {
               <div className="text-center">
                 {resendTimer > 0 ? (
                   <p className="text-sm text-neutral-500">
-                    Resend code in <span className="font-medium">{resendTimer}s</span>
+                    Resend code in <span className="font-medium text-neutral-300">{resendTimer}s</span>
                   </p>
                 ) : (
                   <Button
@@ -218,7 +218,7 @@ function VerifyContent() {
                     size="sm"
                     onClick={handleResend}
                     disabled={isLoading}
-                    className="text-primary-600"
+                    className="text-primary-400"
                   >
                     <RefreshCw className="w-4 h-4 mr-2" />
                     Resend code
@@ -228,7 +228,7 @@ function VerifyContent() {
             </div>
 
             {/* Help text */}
-            <p className="text-xs text-neutral-400 text-center mt-6">
+            <p className="text-xs text-neutral-500 text-center mt-6">
               Didn't receive the code? Check your SMS inbox or try resending.
             </p>
           </div>
@@ -241,7 +241,7 @@ function VerifyContent() {
 export default function VerifyPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gradient-warm">
+      <div className="min-h-screen flex items-center justify-center bg-dark-bg">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
       </div>
     }>

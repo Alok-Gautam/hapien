@@ -46,8 +46,8 @@ const notificationIcons = {
 }
 
 const notificationColors = {
-  friend_request: 'bg-primary-100 text-primary-600',
-  friend_accepted: 'bg-green-100 text-green-600',
+  friend_request: 'bg-primary-100 text-primary-400',
+  friend_accepted: 'bg-primary-900/50 text-primary-400',
   hangout_invite: 'bg-secondary-100 text-secondary-600',
   hangout_rsvp: 'bg-secondary-100 text-secondary-600',
   community_approved: 'bg-tertiary-100 text-tertiary-600',
@@ -180,15 +180,15 @@ export default function NotificationsPage() {
               <div className="flex items-center gap-2">
                 <Link
                   href="/feed"
-                  className="p-2 -ml-2 text-neutral-400 hover:text-neutral-600 transition-colors"
+                  className="p-2 -ml-2 text-neutral-400 hover:text-neutral-400 transition-colors"
                 >
                   <ArrowLeft className="w-5 h-5" />
                 </Link>
-                <h1 className="text-2xl font-display font-bold text-neutral-900">
+                <h1 className="text-2xl font-display font-bold text-neutral-100">
                   Notifications
                 </h1>
                 {unreadCount > 0 && (
-                  <span className="px-2 py-0.5 text-xs font-medium bg-primary-500 text-white rounded-full">
+                  <span className="px-2 py-0.5 text-xs font-medium bg-primary-900/300 text-white rounded-full">
                     {unreadCount}
                   </span>
                 )}
@@ -224,7 +224,7 @@ export default function NotificationsPage() {
               <div className="space-y-2">
                 {notifications.map((notification, index) => {
                   const Icon = notificationIcons[notification.type] || Bell
-                  const colorClass = notificationColors[notification.type] || 'bg-neutral-100 text-neutral-600'
+                  const colorClass = notificationColors[notification.type] || 'bg-dark-elevated text-neutral-400'
                   const link = getNotificationLink(notification)
 
                   return (
@@ -242,7 +242,7 @@ export default function NotificationsPage() {
                         <Card
                           className={cn(
                             'p-4 transition-all hover:shadow-soft-md',
-                            !notification.read && 'bg-primary-50/50 border-l-4 border-l-primary-500'
+                            !notification.read && 'bg-primary-900/30/50 border-l-4 border-l-primary-500'
                           )}
                         >
                           <div className="flex gap-4">
@@ -252,7 +252,7 @@ export default function NotificationsPage() {
                             
                             <div className="flex-1 min-w-0">
                               <p className={cn(
-                                'text-neutral-900',
+                                'text-neutral-100',
                                 !notification.read && 'font-medium'
                               )}>
                                 {notification.title}
@@ -268,7 +268,7 @@ export default function NotificationsPage() {
                             </div>
 
                             {!notification.read && (
-                              <div className="w-2 h-2 bg-primary-500 rounded-full flex-shrink-0 mt-2" />
+                              <div className="w-2 h-2 bg-primary-900/300 rounded-full flex-shrink-0 mt-2" />
                             )}
                           </div>
                         </Card>

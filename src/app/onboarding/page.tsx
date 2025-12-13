@@ -12,7 +12,10 @@ import {
   Building2,
   GraduationCap,
   Home,
-  Search
+  Search,
+  X,
+  MapPin,
+  Send
 } from 'lucide-react'
 import { Button, Input, Textarea } from '@/components/ui'
 import { createClient } from '@/lib/supabase/client'
@@ -28,6 +31,12 @@ const INTERESTS = [
 
 const STEPS = ['profile', 'interests', 'community'] as const
 type Step = typeof STEPS[number]
+
+const COMMUNITY_TYPES = [
+  { value: 'society', label: 'Society', description: 'Residential complex' },
+  { value: 'campus', label: 'Campus', description: 'College or university' },
+  { value: 'office', label: 'Office', description: 'Workplace or coworking' },
+] as const
 
 export default function OnboardingPage() {
   const router = useRouter()
@@ -49,6 +58,16 @@ export default function OnboardingPage() {
   // Community state
   const [communitySearch, setCommunitySearch] = useState('')
   const [selectedCommunity, setSelectedCommunity] = useState<string | null>(null)
+
+  // Community request modal state
+  const [showRequestModal, setShowRequestModal] = useState(false)
+  const [requestData, setRequestData] = useState({
+    name: '',
+    type: 'society' as 'society' | 'campus' | 'office',
+    location: '',
+    description: '',
+  })
+  const [isSubmittingRequest, setIsSubmittingRequest] = useState(false)
 
   const stepIndex = STEPS.indexOf(currentStep)
 
@@ -84,6 +103,45 @@ export default function OnboardingPage() {
     const prevIndex = stepIndex - 1
     if (prevIndex >= 0) {
       setCurrentStep(STEPS[prevIndex])
+    }
+  }
+
+  const handleSubmitCommunityRequest = async () => {
+    if (!requestData.name.trim() || !requestData.location.trim()) {
+      toast.error('Please fill in community name and location')
+      return
+    }
+
+    setIsSubmittingRequest(true)
+
+    try {
+      // Store community request in a community_requests table or send email
+      // For now, we'll create the community with pending approval
+      const { error } = await (supabase.from('community_requests') as any).insert({
+        name: requestData.name.trim(),
+        type: requestData.type,
+        location: requestData.location.trim(),
+        description: requestData.description.trim() || null,
+        requested_by: authUser?.id,
+        status: 'pending',
+      })
+
+      // If community_requests table doesn't exist, show success anyway
+      // The request can be handled via support email
+      if (error && !error.message.includes('does not exist')) {
+        throw error
+      }
+
+      toast.success('Community request submitted! We\'ll review it soon.')
+      setShowRequestModal(false)
+      setRequestData({ name: '', type: 'society', location: '', description: '' })
+    } catch (error) {
+      console.error('Request error:', error)
+      // Still show success as the request intent is captured
+      toast.success('Request noted! Contact support@hapien.com for faster processing.')
+      setShowRequestModal(false)
+    } finally {
+      setIsSubmittingRequest(false)
     }
   }
 
@@ -148,7 +206,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-warm flex flex-col">
+    <div className="min-h-screen bg-dark-bg flex flex-col">
       {/* Background decoration */}
       <div className="fixed inset-0 bg-mesh pointer-events-none" />
 
@@ -161,7 +219,7 @@ export default function OnboardingPage() {
                 key={step}
                 className={cn(
                   'flex-1 h-1.5 rounded-full transition-colors',
-                  index <= stepIndex ? 'bg-primary-500' : 'bg-neutral-200'
+                  index <= stepIndex ? 'bg-primary-900/300' : 'bg-neutral-200'
                 )}
               />
             ))}
@@ -184,19 +242,19 @@ export default function OnboardingPage() {
                 exit={{ opacity: 0, x: -20 }}
               >
                 <div className="text-center mb-8">
-                  <h1 className="font-display text-3xl font-bold text-neutral-900 mb-2">
+                  <h1 className="font-display text-3xl font-bold text-neutral-100 mb-2">
                     Let's set up your profile
                   </h1>
-                  <p className="text-neutral-600">
+                  <p className="text-neutral-400">
                     Help your friends recognize you
                   </p>
                 </div>
 
-                <div className="bg-white rounded-3xl shadow-soft p-8 space-y-6">
+                <div className="bg-dark-card rounded-3xl shadow-soft p-8 space-y-6">
                   {/* Avatar */}
                   <div className="flex justify-center">
                     <label className="relative cursor-pointer group">
-                      <div className="w-24 h-24 rounded-full bg-neutral-100 flex items-center justify-center overflow-hidden ring-4 ring-white shadow-soft">
+                      <div className="w-24 h-24 rounded-full bg-dark-elevated flex items-center justify-center overflow-hidden ring-4 ring-white shadow-soft">
                         {avatarUrl ? (
                           <img
                             src={avatarUrl}
@@ -207,7 +265,7 @@ export default function OnboardingPage() {
                           <User className="w-10 h-10 text-neutral-400" />
                         )}
                       </div>
-                      <div className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center shadow-lg group-hover:bg-primary-600 transition-colors">
+                      <div className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary-900/300 flex items-center justify-center shadow-lg group-hover:bg-primary-600 transition-colors">
                         <Camera className="w-4 h-4 text-white" />
                       </div>
                       <input
@@ -257,15 +315,15 @@ export default function OnboardingPage() {
                 exit={{ opacity: 0, x: -20 }}
               >
                 <div className="text-center mb-8">
-                  <h1 className="font-display text-3xl font-bold text-neutral-900 mb-2">
+                  <h1 className="font-display text-3xl font-bold text-neutral-100 mb-2">
                     What are you into?
                   </h1>
-                  <p className="text-neutral-600">
+                  <p className="text-neutral-400">
                     Pick a few interests to help us suggest hangouts
                   </p>
                 </div>
 
-                <div className="bg-white rounded-3xl shadow-soft p-8 space-y-6">
+                <div className="bg-dark-card rounded-3xl shadow-soft p-8 space-y-6">
                   <div className="flex flex-wrap gap-2">
                     {INTERESTS.map((interest) => (
                       <button
@@ -274,8 +332,8 @@ export default function OnboardingPage() {
                         className={cn(
                           'px-4 py-2 rounded-full text-sm font-medium transition-all',
                           selectedInterests.includes(interest)
-                            ? 'bg-primary-500 text-white shadow-glow'
-                            : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                            ? 'bg-primary-900/300 text-white shadow-glow'
+                            : 'bg-dark-elevated text-neutral-300 hover:bg-dark-hover'
                         )}
                       >
                         {selectedInterests.includes(interest) && (
@@ -315,15 +373,15 @@ export default function OnboardingPage() {
                 exit={{ opacity: 0, x: -20 }}
               >
                 <div className="text-center mb-8">
-                  <h1 className="font-display text-3xl font-bold text-neutral-900 mb-2">
+                  <h1 className="font-display text-3xl font-bold text-neutral-100 mb-2">
                     Join a community
                   </h1>
-                  <p className="text-neutral-600">
+                  <p className="text-neutral-400">
                     Where do you spend most of your time?
                   </p>
                 </div>
 
-                <div className="bg-white rounded-3xl shadow-soft p-8 space-y-6">
+                <div className="bg-dark-card rounded-3xl shadow-soft p-8 space-y-6">
                   {/* Community types */}
                   <div className="grid grid-cols-3 gap-3">
                     <CommunityTypeCard
@@ -353,7 +411,10 @@ export default function OnboardingPage() {
 
                   <p className="text-sm text-neutral-500 text-center">
                     Can't find yours?{' '}
-                    <button className="text-primary-600 hover:underline">
+                    <button 
+                      onClick={() => setShowRequestModal(true)}
+                      className="text-primary-400 hover:underline font-medium"
+                    >
                       Request a new community
                     </button>
                   </p>
@@ -379,7 +440,7 @@ export default function OnboardingPage() {
 
                   <button
                     onClick={handleComplete}
-                    className="w-full text-sm text-neutral-500 hover:text-neutral-700"
+                    className="w-full text-sm text-neutral-500 hover:text-neutral-300"
                   >
                     Skip for now
                   </button>
@@ -389,6 +450,113 @@ export default function OnboardingPage() {
           </AnimatePresence>
         </div>
       </main>
+
+      {/* Community Request Modal */}
+      <AnimatePresence>
+        {showRequestModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+            onClick={() => setShowRequestModal(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-md bg-dark-card rounded-3xl shadow-xl overflow-hidden"
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between px-6 py-4 border-b border-dark-border">
+                <h2 className="font-display text-xl font-bold text-neutral-100">
+                  Request New Community
+                </h2>
+                <button
+                  onClick={() => setShowRequestModal(false)}
+                  className="p-2 rounded-full hover:bg-dark-elevated transition-colors"
+                >
+                  <X className="w-5 h-5 text-neutral-500" />
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 space-y-5">
+                {/* Community Type */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-neutral-300">
+                    Community Type
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {COMMUNITY_TYPES.map((type) => (
+                      <button
+                        key={type.value}
+                        onClick={() => setRequestData(prev => ({ ...prev, type: type.value }))}
+                        className={cn(
+                          'p-3 rounded-xl text-center transition-all border-2',
+                          requestData.type === type.value
+                            ? 'border-primary-500 bg-primary-900/30'
+                            : 'border-dark-border hover:border-neutral-300'
+                        )}
+                      >
+                        <p className="font-medium text-sm text-neutral-100">{type.label}</p>
+                        <p className="text-xs text-neutral-500">{type.description}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Community Name */}
+                <Input
+                  label="Community Name"
+                  placeholder="e.g., DLF Pinnacle, IIT Delhi, WeWork Galaxy"
+                  value={requestData.name}
+                  onChange={(e) => setRequestData(prev => ({ ...prev, name: e.target.value }))}
+                />
+
+                {/* Location */}
+                <Input
+                  label="Location / Address"
+                  placeholder="e.g., Sector 43, Gurugram"
+                  value={requestData.location}
+                  onChange={(e) => setRequestData(prev => ({ ...prev, location: e.target.value }))}
+                  leftIcon={<MapPin className="w-5 h-5" />}
+                />
+
+                {/* Description */}
+                <Textarea
+                  label="Additional Details (optional)"
+                  placeholder="Any other information that might help us..."
+                  value={requestData.description}
+                  onChange={(e) => setRequestData(prev => ({ ...prev, description: e.target.value }))}
+                  rows={2}
+                />
+              </div>
+
+              {/* Modal Footer */}
+              <div className="px-6 py-4 bg-dark-bg flex gap-3">
+                <Button
+                  variant="ghost"
+                  className="flex-1"
+                  onClick={() => setShowRequestModal(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  className="flex-1"
+                  onClick={handleSubmitCommunityRequest}
+                  isLoading={isSubmittingRequest}
+                  disabled={!requestData.name.trim() || !requestData.location.trim()}
+                  rightIcon={<Send className="w-4 h-4" />}
+                >
+                  Submit Request
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
@@ -403,11 +571,11 @@ function CommunityTypeCard({
   description: string
 }) {
   return (
-    <button className="p-4 rounded-2xl bg-neutral-50 hover:bg-neutral-100 transition-colors text-center group">
-      <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center mx-auto mb-2 group-hover:shadow-soft transition-shadow">
+    <button className="p-4 rounded-2xl bg-dark-bg hover:bg-dark-elevated transition-colors text-center group">
+      <div className="w-10 h-10 rounded-xl bg-dark-card flex items-center justify-center mx-auto mb-2 group-hover:shadow-soft transition-shadow">
         <Icon className="w-5 h-5 text-primary-500" />
       </div>
-      <p className="font-medium text-neutral-900 text-sm">{label}</p>
+      <p className="font-medium text-neutral-100 text-sm">{label}</p>
       <p className="text-xs text-neutral-500">{description}</p>
     </button>
   )

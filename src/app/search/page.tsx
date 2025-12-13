@@ -212,7 +212,7 @@ function SearchContent() {
                   </Link>
                   <div className="flex-1 min-w-0">
                     <Link href={`/profile/${person.id}`}>
-                      <h3 className="font-semibold text-neutral-900 hover:text-primary-600 transition-colors">
+                      <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
                         {person.name}
                       </h3>
                     </Link>
@@ -277,14 +277,14 @@ function SearchContent() {
                   <div className={cn(
                     'w-12 h-12 rounded-xl flex items-center justify-center',
                     community.type === 'society' && 'bg-tertiary-100 text-tertiary-600',
-                    community.type === 'campus' && 'bg-primary-100 text-primary-600',
+                    community.type === 'campus' && 'bg-primary-100 text-primary-400',
                     community.type === 'office' && 'bg-secondary-100 text-secondary-600',
                   )}>
                     <TypeIcon className="w-6 h-6" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <Link href={`/communities/${community.id}`}>
-                      <h3 className="font-semibold text-neutral-900 hover:text-primary-600 transition-colors">
+                      <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
                         {community.name}
                       </h3>
                     </Link>
@@ -342,7 +342,7 @@ function SearchContent() {
               <Link href={`/hangouts/${hangout.id}`}>
                 <Card className="p-4 hover:shadow-soft-lg transition-shadow">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-primary-100 flex flex-col items-center justify-center text-primary-600">
+                    <div className="w-12 h-12 rounded-xl bg-primary-100 flex flex-col items-center justify-center text-primary-400">
                       <span className="text-xs font-medium uppercase">
                         {date.toLocaleDateString('en-US', { month: 'short' })}
                       </span>
@@ -351,7 +351,7 @@ function SearchContent() {
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-neutral-900">{hangout.title}</h3>
+                      <h3 className="font-semibold text-neutral-100">{hangout.title}</h3>
                       <p className="text-sm text-neutral-500 flex items-center gap-1 mt-1">
                         <MapPin className="w-3 h-3" />
                         {hangout.location?.name || 'TBD'}
@@ -387,11 +387,11 @@ function SearchContent() {
         {people.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-semibold text-neutral-900">People</h2>
+              <h2 className="font-semibold text-neutral-100">People</h2>
               {people.length > 3 && (
                 <button
                   onClick={() => setActiveTab('people')}
-                  className="text-sm text-primary-600 hover:text-primary-700"
+                  className="text-sm text-primary-400 hover:text-primary-700"
                 >
                   See all
                 </button>
@@ -404,11 +404,11 @@ function SearchContent() {
         {communities.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-semibold text-neutral-900">Communities</h2>
+              <h2 className="font-semibold text-neutral-100">Communities</h2>
               {communities.length > 3 && (
                 <button
                   onClick={() => setActiveTab('communities')}
-                  className="text-sm text-primary-600 hover:text-primary-700"
+                  className="text-sm text-primary-400 hover:text-primary-700"
                 >
                   See all
                 </button>
@@ -421,11 +421,11 @@ function SearchContent() {
         {hangouts.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-semibold text-neutral-900">Hangouts</h2>
+              <h2 className="font-semibold text-neutral-100">Hangouts</h2>
               {hangouts.length > 3 && (
                 <button
                   onClick={() => setActiveTab('hangouts')}
-                  className="text-sm text-primary-600 hover:text-primary-700"
+                  className="text-sm text-primary-400 hover:text-primary-700"
                 >
                   See all
                 </button>
@@ -454,7 +454,7 @@ function SearchContent() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                className="w-full pl-12 pr-12 py-3 bg-white rounded-xl border border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
+                className="w-full pl-12 pr-12 py-3 bg-dark-card rounded-xl border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
                 autoFocus
               />
               {searchQuery && (
@@ -466,7 +466,7 @@ function SearchContent() {
                     setHangouts([])
                     setHasSearched(false)
                   }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-neutral-400 hover:text-neutral-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-neutral-400 hover:text-neutral-400"
                 >
                   <X className="w-4 h-4" />
                 </button>

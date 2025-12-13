@@ -14,13 +14,13 @@ export function Badge({
   ...props
 }: BadgeProps) {
   const variants = {
-    default: 'bg-neutral-100 text-neutral-700',
+    default: 'bg-dark-elevated text-neutral-300',
     primary: 'bg-primary-100 text-primary-700',
     secondary: 'bg-secondary-100 text-secondary-700',
-    success: 'bg-green-100 text-green-700',
+    success: 'bg-primary-900/50 text-green-700',
     warning: 'bg-amber-100 text-amber-700',
     danger: 'bg-tertiary-100 text-tertiary-700',
-    outline: 'border border-neutral-300 text-neutral-600 bg-transparent',
+    outline: 'border border-neutral-300 text-neutral-400 bg-transparent',
   }
 
   const sizes = {

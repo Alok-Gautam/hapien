@@ -47,7 +47,7 @@ function LoginContent() {
   const isValidPhone = phone.length === 10
 
   return (
-    <div className="min-h-screen bg-gradient-warm flex flex-col">
+    <div className="min-h-screen bg-dark-bg flex flex-col">
       {/* Background decoration */}
       <div className="fixed inset-0 bg-mesh pointer-events-none" />
 
@@ -55,7 +55,7 @@ function LoginContent() {
       <header className="relative z-10 px-4 py-4">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors"
+          className="inline-flex items-center gap-2 text-neutral-400 hover:text-neutral-200 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
           <span>Back</span>
@@ -76,25 +76,25 @@ function LoginContent() {
                 <span className="text-white font-bold text-2xl">H</span>
               </div>
             </Link>
-            <h1 className="font-display text-3xl font-bold text-neutral-900 mb-2">
+            <h1 className="font-display text-3xl font-bold text-neutral-100 mb-2">
               Welcome to Hapien
             </h1>
-            <p className="text-neutral-600">
+            <p className="text-neutral-400">
               Enter your phone number to get started
             </p>
           </div>
 
           {/* Login Card */}
-          <div className="bg-white rounded-3xl shadow-soft p-8">
+          <div className="bg-dark-card rounded-3xl shadow-soft border border-dark-border p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Phone Input */}
               <div className="space-y-2">
-                <label htmlFor="phone" className="block text-sm font-medium text-neutral-700">
+                <label htmlFor="phone" className="block text-sm font-medium text-neutral-300">
                   Phone Number
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                    <span className="text-neutral-500 font-medium">+91</span>
+                    <span className="text-neutral-400 font-medium">+91</span>
                   </div>
                   <Input
                     id="phone"
@@ -118,9 +118,9 @@ function LoginContent() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-3 bg-red-50 border border-red-200 rounded-xl"
+                  className="p-3 bg-tertiary-900/50 border border-tertiary-700 rounded-xl"
                 >
-                  <p className="text-sm text-red-600 text-center">{error}</p>
+                  <p className="text-sm text-tertiary-300 text-center">{error}</p>
                 </motion.div>
               )}
 
@@ -148,10 +148,10 @@ function LoginContent() {
             {/* Divider */}
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-neutral-200" />
+                <div className="w-full border-t border-dark-border" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-neutral-500">
+                <span className="px-4 bg-dark-card text-neutral-500">
                   Secure & Private
                 </span>
               </div>
@@ -160,32 +160,32 @@ function LoginContent() {
             {/* Benefits */}
             <div className="space-y-3">
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <svg className="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-6 h-6 rounded-full bg-primary-900/50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-3.5 h-3.5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <p className="text-sm text-neutral-600">
+                <p className="text-sm text-neutral-400">
                   No passwords to remember
                 </p>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <svg className="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-6 h-6 rounded-full bg-primary-900/50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-3.5 h-3.5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <p className="text-sm text-neutral-600">
+                <p className="text-sm text-neutral-400">
                   Your number is only visible to friends
                 </p>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <svg className="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-6 h-6 rounded-full bg-primary-900/50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-3.5 h-3.5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <p className="text-sm text-neutral-600">
+                <p className="text-sm text-neutral-400">
                   Connect with your local community
                 </p>
               </div>
@@ -193,11 +193,11 @@ function LoginContent() {
 
             <p className="text-sm text-neutral-500 text-center mt-6">
               By continuing, you agree to our{' '}
-              <Link href="/terms" className="text-primary-600 hover:underline">
+              <Link href="/terms" className="text-primary-400 hover:underline">
                 Terms of Service
               </Link>{' '}
               and{' '}
-              <Link href="/privacy" className="text-primary-600 hover:underline">
+              <Link href="/privacy" className="text-primary-400 hover:underline">
                 Privacy Policy
               </Link>
             </p>
@@ -211,7 +211,7 @@ function LoginContent() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gradient-warm">
+      <div className="min-h-screen flex items-center justify-center bg-dark-bg">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
       </div>
     }>

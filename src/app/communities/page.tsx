@@ -157,10 +157,10 @@ export default function CommunitiesPage() {
           {/* Header */}
           <div className="flex items-start justify-between mb-6">
             <div>
-              <h1 className="text-2xl font-display font-bold text-neutral-900">
+              <h1 className="text-2xl font-display font-bold text-neutral-100">
                 Communities
               </h1>
-              <p className="text-neutral-600 mt-1">
+              <p className="text-neutral-400 mt-1">
                 Find and join communities in your area
               </p>
             </div>
@@ -181,7 +181,7 @@ export default function CommunitiesPage() {
                 placeholder="Search communities..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-white rounded-xl border border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-dark-card rounded-xl border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
               />
             </div>
           </div>
@@ -280,7 +280,7 @@ export default function CommunitiesPage() {
 
                           {/* Name & Description */}
                           <Link href={`/communities/${community.id}`}>
-                            <h3 className="font-semibold text-neutral-900 hover:text-primary-600 transition-colors">
+                            <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
                               {community.name}
                             </h3>
                           </Link>

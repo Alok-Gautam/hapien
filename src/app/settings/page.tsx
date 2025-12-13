@@ -150,7 +150,7 @@ export default function SettingsPage() {
           {/* Back button */}
           <Link
             href="/profile"
-            className="inline-flex items-center gap-2 text-neutral-600 hover:text-neutral-900 mb-6"
+            className="inline-flex items-center gap-2 text-neutral-400 hover:text-neutral-100 mb-6"
           >
             <ArrowLeft className="w-5 h-5" />
             Back to Profile
@@ -158,10 +158,10 @@ export default function SettingsPage() {
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-display font-bold text-neutral-900">
+            <h1 className="text-2xl font-display font-bold text-neutral-100">
               Settings
             </h1>
-            <p className="text-neutral-600 mt-1">
+            <p className="text-neutral-400 mt-1">
               Manage your account and preferences
             </p>
           </div>
@@ -182,21 +182,21 @@ export default function SettingsPage() {
                           'w-10 h-10 rounded-xl flex items-center justify-center',
                           item.variant === 'danger'
                             ? 'bg-red-100'
-                            : 'bg-neutral-100'
+                            : 'bg-dark-elevated'
                         )}>
                           <Icon className={cn(
                             'w-5 h-5',
                             item.variant === 'danger'
-                              ? 'text-red-600'
-                              : 'text-neutral-600'
+                              ? 'text-tertiary-300'
+                              : 'text-neutral-400'
                           )} />
                         </div>
                         <div className="flex-1">
                           <p className={cn(
                             'font-medium',
                             item.variant === 'danger'
-                              ? 'text-red-600'
-                              : 'text-neutral-900'
+                              ? 'text-tertiary-300'
+                              : 'text-neutral-100'
                           )}>
                             {item.label}
                           </p>
@@ -217,7 +217,7 @@ export default function SettingsPage() {
                         <Link
                           key={item.label}
                           href={item.href}
-                          className="block hover:bg-neutral-50 transition-colors"
+                          className="block hover:bg-dark-bg transition-colors"
                         >
                           {content}
                         </Link>
@@ -229,7 +229,7 @@ export default function SettingsPage() {
                         <button
                           key={item.label}
                           onClick={item.action}
-                          className="w-full text-left hover:bg-neutral-50 transition-colors"
+                          className="w-full text-left hover:bg-dark-bg transition-colors"
                         >
                           {content}
                         </button>
@@ -261,7 +261,7 @@ export default function SettingsPage() {
         onClose={() => setShowLogoutModal(false)}
         title="Log Out"
       >
-        <p className="text-neutral-600 mb-6">
+        <p className="text-neutral-400 mb-6">
           Are you sure you want to log out of your account?
         </p>
         <div className="flex gap-3">
@@ -274,7 +274,7 @@ export default function SettingsPage() {
           </Button>
           <Button
             variant="primary"
-            className="flex-1 bg-red-500 hover:bg-red-600"
+            className="flex-1 bg-tertiary-900/300 hover:bg-red-600"
             onClick={handleLogout}
             isLoading={isLoggingOut}
           >

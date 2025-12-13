@@ -230,7 +230,7 @@ export default function CommunityAdminPage({ params }: CommunityAdminPageProps) 
           {/* Back Button */}
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 mb-6 transition-colors"
+            className="flex items-center gap-2 text-neutral-400 hover:text-neutral-100 mb-6 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
             Back
@@ -239,12 +239,12 @@ export default function CommunityAdminPage({ params }: CommunityAdminPageProps) 
           {/* Header */}
           <div className="mb-6">
             <div className="flex items-center gap-2 mb-1">
-              <Shield className="w-5 h-5 text-primary-600" />
-              <h1 className="text-2xl font-display font-bold text-neutral-900">
+              <Shield className="w-5 h-5 text-primary-400" />
+              <h1 className="text-2xl font-display font-bold text-neutral-100">
                 Admin Panel
               </h1>
             </div>
-            <p className="text-neutral-600">
+            <p className="text-neutral-400">
               Managing <span className="font-medium">{community.name}</span>
             </p>
           </div>
@@ -254,10 +254,10 @@ export default function CommunityAdminPage({ params }: CommunityAdminPageProps) 
             <Card variant="elevated" padding="md">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-primary-100 rounded-lg">
-                  <Users className="w-5 h-5 text-primary-600" />
+                  <Users className="w-5 h-5 text-primary-400" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-neutral-900">{members.length}</p>
+                  <p className="text-2xl font-bold text-neutral-100">{members.length}</p>
                   <p className="text-sm text-neutral-500">Members</p>
                 </div>
               </div>
@@ -268,7 +268,7 @@ export default function CommunityAdminPage({ params }: CommunityAdminPageProps) 
                   <Clock className="w-5 h-5 text-secondary-600" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-neutral-900">{pendingRequests.length}</p>
+                  <p className="text-2xl font-bold text-neutral-100">{pendingRequests.length}</p>
                   <p className="text-sm text-neutral-500">Pending</p>
                 </div>
               </div>
@@ -298,7 +298,7 @@ export default function CommunityAdminPage({ params }: CommunityAdminPageProps) 
                     placeholder="Search members..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-white rounded-xl border border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
+                    className="w-full pl-12 pr-4 py-3 bg-dark-card rounded-xl border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
                   />
                 </div>
               </div>
@@ -330,7 +330,7 @@ export default function CommunityAdminPage({ params }: CommunityAdminPageProps) 
                             </Link>
                             <div className="flex-1 min-w-0">
                               <Link href={`/profile/${member.user.id}`}>
-                                <p className="font-semibold text-neutral-900 hover:text-primary-600 transition-colors">
+                                <p className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
                                   {member.user.name}
                                 </p>
                               </Link>
@@ -361,7 +361,7 @@ export default function CommunityAdminPage({ params }: CommunityAdminPageProps) 
                                   size="sm"
                                   onClick={() => handleRemoveMember(member.id, member.user.name || 'User')}
                                   disabled={processingId === member.id}
-                                  className="text-red-600 hover:bg-red-50"
+                                  className="text-tertiary-300 hover:bg-tertiary-900/30"
                                 >
                                   <UserMinus className="w-4 h-4" />
                                 </Button>
@@ -404,7 +404,7 @@ export default function CommunityAdminPage({ params }: CommunityAdminPageProps) 
                             </Link>
                             <div className="flex-1 min-w-0">
                               <Link href={`/profile/${request.user.id}`}>
-                                <p className="font-semibold text-neutral-900 hover:text-primary-600 transition-colors">
+                                <p className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
                                   {request.user.name}
                                 </p>
                               </Link>
@@ -427,7 +427,7 @@ export default function CommunityAdminPage({ params }: CommunityAdminPageProps) 
                                 size="sm"
                                 onClick={() => handleReject(request.id)}
                                 disabled={processingId === request.id}
-                                className="text-red-600 hover:bg-red-50"
+                                className="text-tertiary-300 hover:bg-tertiary-900/30"
                               >
                                 <X className="w-4 h-4" />
                               </Button>

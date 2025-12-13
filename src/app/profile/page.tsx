@@ -219,24 +219,24 @@ export default function ProfilePage() {
           <Card variant="elevated" className="p-6">
             <div className="flex items-center justify-around">
               <Link href="/friends" className="text-center hover:opacity-80 transition-opacity">
-                <p className="text-2xl font-bold text-neutral-900">{friendsCount}</p>
+                <p className="text-2xl font-bold text-neutral-100">{friendsCount}</p>
                 <p className="text-sm text-neutral-500">{pluralize(friendsCount, 'Friend')}</p>
               </Link>
               <div className="h-10 w-px bg-neutral-200" />
               <div className="text-center">
-                <p className="text-2xl font-bold text-neutral-900">{communities.length}</p>
+                <p className="text-2xl font-bold text-neutral-100">{communities.length}</p>
                 <p className="text-sm text-neutral-500">{pluralize(communities.length, 'Community', 'Communities')}</p>
               </div>
               <div className="h-10 w-px bg-neutral-200" />
               <div className="text-center">
-                <p className="text-2xl font-bold text-neutral-900">{posts.length}</p>
+                <p className="text-2xl font-bold text-neutral-100">{posts.length}</p>
                 <p className="text-sm text-neutral-500">{pluralize(posts.length, 'Post')}</p>
               </div>
             </div>
 
             {/* Interests */}
             {profile.interests && profile.interests.length > 0 && (
-              <div className="mt-6 pt-6 border-t border-neutral-100">
+              <div className="mt-6 pt-6 border-t border-dark-border">
                 <p className="text-sm text-neutral-500 mb-3">Interests</p>
                 <div className="flex flex-wrap gap-2">
                   {profile.interests.map(interest => (
@@ -359,10 +359,10 @@ export default function ProfilePage() {
                         <Card className="p-4 hover:shadow-soft-lg transition-shadow">
                           <div className="flex items-center gap-4">
                             <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
-                              <Home className="w-8 h-8 text-primary-600" />
+                              <Home className="w-8 h-8 text-primary-400" />
                             </div>
                             <div className="flex-1">
-                              <h3 className="font-semibold text-neutral-900">{community.name}</h3>
+                              <h3 className="font-semibold text-neutral-100">{community.name}</h3>
                               {community.location && (
                                 <p className="text-sm text-neutral-500 flex items-center gap-1 mt-1">
                                   <MapPin className="w-3 h-3" />

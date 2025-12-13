@@ -262,7 +262,7 @@ export default function CommunityDetailPage() {
           {/* Back Button */}
           <Link
             href="/communities"
-            className="absolute top-4 left-4 p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
+            className="absolute top-4 left-4 p-2 bg-dark-card/20 backdrop-blur-sm rounded-full text-white hover:bg-dark-card/30 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
@@ -271,7 +271,7 @@ export default function CommunityDetailPage() {
           {isAdmin && (
             <Link
               href={`/communities/${community.id}/admin`}
-              className="absolute top-4 right-4 p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
+              className="absolute top-4 right-4 p-2 bg-dark-card/20 backdrop-blur-sm rounded-full text-white hover:bg-dark-card/30 transition-colors"
             >
               <Settings className="w-5 h-5" />
             </Link>
@@ -287,11 +287,11 @@ export default function CommunityDetailPage() {
                   <TypeIcon className="w-3 h-3 mr-1" />
                   {typeConfig.label}
                 </Badge>
-                <h1 className="text-2xl font-display font-bold text-neutral-900">
+                <h1 className="text-2xl font-display font-bold text-neutral-100">
                   {community.name}
                 </h1>
                 {community.description && (
-                  <p className="text-neutral-600 mt-2">{community.description}</p>
+                  <p className="text-neutral-400 mt-2">{community.description}</p>
                 )}
                 <div className="flex items-center gap-4 mt-3 text-sm text-neutral-500">
                   {community.location && (
@@ -337,13 +337,13 @@ export default function CommunityDetailPage() {
 
             {/* Member Preview */}
             {members.length > 0 && (
-              <div className="mt-6 pt-6 border-t border-neutral-100">
+              <div className="mt-6 pt-6 border-t border-dark-border">
                 <div className="flex items-center justify-between">
                   <AvatarGroup users={members.slice(0, 8)} size="sm" max={8} />
                   <Link
                     href="#members"
                     onClick={() => setActiveTab('members')}
-                    className="text-sm text-primary-600 hover:underline"
+                    className="text-sm text-primary-400 hover:underline"
                   >
                     See all members
                   </Link>
@@ -452,7 +452,7 @@ export default function CommunityDetailPage() {
                                 size="md"
                               />
                               <div className="flex-1 min-w-0">
-                                <p className="font-semibold text-neutral-900 truncate">
+                                <p className="font-semibold text-neutral-100 truncate">
                                   {member.name}
                                 </p>
                                 {member.bio && (

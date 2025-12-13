@@ -204,8 +204,8 @@ export default function HangoutDetailPage() {
         <Header />
         <main className="min-h-screen pt-16 pb-24 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-xl font-semibold text-neutral-900">Hangout not found</h1>
-            <Link href="/hangouts" className="text-primary-600 hover:underline mt-2 inline-block">
+            <h1 className="text-xl font-semibold text-neutral-100">Hangout not found</h1>
+            <Link href="/hangouts" className="text-primary-400 hover:underline mt-2 inline-block">
               Browse hangouts
             </Link>
           </div>
@@ -251,7 +251,7 @@ export default function HangoutDetailPage() {
           {/* Back Button */}
           <button
             onClick={() => router.back()}
-            className="absolute top-4 left-4 p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
+            className="absolute top-4 left-4 p-2 bg-dark-card/20 backdrop-blur-sm rounded-full text-white hover:bg-dark-card/30 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
@@ -260,7 +260,7 @@ export default function HangoutDetailPage() {
           <div className="absolute top-4 right-4 flex gap-2">
             <button
               onClick={handleShare}
-              className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
+              className="p-2 bg-dark-card/20 backdrop-blur-sm rounded-full text-white hover:bg-dark-card/30 transition-colors"
             >
               <Share2 className="w-5 h-5" />
             </button>
@@ -269,7 +269,7 @@ export default function HangoutDetailPage() {
             <div className="relative">
               <button 
                 onClick={() => setShowHostMenu(!showHostMenu)}
-                className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
+                className="p-2 bg-dark-card/20 backdrop-blur-sm rounded-full text-white hover:bg-dark-card/30 transition-colors"
               >
                 <MoreHorizontal className="w-5 h-5" />
               </button>
@@ -280,12 +280,12 @@ export default function HangoutDetailPage() {
                     className="fixed inset-0 z-10" 
                     onClick={() => setShowHostMenu(false)} 
                   />
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-soft-lg border border-neutral-100 py-1 z-20">
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-dark-card rounded-xl shadow-soft-lg border border-dark-border py-1 z-20">
                     {isHost && hangout.status === 'upcoming' && (
                       <>
                         <Link
                           href={`/hangouts/${hangout.id}/edit`}
-                          className="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-700 hover:bg-neutral-50 transition-colors"
+                          className="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-300 hover:bg-dark-bg transition-colors"
                         >
                           <Edit2 className="w-4 h-4" />
                           <span>Edit hangout</span>
@@ -293,7 +293,7 @@ export default function HangoutDetailPage() {
                         <button
                           onClick={handleCancelHangout}
                           disabled={isCancelling}
-                          className="w-full flex items-center gap-3 px-4 py-2.5 text-red-600 hover:bg-red-50 transition-colors"
+                          className="w-full flex items-center gap-3 px-4 py-2.5 text-tertiary-300 hover:bg-tertiary-900/30 transition-colors"
                         >
                           <X className="w-4 h-4" />
                           <span>{isCancelling ? 'Cancelling...' : 'Cancel hangout'}</span>
@@ -306,7 +306,7 @@ export default function HangoutDetailPage() {
                           setShowHostMenu(false)
                           toast.success('Hangout reported')
                         }}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-700 hover:bg-neutral-50 transition-colors"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-300 hover:bg-dark-bg transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                         <span>Report</span>
@@ -340,13 +340,13 @@ export default function HangoutDetailPage() {
                 <p className="text-sm text-neutral-500">Hosted by</p>
                 <Link
                   href={`/profile/${hangout.host.id}`}
-                  className="font-semibold text-neutral-900 hover:text-primary-600"
+                  className="font-semibold text-neutral-100 hover:text-primary-400"
                 >
                   {hangout.host.name}
                 </Link>
               </div>
               <Link href={`/communities/${hangout.community.id}`}>
-                <span className="text-sm text-neutral-500 hover:text-primary-600">
+                <span className="text-sm text-neutral-500 hover:text-primary-400">
                   in {hangout.community.name}
                 </span>
               </Link>
@@ -358,12 +358,12 @@ export default function HangoutDetailPage() {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-primary-100 rounded-lg">
-                  <Calendar className="w-5 h-5 text-primary-600" />
+                  <Calendar className="w-5 h-5 text-primary-400" />
                 </div>
                 <div>
                   <p className={cn(
                     'font-medium',
-                    isToday ? 'text-secondary-600' : 'text-neutral-900'
+                    isToday ? 'text-secondary-600' : 'text-neutral-100'
                   )}>
                     {isToday ? 'Today' : hangoutDate.toLocaleDateString('en-IN', {
                       weekday: 'long',
@@ -384,10 +384,10 @@ export default function HangoutDetailPage() {
                     <MapPin className="w-5 h-5 text-tertiary-600" />
                   </div>
                   <div>
-                    <p className="font-medium text-neutral-900">
+                    <p className="font-medium text-neutral-100">
                       {hangout.location.place_name || hangout.location.address}
                     </p>
-                    <button className="text-sm text-primary-600 hover:underline">
+                    <button className="text-sm text-primary-400 hover:underline">
                       View on map
                     </button>
                   </div>
@@ -399,7 +399,7 @@ export default function HangoutDetailPage() {
                   <Users className="w-5 h-5 text-secondary-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-neutral-900">
+                  <p className="font-medium text-neutral-100">
                     {goingUsers.length} going · {interestedUsers.length} interested
                   </p>
                   {hangout.max_participants && (
@@ -415,8 +415,8 @@ export default function HangoutDetailPage() {
           {/* Description */}
           {hangout.description && (
             <Card variant="elevated" padding="md">
-              <h2 className="font-semibold text-neutral-900 mb-2">About</h2>
-              <p className="text-neutral-600 whitespace-pre-wrap">{hangout.description}</p>
+              <h2 className="font-semibold text-neutral-100 mb-2">About</h2>
+              <p className="text-neutral-400 whitespace-pre-wrap">{hangout.description}</p>
             </Card>
           )}
 
@@ -452,7 +452,7 @@ export default function HangoutDetailPage() {
           {/* Participants */}
           {goingUsers.length > 0 && (
             <Card variant="elevated" padding="md">
-              <h2 className="font-semibold text-neutral-900 mb-4">
+              <h2 className="font-semibold text-neutral-100 mb-4">
                 Who&apos;s Going ({goingUsers.length})
               </h2>
               <div className="flex flex-wrap gap-3">
@@ -460,14 +460,14 @@ export default function HangoutDetailPage() {
                   <Link
                     key={rsvp.id}
                     href={`/profile/${rsvp.user.id}`}
-                    className="flex items-center gap-2 p-2 rounded-xl hover:bg-neutral-50 transition-colors"
+                    className="flex items-center gap-2 p-2 rounded-xl hover:bg-dark-bg transition-colors"
                   >
                     <Avatar
                       src={rsvp.user.avatar_url}
                       name={rsvp.user.name || 'User'}
                       size="sm"
                     />
-                    <span className="text-sm font-medium text-neutral-900">
+                    <span className="text-sm font-medium text-neutral-100">
                       {rsvp.user.name}
                     </span>
                   </Link>
@@ -478,7 +478,7 @@ export default function HangoutDetailPage() {
 
           {/* Comments */}
           <Card variant="elevated" padding="md">
-            <h2 className="font-semibold text-neutral-900 mb-4">
+            <h2 className="font-semibold text-neutral-100 mb-4">
               <MessageCircle className="w-5 h-5 inline mr-2" />
               Comments ({comments.length})
             </h2>
@@ -497,7 +497,7 @@ export default function HangoutDetailPage() {
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="Add a comment..."
-                    className="flex-1 px-4 py-2 bg-neutral-50 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                    className="flex-1 px-4 py-2 bg-dark-bg rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                     onKeyDown={(e) => e.key === 'Enter' && handleComment()}
                   />
                   <Button
@@ -526,14 +526,14 @@ export default function HangoutDetailPage() {
                     size="sm"
                   />
                   <div className="flex-1">
-                    <div className="bg-neutral-50 rounded-2xl px-4 py-2">
+                    <div className="bg-dark-bg rounded-2xl px-4 py-2">
                       <Link
                         href={`/profile/${comment.user.id}`}
-                        className="font-medium text-neutral-900 hover:text-primary-600"
+                        className="font-medium text-neutral-100 hover:text-primary-400"
                       >
                         {comment.user.name}
                       </Link>
-                      <p className="text-neutral-700">{comment.content}</p>
+                      <p className="text-neutral-300">{comment.content}</p>
                     </div>
                     <p className="text-xs text-neutral-400 mt-1 ml-2">
                       {new Date(comment.created_at).toLocaleString('en-IN', {

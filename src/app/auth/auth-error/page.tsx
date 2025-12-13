@@ -7,7 +7,7 @@ import { Button } from '@/components/ui'
 
 export default function AuthErrorPage() {
   return (
-    <div className="min-h-screen bg-gradient-warm flex flex-col">
+    <div className="min-h-screen bg-dark-bg flex flex-col">
       {/* Background decoration */}
       <div className="fixed inset-0 bg-mesh pointer-events-none" />
 
@@ -15,7 +15,7 @@ export default function AuthErrorPage() {
       <header className="relative z-10 px-4 py-4">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors"
+          className="inline-flex items-center gap-2 text-neutral-400 hover:text-neutral-100 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
           <span>Back to home</span>
@@ -34,11 +34,11 @@ export default function AuthErrorPage() {
             <AlertCircle className="w-8 h-8 text-red-500" />
           </div>
 
-          <h1 className="font-display text-2xl font-bold text-neutral-900 mb-3">
+          <h1 className="font-display text-2xl font-bold text-neutral-100 mb-3">
             Authentication Error
           </h1>
           
-          <p className="text-neutral-600 mb-8">
+          <p className="text-neutral-400 mb-8">
             Something went wrong during sign in. This could be due to an expired link or a temporary issue. Please try again.
           </p>
 

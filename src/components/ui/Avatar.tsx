@@ -110,7 +110,7 @@ export function AvatarGroup({ avatars, users, max = 4, size = 'sm' }: AvatarGrou
       {remainingCount > 0 && (
         <div
           className={cn(
-            'rounded-full flex items-center justify-center bg-neutral-100 text-neutral-600 font-medium ring-2 ring-white',
+            'rounded-full flex items-center justify-center bg-dark-elevated text-neutral-400 font-medium ring-2 ring-white',
             sizeClasses[size]
           )}
         >

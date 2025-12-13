@@ -63,7 +63,7 @@ export function TabsList({ children, className }: TabsListProps) {
   return (
     <div
       className={cn(
-        'flex items-center gap-1 p-1 bg-neutral-100 rounded-xl',
+        'flex items-center gap-1 p-1 bg-dark-elevated rounded-xl',
         className
       )}
     >
@@ -88,8 +88,8 @@ export function TabsTrigger({ value, children, className }: TabsTriggerProps) {
       className={cn(
         'flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200',
         isActive
-          ? 'bg-white text-primary-600 shadow-sm'
-          : 'text-neutral-600 hover:text-neutral-900',
+          ? 'bg-dark-card text-primary-400 shadow-sm'
+          : 'text-neutral-400 hover:text-neutral-100',
         className
       )}
     >

@@ -170,7 +170,7 @@ export default function FeedPage() {
             <section>
               <div className="flex items-center gap-2 mb-4">
                 <Calendar className="w-5 h-5 text-secondary-500" />
-                <h2 className="text-lg font-display font-semibold text-neutral-900">
+                <h2 className="text-lg font-display font-semibold text-neutral-100">
                   This Week
                 </h2>
               </div>

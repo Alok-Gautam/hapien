@@ -157,7 +157,7 @@ export default function CreateCommunityPage() {
           {/* Back button */}
           <Link
             href="/communities"
-            className="inline-flex items-center gap-2 text-neutral-600 hover:text-neutral-900 mb-6"
+            className="inline-flex items-center gap-2 text-neutral-400 hover:text-neutral-100 mb-6"
           >
             <ArrowLeft className="w-5 h-5" />
             Back to Communities
@@ -165,10 +165,10 @@ export default function CreateCommunityPage() {
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-display font-bold text-neutral-900">
+            <h1 className="text-2xl font-display font-bold text-neutral-100">
               Create a Community
             </h1>
-            <p className="text-neutral-600 mt-1">
+            <p className="text-neutral-400 mt-1">
               {step === 1 
                 ? 'Choose what type of community you want to create'
                 : 'Fill in the details for your community'}
@@ -179,14 +179,14 @@ export default function CreateCommunityPage() {
           <div className="flex items-center gap-2 mb-8">
             <div className={cn(
               'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium',
-              step >= 1 ? 'bg-primary-500 text-white' : 'bg-neutral-200 text-neutral-500'
+              step >= 1 ? 'bg-primary-900/300 text-white' : 'bg-neutral-200 text-neutral-500'
             )}>
               1
             </div>
-            <div className={cn('flex-1 h-1 rounded', step >= 2 ? 'bg-primary-500' : 'bg-neutral-200')} />
+            <div className={cn('flex-1 h-1 rounded', step >= 2 ? 'bg-primary-900/300' : 'bg-neutral-200')} />
             <div className={cn(
               'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium',
-              step >= 2 ? 'bg-primary-500 text-white' : 'bg-neutral-200 text-neutral-500'
+              step >= 2 ? 'bg-primary-900/300 text-white' : 'bg-neutral-200 text-neutral-500'
             )}>
               2
             </div>
@@ -210,8 +210,8 @@ export default function CreateCommunityPage() {
                     className={cn(
                       'w-full p-6 rounded-2xl border-2 transition-all text-left',
                       isSelected
-                        ? 'border-primary-500 bg-primary-50'
-                        : 'border-neutral-200 bg-white hover:border-neutral-300'
+                        ? 'border-primary-500 bg-primary-900/30'
+                        : 'border-dark-border bg-dark-card hover:border-neutral-300'
                     )}
                   >
                     <div className="flex items-start gap-4">
@@ -224,20 +224,20 @@ export default function CreateCommunityPage() {
                         <Icon className={cn(
                           'w-6 h-6',
                           type.color === 'tertiary' && 'text-tertiary-600',
-                          type.color === 'primary' && 'text-primary-600',
+                          type.color === 'primary' && 'text-primary-400',
                           type.color === 'secondary' && 'text-secondary-600',
                         )} />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-neutral-900">{type.label}</h3>
+                        <h3 className="font-semibold text-neutral-100">{type.label}</h3>
                         <p className="text-sm text-neutral-500 mt-1">{type.description}</p>
                       </div>
                       <div className={cn(
                         'w-5 h-5 rounded-full border-2 flex items-center justify-center',
-                        isSelected ? 'border-primary-500 bg-primary-500' : 'border-neutral-300'
+                        isSelected ? 'border-primary-500 bg-primary-900/300' : 'border-neutral-300'
                       )}>
                         {isSelected && (
-                          <div className="w-2 h-2 rounded-full bg-white" />
+                          <div className="w-2 h-2 rounded-full bg-dark-card" />
                         )}
                       </div>
                     </div>
@@ -266,7 +266,7 @@ export default function CreateCommunityPage() {
             >
               {/* Cover Image */}
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-300 mb-2">
                   Cover Image (optional)
                 </label>
                 <input
@@ -293,7 +293,7 @@ export default function CreateCommunityPage() {
                 ) : (
                   <button
                     onClick={() => coverInputRef.current?.click()}
-                    className="w-full h-40 border-2 border-dashed border-neutral-300 rounded-xl flex flex-col items-center justify-center text-neutral-500 hover:border-neutral-400 hover:text-neutral-600 transition-colors"
+                    className="w-full h-40 border-2 border-dashed border-neutral-300 rounded-xl flex flex-col items-center justify-center text-neutral-500 hover:border-neutral-400 hover:text-neutral-400 transition-colors"
                   >
                     <ImageIcon className="w-8 h-8 mb-2" />
                     <span className="text-sm">Click to upload cover image</span>
@@ -303,7 +303,7 @@ export default function CreateCommunityPage() {
 
               {/* Name */}
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-300 mb-2">
                   Community Name *
                 </label>
                 <Input
@@ -315,7 +315,7 @@ export default function CreateCommunityPage() {
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-300 mb-2">
                   Description (optional)
                 </label>
                 <Textarea
@@ -328,7 +328,7 @@ export default function CreateCommunityPage() {
 
               {/* Location */}
               <div className="space-y-4">
-                <label className="block text-sm font-medium text-neutral-700">
+                <label className="block text-sm font-medium text-neutral-300">
                   Location
                 </label>
                 <div className="space-y-3">

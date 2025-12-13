@@ -205,7 +205,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
           {/* Back button */}
           <Link
             href={`/post/${post.id}`}
-            className="inline-flex items-center gap-2 text-neutral-600 hover:text-neutral-900 mb-6"
+            className="inline-flex items-center gap-2 text-neutral-400 hover:text-neutral-100 mb-6"
           >
             <ArrowLeft className="w-5 h-5" />
             Back to Post
@@ -213,13 +213,13 @@ export default function EditPostPage({ params }: EditPostPageProps) {
 
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-2xl font-display font-bold text-neutral-900">
+            <h1 className="text-2xl font-display font-bold text-neutral-100">
               Edit Post
             </h1>
             <Button
               variant="ghost"
               size="sm"
-              className="text-red-500 hover:text-red-600 hover:bg-red-50"
+              className="text-red-500 hover:text-tertiary-300 hover:bg-tertiary-900/30"
               onClick={() => setShowDeleteModal(true)}
             >
               <Trash2 className="w-4 h-4 mr-1" />
@@ -240,7 +240,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   rows={4}
-                  className="w-full resize-none bg-transparent text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
+                  className="w-full resize-none bg-transparent text-neutral-100 placeholder:text-neutral-400 focus:outline-none"
                 />
 
                 {/* Existing Media */}
@@ -255,7 +255,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
                       {existingMedia.map((url, index) => (
                         <div
                           key={url}
-                          className="relative aspect-square rounded-xl overflow-hidden bg-neutral-100"
+                          className="relative aspect-square rounded-xl overflow-hidden bg-dark-elevated"
                         >
                           {url.includes('.mp4') || url.includes('.webm') || url.includes('.mov') ? (
                             <video
@@ -293,7 +293,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
                       {newMediaPreviews.map((preview, index) => (
                         <div
                           key={preview}
-                          className="relative aspect-square rounded-xl overflow-hidden bg-neutral-100"
+                          className="relative aspect-square rounded-xl overflow-hidden bg-dark-elevated"
                         >
                           <img
                             src={preview}
@@ -313,7 +313,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
                 )}
 
                 {/* Actions */}
-                <div className="flex items-center justify-between pt-4 border-t border-neutral-100">
+                <div className="flex items-center justify-between pt-4 border-t border-dark-border">
                   <div className="flex items-center gap-2">
                     <input
                       ref={fileInputRef}
@@ -330,7 +330,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
                         'p-2 rounded-lg transition-colors',
                         totalMedia >= 4
                           ? 'text-neutral-300 cursor-not-allowed'
-                          : 'text-neutral-500 hover:text-primary-500 hover:bg-primary-50'
+                          : 'text-neutral-500 hover:text-primary-500 hover:bg-primary-900/30'
                       )}
                       title={totalMedia >= 4 ? 'Maximum 4 media files' : 'Add media'}
                     >
@@ -341,7 +341,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
                     <div className="relative">
                       <button
                         onClick={() => setShowVisibilityMenu(!showVisibilityMenu)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-neutral-400 hover:bg-dark-elevated rounded-lg transition-colors"
                       >
                         <Users className="w-4 h-4" />
                         <span>{visibilityConfig[visibility].label}</span>
@@ -349,7 +349,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
                       </button>
 
                       {showVisibilityMenu && (
-                        <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-soft-lg border border-neutral-100 py-1 z-10">
+                        <div className="absolute top-full left-0 mt-1 w-56 bg-dark-card rounded-xl shadow-soft-lg border border-dark-border py-1 z-10">
                           {Object.entries(visibilityConfig).slice(0, 3).map(([key, config]) => (
                             <button
                               key={key}
@@ -358,11 +358,11 @@ export default function EditPostPage({ params }: EditPostPageProps) {
                                 setShowVisibilityMenu(false)
                               }}
                               className={cn(
-                                'w-full px-4 py-2 text-left hover:bg-neutral-50 transition-colors',
-                                visibility === key && 'bg-primary-50'
+                                'w-full px-4 py-2 text-left hover:bg-dark-bg transition-colors',
+                                visibility === key && 'bg-primary-900/30'
                               )}
                             >
-                              <p className="font-medium text-neutral-900">{config.label}</p>
+                              <p className="font-medium text-neutral-100">{config.label}</p>
                               <p className="text-xs text-neutral-500">{config.description}</p>
                             </button>
                           ))}
@@ -391,7 +391,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
         onClose={() => setShowDeleteModal(false)}
         title="Delete Post"
       >
-        <p className="text-neutral-600 mb-6">
+        <p className="text-neutral-400 mb-6">
           Are you sure you want to delete this post? This action cannot be undone.
         </p>
         <div className="flex gap-3">
@@ -404,7 +404,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
           </Button>
           <Button
             variant="primary"
-            className="flex-1 bg-red-500 hover:bg-red-600"
+            className="flex-1 bg-tertiary-900/300 hover:bg-red-600"
             onClick={handleDelete}
             isLoading={isDeleting}
           >

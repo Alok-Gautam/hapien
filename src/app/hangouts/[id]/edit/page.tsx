@@ -145,7 +145,7 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
           {/* Back Button */}
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 mb-6 transition-colors"
+            className="flex items-center gap-2 text-neutral-400 hover:text-neutral-100 mb-6 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
             Back
@@ -153,10 +153,10 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-display font-bold text-neutral-900">
+            <h1 className="text-2xl font-display font-bold text-neutral-100">
               Edit Hangout
             </h1>
-            <p className="text-neutral-600 mt-1">
+            <p className="text-neutral-400 mt-1">
               Update your hangout details
             </p>
           </div>
@@ -166,7 +166,7 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
             <div className="space-y-6">
               {/* Title */}
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                <label className="block text-sm font-medium text-neutral-300 mb-1.5">
                   Title
                 </label>
                 <Input
@@ -178,7 +178,7 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                <label className="block text-sm font-medium text-neutral-300 mb-1.5">
                   Description
                 </label>
                 <Textarea
@@ -191,7 +191,7 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
 
               {/* Category */}
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-300 mb-2">
                   Category
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -206,7 +206,7 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
                           'flex items-center gap-2 px-4 py-2 rounded-full border-2 transition-all',
                           category === cat
                             ? `border-${config.color.split('-')[1]}-500 bg-${config.color.split('-')[1]}-50`
-                            : 'border-neutral-200 hover:border-neutral-300'
+                            : 'border-dark-border hover:border-neutral-300'
                         )}
                       >
                         <span>{config.emoji}</span>
@@ -220,7 +220,7 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
               {/* Date & Time */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                  <label className="block text-sm font-medium text-neutral-300 mb-1.5">
                     Date
                   </label>
                   <Input
@@ -231,7 +231,7 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                  <label className="block text-sm font-medium text-neutral-300 mb-1.5">
                     Time
                   </label>
                   <Input
@@ -244,7 +244,7 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
 
               {/* Location */}
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                <label className="block text-sm font-medium text-neutral-300 mb-1.5">
                   Location
                 </label>
                 <Input
@@ -256,7 +256,7 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
 
               {/* Max Participants */}
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                <label className="block text-sm font-medium text-neutral-300 mb-1.5">
                   Max Participants (optional)
                 </label>
                 <Input

@@ -15,7 +15,7 @@ import { Button } from '@/components/ui'
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gradient-warm">
+    <div className="min-h-screen bg-dark-bg">
       {/* Background decoration */}
       <div className="fixed inset-0 bg-mesh pointer-events-none" />
 
@@ -23,10 +23,10 @@ export default function LandingPage() {
       <header className="relative z-10 px-4 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center shadow-glow">
               <span className="text-white font-bold text-xl">H</span>
             </div>
-            <span className="font-display text-2xl font-bold text-neutral-900">
+            <span className="font-display text-2xl font-bold text-neutral-100">
               Hapien
             </span>
           </Link>
@@ -49,7 +49,7 @@ export default function LandingPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur rounded-full text-sm font-medium text-primary-600 mb-6">
+                <span className="inline-flex items-center gap-2 px-4 py-2 bg-dark-card/80 backdrop-blur border border-dark-border rounded-full text-sm font-medium text-primary-400 mb-6">
                   <Sparkles className="w-4 h-4" />
                   Welcome to the Happy Sapien Network
                 </span>
@@ -59,7 +59,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900 leading-tight mb-6"
+                className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-100 leading-tight mb-6"
               >
                 Where real friendships{' '}
                 <span className="gradient-text">flourish</span> through shared
@@ -70,7 +70,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-xl text-neutral-600 mb-8 leading-relaxed"
+                className="text-xl text-neutral-400 mb-8 leading-relaxed"
               >
                 Hapien is a private, hyperlocal social network that nurtures your
                 existing friendships and creates new connections within your
@@ -107,10 +107,10 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="font-display text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+              <h2 className="font-display text-3xl lg:text-4xl font-bold text-neutral-100 mb-4">
                 Everything you need to stay connected
               </h2>
-              <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+              <p className="text-lg text-neutral-400 max-w-2xl mx-auto">
                 Built for real-world friendships, not vanity metrics.
               </p>
             </motion.div>
@@ -123,17 +123,17 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white/80 backdrop-blur rounded-2xl p-6 hover:shadow-soft transition-shadow"
+                  className="bg-dark-card/80 backdrop-blur border border-dark-border rounded-2xl p-6 hover:shadow-soft hover:border-dark-hover transition-all"
                 >
                   <div
                     className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${feature.color}`}
                   >
                     <feature.icon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="font-display text-xl font-semibold text-neutral-900 mb-2">
+                  <h3 className="font-display text-xl font-semibold text-neutral-100 mb-2">
                     {feature.title}
                   </h3>
-                  <p className="text-neutral-600">{feature.description}</p>
+                  <p className="text-neutral-400">{feature.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -147,7 +147,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="bg-gradient-primary rounded-3xl p-8 lg:p-12 text-center text-white"
+              className="bg-gradient-primary rounded-3xl p-8 lg:p-12 text-center text-white shadow-glow"
             >
               <h2 className="font-display text-3xl lg:text-4xl font-bold mb-4">
                 Ready to find your tribe?
@@ -171,19 +171,19 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 px-4 py-8 border-t border-neutral-200/50">
+      <footer className="relative z-10 px-4 py-8 border-t border-dark-border">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
               <span className="text-white font-bold">H</span>
             </div>
-            <span className="font-display font-semibold text-neutral-900">
+            <span className="font-display font-semibold text-neutral-100">
               Hapien
             </span>
           </div>
           <p className="text-sm text-neutral-500">
             © {new Date().getFullYear()} Hapien. Made with{' '}
-            <Heart className="w-4 h-4 inline text-tertiary-500" /> in India
+            <Heart className="w-4 h-4 inline text-tertiary-400" /> in India
           </p>
         </div>
       </footer>
@@ -197,21 +197,21 @@ const features = [
     description:
       'Join residential societies, college campuses, or office complexes. Your network stays within your trusted circles.',
     icon: Users,
-    color: 'bg-primary-500',
+    color: 'bg-primary-600',
   },
   {
     title: 'Hangouts',
     description:
       'Create and discover local meetups. From sports to food to learning - find your people doing what you love.',
     icon: Calendar,
-    color: 'bg-secondary-500',
+    color: 'bg-secondary-600',
   },
   {
     title: 'Hyperlocal',
     description:
       'Connect with people in your neighborhood. Real friendships happen in real places.',
     icon: MapPin,
-    color: 'bg-tertiary-500',
+    color: 'bg-tertiary-600',
   },
   {
     title: 'Friends Graph',

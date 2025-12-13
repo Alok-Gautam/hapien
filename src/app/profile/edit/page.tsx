@@ -156,7 +156,7 @@ export default function EditProfilePage() {
           {/* Back Button */}
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 mb-6 transition-colors"
+            className="flex items-center gap-2 text-neutral-400 hover:text-neutral-100 mb-6 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
             Back
@@ -164,10 +164,10 @@ export default function EditProfilePage() {
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-display font-bold text-neutral-900">
+            <h1 className="text-2xl font-display font-bold text-neutral-100">
               Edit Profile
             </h1>
-            <p className="text-neutral-600 mt-1">
+            <p className="text-neutral-400 mt-1">
               Update your profile information
             </p>
           </div>
@@ -175,7 +175,7 @@ export default function EditProfilePage() {
           <div className="space-y-6">
             {/* Avatar Section */}
             <Card variant="elevated" padding="lg">
-              <h2 className="text-lg font-semibold text-neutral-900 mb-4">
+              <h2 className="text-lg font-semibold text-neutral-100 mb-4">
                 Profile Photo
               </h2>
               
@@ -188,14 +188,14 @@ export default function EditProfilePage() {
                   />
                   <button
                     onClick={() => fileInputRef.current?.click()}
-                    className="absolute bottom-0 right-0 p-2 bg-primary-500 rounded-full text-white hover:bg-primary-600 transition-colors shadow-lg"
+                    className="absolute bottom-0 right-0 p-2 bg-primary-900/300 rounded-full text-white hover:bg-primary-600 transition-colors shadow-lg"
                   >
                     <Camera className="w-4 h-4" />
                   </button>
                 </div>
 
                 <div className="flex-1">
-                  <p className="text-sm text-neutral-600 mb-3">
+                  <p className="text-sm text-neutral-400 mb-3">
                     Upload a new profile photo. Images should be square and less than 5MB.
                   </p>
                   <Button
@@ -221,7 +221,7 @@ export default function EditProfilePage() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 flex items-center gap-2 text-sm text-primary-600"
+                  className="mt-4 flex items-center gap-2 text-sm text-primary-400"
                 >
                   <Check className="w-4 h-4" />
                   New photo selected
@@ -230,7 +230,7 @@ export default function EditProfilePage() {
                       setAvatarFile(null)
                       setAvatarPreview(null)
                     }}
-                    className="text-neutral-400 hover:text-neutral-600 ml-2"
+                    className="text-neutral-400 hover:text-neutral-400 ml-2"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -240,7 +240,7 @@ export default function EditProfilePage() {
 
             {/* Basic Info */}
             <Card variant="elevated" padding="lg">
-              <h2 className="text-lg font-semibold text-neutral-900 mb-4">
+              <h2 className="text-lg font-semibold text-neutral-100 mb-4">
                 Basic Information
               </h2>
 
@@ -254,7 +254,7 @@ export default function EditProfilePage() {
                 />
 
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                  <label className="block text-sm font-medium text-neutral-300 mb-1.5">
                     Bio
                   </label>
                   <textarea
@@ -263,7 +263,7 @@ export default function EditProfilePage() {
                     placeholder="Tell us a bit about yourself..."
                     rows={3}
                     maxLength={200}
-                    className="w-full px-4 py-3 bg-white rounded-xl border border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 bg-dark-card rounded-xl border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all resize-none"
                   />
                   <p className="text-xs text-neutral-400 mt-1 text-right">
                     {bio.length}/200
@@ -271,7 +271,7 @@ export default function EditProfilePage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                  <label className="block text-sm font-medium text-neutral-300 mb-1.5">
                     Email
                   </label>
                   <Input
@@ -285,7 +285,7 @@ export default function EditProfilePage() {
 
             {/* Interests */}
             <Card variant="elevated" padding="lg">
-              <h2 className="text-lg font-semibold text-neutral-900 mb-2">
+              <h2 className="text-lg font-semibold text-neutral-100 mb-2">
                 Interests
               </h2>
               <p className="text-sm text-neutral-500 mb-4">
@@ -302,8 +302,8 @@ export default function EditProfilePage() {
                       className={cn(
                         'px-4 py-2 rounded-full text-sm font-medium transition-all',
                         isSelected
-                          ? 'bg-primary-500 text-white'
-                          : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+                          ? 'bg-primary-900/300 text-white'
+                          : 'bg-dark-elevated text-neutral-400 hover:bg-dark-hover'
                       )}
                     >
                       {interest}

@@ -20,10 +20,10 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     ref
   ) => {
     const variants = {
-      default: 'bg-white border border-neutral-100',
-      elevated: 'bg-white shadow-soft',
-      outlined: 'bg-white border-2 border-neutral-200',
-      glass: 'bg-white/70 backdrop-blur-lg border border-white/20',
+      default: 'bg-dark-card border border-dark-border',
+      elevated: 'bg-dark-card shadow-soft border border-dark-border',
+      outlined: 'bg-dark-card border-2 border-dark-border',
+      glass: 'bg-dark-card/70 backdrop-blur-lg border border-white/20',
     }
 
     const paddings = {
@@ -40,7 +40,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
           'rounded-2xl',
           variants[variant],
           paddings[padding],
-          hoverable && 'transition-all duration-200 hover:shadow-soft-lg hover:-translate-y-0.5 cursor-pointer',
+          hoverable && 'transition-all duration-200 hover:shadow-soft border border-dark-border-lg hover:-translate-y-0.5 cursor-pointer',
           className
         )}
         {...props}
@@ -69,7 +69,7 @@ const CardTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingEleme
   ({ className, ...props }, ref) => (
     <h3
       ref={ref}
-      className={cn('text-lg font-semibold text-neutral-900', className)}
+      className={cn('text-lg font-semibold text-neutral-100', className)}
       {...props}
     />
   )
@@ -89,7 +89,7 @@ const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex items-center mt-4 pt-4 border-t border-neutral-100', className)}
+      className={cn('flex items-center mt-4 pt-4 border-t border-dark-border', className)}
       {...props}
     />
   )
