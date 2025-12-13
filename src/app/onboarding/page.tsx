@@ -131,8 +131,8 @@ export default function OnboardingPage() {
     console.log('Starting community request submission...')
 
     try {
-      const { data, error } = await supabase
-        .from('community_requests')
+      const { data, error } = await (supabase
+        .from('community_requests') as any)
         .insert({
           name: requestData.name.trim(),
           type: requestData.type,
