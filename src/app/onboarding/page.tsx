@@ -61,13 +61,13 @@ export default function OnboardingPage() {
 
   // Community request modal state
   const [showRequestModal, setShowRequestModal] = useState(false)
+  const [isSubmittingRequest, setIsSubmittingRequest] = useState(false)
   const [requestData, setRequestData] = useState({
     name: '',
     type: 'society' as 'society' | 'campus' | 'office',
     location: '',
-    description: '',
+    description: ''
   })
-  const [isSubmittingRequest, setIsSubmittingRequest] = useState(false)
 
   const stepIndex = STEPS.indexOf(currentStep)
 
@@ -107,73 +107,129 @@ export default function OnboardingPage() {
   }
 
   const handleSubmitCommunityRequest = async () => {
+    console.log('=== handleSubmitCommunityRequest CALLED ===')
+    console.log('Request data:', requestData)
+    console.log('authUser:', authUser)
+
+    // Validation checks
     if (!requestData.name.trim() || !requestData.location.trim()) {
+      console.error('Validation failed: missing name or location')
       toast.error('Please fill in community name and location')
       return
     }
 
+    // Check if user is authenticated
+    if (!authUser?.id) {
+      console.error('No authenticated user found')
+      toast.error('You must be logged in to submit a request')
+      setShowRequestModal(false)
+      router.push('/auth')
+      return
+    }
+
     setIsSubmittingRequest(true)
+    console.log('Starting community request submission...')
 
     try {
-      // Store community request in a community_requests table or send email
-      // For now, we'll create the community with pending approval
-      const { error } = await (supabase.from('community_requests') as any).insert({
-        name: requestData.name.trim(),
-        type: requestData.type,
-        location: requestData.location.trim(),
-        description: requestData.description.trim() || null,
-        requested_by: authUser?.id,
-        status: 'pending',
-      })
+      const { data, error } = await supabase
+        .from('community_requests')
+        .insert({
+          name: requestData.name.trim(),
+          type: requestData.type,
+          location: requestData.location.trim(),
+          description: requestData.description.trim() || null,
+          requested_by: authUser.id,
+          status: 'pending',
+        })
+        .select()
 
-      // If community_requests table doesn't exist, show success anyway
-      // The request can be handled via support email
-      if (error && !error.message.includes('does not exist')) {
-        throw error
+      if (error) {
+        console.error('Database error:', error)
+        throw new Error(error.message)
       }
 
+      console.log('Request submitted successfully:', data)
       toast.success('Community request submitted! We\'ll review it soon.')
       setShowRequestModal(false)
       setRequestData({ name: '', type: 'society', location: '', description: '' })
+      
     } catch (error) {
-      console.error('Request error:', error)
-      // Still show success as the request intent is captured
-      toast.success('Request noted! Contact support@hapien.com for faster processing.')
-      setShowRequestModal(false)
+      console.error('Request submission error:', error)
+      toast.error(error instanceof Error ? error.message : 'Failed to submit request. Please try again.')
     } finally {
       setIsSubmittingRequest(false)
+      console.log('Request submission complete')
     }
   }
 
   const handleComplete = async () => {
-    if (!authUser) return
+    // ALWAYS log first to prove function is called
+    console.log('=== handleComplete CALLED ===')
+    console.log('authUser:', authUser)
+    console.log('name:', name)
+    console.log('bio:', bio)
+    console.log('selectedInterests:', selectedInterests)
+    console.log('selectedCommunity:', selectedCommunity)
+    
+    // Check if user is authenticated
+    if (!authUser?.id) {
+      console.error('ERROR: No authenticated user!')
+      toast.error('Please log in to continue')
+      router.push('/auth')
+      return
+    }
+    
+    // Validate name is filled
+    if (!name.trim()) {
+      console.error('ERROR: Name is empty!')
+      toast.error('Please enter your name')
+      setCurrentStep('profile')
+      return
+    }
 
+    console.log('✓ Validation passed, starting onboarding...')
     setIsLoading(true)
 
     try {
       let finalAvatarUrl = avatarUrl
 
-      // Upload avatar if selected
+      // Upload avatar if selected (NON-BLOCKING)
       if (avatarFile) {
-        const fileExt = avatarFile.name.split('.').pop()
-        const fileName = `${authUser.id}.${fileExt}`
-        
-        const { error: uploadError, data } = await supabase.storage
-          .from('avatars')
-          .upload(fileName, avatarFile, { upsert: true })
+        console.log('→ Uploading avatar...')
+        try {
+          const fileExt = avatarFile.name.split('.').pop()
+          const fileName = `${authUser.id}.${fileExt}`
+          
+          const { error: uploadError } = await supabase.storage
+            .from('avatars')
+            .upload(fileName, avatarFile, { upsert: true })
 
-        if (uploadError) throw uploadError
-
-        const { data: { publicUrl } } = supabase.storage
-          .from('avatars')
-          .getPublicUrl(fileName)
-
-        finalAvatarUrl = publicUrl
+          if (uploadError) {
+            console.error('✗ Avatar upload failed:', uploadError)
+            toast.error('Avatar upload failed, continuing anyway...')
+          } else {
+            const { data: { publicUrl } } = supabase.storage
+              .from('avatars')
+              .getPublicUrl(fileName)
+            finalAvatarUrl = publicUrl
+            console.log('✓ Avatar uploaded successfully:', publicUrl)
+          }
+        } catch (avatarError) {
+          console.error('✗ Avatar error:', avatarError)
+          // Continue anyway
+        }
       }
 
-      // Update user profile
-      const { error: updateError } = await (supabase
-        .from('users') as any)
+      // Update user profile (CRITICAL)
+      console.log('→ Updating profile with:', {
+        name: name.trim(),
+        bio: bio.trim() || null,
+        avatar_url: finalAvatarUrl,
+        interests: selectedInterests
+      })
+
+      const { error: updateError, data: updateData } = await supabase
+        .from('users')
         .update({
           name: name.trim(),
           bio: bio.trim() || null,
@@ -182,25 +238,58 @@ export default function OnboardingPage() {
           updated_at: new Date().toISOString(),
         })
         .eq('id', authUser.id)
+        .select()
 
-      if (updateError) throw updateError
-
-      // Join selected community if any
-      if (selectedCommunity) {
-        await (supabase.from('community_memberships') as any).insert({
-          user_id: authUser.id,
-          community_id: selectedCommunity,
-          status: 'pending',
-        })
+      if (updateError) {
+        console.error('✗ Profile update error:', updateError)
+        throw new Error(`Failed to update profile: ${updateError.message}`)
       }
 
+      console.log('✓ Profile updated successfully:', updateData)
+
+      // Join community if selected (OPTIONAL/NON-BLOCKING)
+      if (selectedCommunity) {
+        console.log('→ Attempting to join community:', selectedCommunity)
+        try {
+          const { error: membershipError, data: membershipData } = await supabase
+            .from('community_memberships')
+            .insert({
+              user_id: authUser.id,
+              community_id: selectedCommunity,
+              status: 'pending',
+            })
+            .select()
+
+          if (membershipError) {
+            console.error('✗ Community membership error:', membershipError)
+            toast.error('Could not join community, but continuing...')
+          } else {
+            console.log('✓ Community joined successfully:', membershipData)
+          }
+        } catch (communityError) {
+          console.error('✗ Community error:', communityError)
+          // Continue anyway
+        }
+      }
+
+      // Refresh profile
+      console.log('→ Refreshing profile...')
       await refreshProfile()
+      console.log('✓ Profile refreshed')
+
+      console.log('✓✓✓ Onboarding complete! Redirecting to feed...')
       toast.success('Welcome to Hapien!')
       router.push('/feed')
+      
     } catch (error) {
-      console.error('Onboarding error:', error)
-      toast.error('Something went wrong. Please try again.')
+      console.error('✗✗✗ ONBOARDING ERROR:', error)
+      toast.error(
+        error instanceof Error 
+          ? error.message 
+          : 'Something went wrong. Please try again.'
+      )
     } finally {
+      console.log('→ Resetting loading state')
       setIsLoading(false)
     }
   }
@@ -208,7 +297,7 @@ export default function OnboardingPage() {
   return (
     <div className="min-h-screen bg-dark-bg flex flex-col">
       {/* Background decoration */}
-      <div className="fixed inset-0 bg-mesh pointer-events-none" />
+      <div className="fixed inset-0 bg-mesh pointer-events-none opacity-30" />
 
       {/* Progress bar */}
       <div className="relative z-10 px-4 py-6">
@@ -219,21 +308,22 @@ export default function OnboardingPage() {
                 key={step}
                 className={cn(
                   'flex-1 h-1.5 rounded-full transition-colors',
-                  index <= stepIndex ? 'bg-primary-900/300' : 'bg-neutral-200'
+                  index <= stepIndex ? 'bg-primary-500' : 'bg-dark-card'
                 )}
               />
             ))}
           </div>
-          <p className="text-sm text-neutral-500 text-center">
+          <p className="text-sm text-neutral-400 text-center">
             Step {stepIndex + 1} of {STEPS.length}
           </p>
         </div>
       </div>
 
-      {/* Main content */}
-      <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-8">
+      {/* Content */}
+      <main className="relative z-10 flex-1 flex items-center justify-center px-4 pb-8">
         <div className="w-full max-w-md">
           <AnimatePresence mode="wait">
+            {/* Step 1: Profile */}
             {currentStep === 'profile' && (
               <motion.div
                 key="profile"
@@ -243,18 +333,18 @@ export default function OnboardingPage() {
               >
                 <div className="text-center mb-8">
                   <h1 className="font-display text-3xl font-bold text-neutral-100 mb-2">
-                    Let's set up your profile
+                    Create your profile
                   </h1>
                   <p className="text-neutral-400">
-                    Help your friends recognize you
+                    Tell us a bit about yourself
                   </p>
                 </div>
 
-                <div className="bg-dark-card rounded-3xl shadow-soft p-8 space-y-6">
+                <div className="bg-dark-card rounded-3xl shadow-soft p-8 space-y-6 border border-dark-border">
                   {/* Avatar */}
-                  <div className="flex justify-center">
-                    <label className="relative cursor-pointer group">
-                      <div className="w-24 h-24 rounded-full bg-dark-elevated flex items-center justify-center overflow-hidden ring-4 ring-white shadow-soft">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="relative">
+                      <div className="w-24 h-24 rounded-full bg-dark-hover flex items-center justify-center overflow-hidden border-2 border-primary-500/20">
                         {avatarUrl ? (
                           <img
                             src={avatarUrl}
@@ -262,33 +352,35 @@ export default function OnboardingPage() {
                             className="w-full h-full object-cover"
                           />
                         ) : (
-                          <User className="w-10 h-10 text-neutral-400" />
+                          <User className="w-12 h-12 text-neutral-500" />
                         )}
                       </div>
-                      <div className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary-900/300 flex items-center justify-center shadow-lg group-hover:bg-primary-600 transition-colors">
+                      <label className="absolute bottom-0 right-0 p-2 bg-primary-500 rounded-full cursor-pointer hover:bg-primary-600 transition-colors shadow-glow">
                         <Camera className="w-4 h-4 text-white" />
-                      </div>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleAvatarChange}
-                        className="hidden"
-                      />
-                    </label>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleAvatarChange}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                    <p className="text-sm text-neutral-400">Upload profile photo</p>
                   </div>
 
                   {/* Name */}
                   <Input
-                    label="Your Name"
-                    placeholder="Enter your full name"
+                    label="Name"
+                    placeholder="Enter your name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
                   />
 
                   {/* Bio */}
                   <Textarea
                     label="Bio (optional)"
-                    placeholder="A short intro about yourself..."
+                    placeholder="Tell us about yourself"
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                     rows={3}
@@ -297,8 +389,6 @@ export default function OnboardingPage() {
                   <Button
                     onClick={handleNext}
                     className="w-full"
-                    size="lg"
-                    disabled={!name.trim()}
                     rightIcon={<ArrowRight className="w-5 h-5" />}
                   >
                     Continue
@@ -307,6 +397,7 @@ export default function OnboardingPage() {
               </motion.div>
             )}
 
+            {/* Step 2: Interests */}
             {currentStep === 'interests' && (
               <motion.div
                 key="interests"
@@ -316,14 +407,14 @@ export default function OnboardingPage() {
               >
                 <div className="text-center mb-8">
                   <h1 className="font-display text-3xl font-bold text-neutral-100 mb-2">
-                    What are you into?
+                    Pick your interests
                   </h1>
                   <p className="text-neutral-400">
-                    Pick a few interests to help us suggest hangouts
+                    Help us suggest hangouts you'll love
                   </p>
                 </div>
 
-                <div className="bg-dark-card rounded-3xl shadow-soft p-8 space-y-6">
+                <div className="bg-dark-card rounded-3xl shadow-soft p-8 space-y-6 border border-dark-border">
                   <div className="flex flex-wrap gap-2">
                     {INTERESTS.map((interest) => (
                       <button
@@ -332,8 +423,8 @@ export default function OnboardingPage() {
                         className={cn(
                           'px-4 py-2 rounded-full text-sm font-medium transition-all',
                           selectedInterests.includes(interest)
-                            ? 'bg-primary-900/300 text-white shadow-glow'
-                            : 'bg-dark-elevated text-neutral-300 hover:bg-dark-hover'
+                            ? 'bg-primary-500 text-white shadow-glow'
+                            : 'bg-dark-hover text-neutral-300 hover:bg-dark-hover/80 hover:text-neutral-100'
                         )}
                       >
                         {selectedInterests.includes(interest) && (
@@ -365,6 +456,7 @@ export default function OnboardingPage() {
               </motion.div>
             )}
 
+            {/* Step 3: Community */}
             {currentStep === 'community' && (
               <motion.div
                 key="community"
@@ -381,8 +473,8 @@ export default function OnboardingPage() {
                   </p>
                 </div>
 
-                <div className="bg-dark-card rounded-3xl shadow-soft p-8 space-y-6">
-                  {/* Community types */}
+                <div className="bg-dark-card rounded-3xl shadow-soft p-8 space-y-6 border border-dark-border">
+                  {/* Community Types */}
                   <div className="grid grid-cols-3 gap-3">
                     <CommunityTypeCard
                       icon={Home}
@@ -402,18 +494,22 @@ export default function OnboardingPage() {
                   </div>
 
                   {/* Search */}
-                  <Input
-                    placeholder="Search for your community..."
-                    value={communitySearch}
-                    onChange={(e) => setCommunitySearch(e.target.value)}
-                    leftIcon={<Search className="w-5 h-5" />}
-                  />
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-500" />
+                    <input
+                      type="text"
+                      placeholder="Search communities..."
+                      value={communitySearch}
+                      onChange={(e) => setCommunitySearch(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 bg-dark-hover border border-dark-border rounded-xl text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    />
+                  </div>
 
-                  <p className="text-sm text-neutral-500 text-center">
+                  <p className="text-sm text-neutral-400 text-center">
                     Can't find yours?{' '}
                     <button 
                       onClick={() => setShowRequestModal(true)}
-                      className="text-primary-400 hover:underline font-medium"
+                      className="text-primary-400 hover:text-primary-300 hover:underline"
                     >
                       Request a new community
                     </button>
@@ -440,7 +536,8 @@ export default function OnboardingPage() {
 
                   <button
                     onClick={handleComplete}
-                    className="w-full text-sm text-neutral-500 hover:text-neutral-300"
+                    disabled={isLoading}
+                    className="w-full text-sm text-neutral-400 hover:text-neutral-300 transition-colors disabled:opacity-50"
                   >
                     Skip for now
                   </button>
@@ -458,7 +555,7 @@ export default function OnboardingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
             onClick={() => setShowRequestModal(false)}
           >
             <motion.div
@@ -466,7 +563,7 @@ export default function OnboardingPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-md bg-dark-card rounded-3xl shadow-xl overflow-hidden"
+              className="w-full max-w-md bg-dark-card rounded-3xl shadow-xl overflow-hidden border border-dark-border"
             >
               {/* Modal Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-dark-border">
@@ -475,9 +572,9 @@ export default function OnboardingPage() {
                 </h2>
                 <button
                   onClick={() => setShowRequestModal(false)}
-                  className="p-2 rounded-full hover:bg-dark-elevated transition-colors"
+                  className="p-2 rounded-full hover:bg-dark-hover transition-colors"
                 >
-                  <X className="w-5 h-5 text-neutral-500" />
+                  <X className="w-5 h-5 text-neutral-400" />
                 </button>
               </div>
 
@@ -496,12 +593,11 @@ export default function OnboardingPage() {
                         className={cn(
                           'p-3 rounded-xl text-center transition-all border-2',
                           requestData.type === type.value
-                            ? 'border-primary-500 bg-primary-900/30'
-                            : 'border-dark-border hover:border-neutral-300'
+                            ? 'bg-primary-500/20 border-primary-500 text-primary-400'
+                            : 'bg-dark-hover border-dark-border text-neutral-400 hover:border-neutral-600'
                         )}
                       >
-                        <p className="font-medium text-sm text-neutral-100">{type.label}</p>
-                        <p className="text-xs text-neutral-500">{type.description}</p>
+                        <p className="text-xs font-medium">{type.label}</p>
                       </button>
                     ))}
                   </div>
@@ -510,48 +606,51 @@ export default function OnboardingPage() {
                 {/* Community Name */}
                 <Input
                   label="Community Name"
-                  placeholder="e.g., DLF Pinnacle, IIT Delhi, WeWork Galaxy"
+                  placeholder="e.g., Green Valley Apartments"
                   value={requestData.name}
                   onChange={(e) => setRequestData(prev => ({ ...prev, name: e.target.value }))}
+                  required
                 />
 
                 {/* Location */}
                 <Input
-                  label="Location / Address"
-                  placeholder="e.g., Sector 43, Gurugram"
+                  label="Location"
+                  placeholder="City, State"
                   value={requestData.location}
                   onChange={(e) => setRequestData(prev => ({ ...prev, location: e.target.value }))}
-                  leftIcon={<MapPin className="w-5 h-5" />}
+                  leftIcon={<MapPin className="w-4 h-4 text-neutral-500" />}
+                  required
                 />
 
                 {/* Description */}
                 <Textarea
-                  label="Additional Details (optional)"
-                  placeholder="Any other information that might help us..."
+                  label="Description (optional)"
+                  placeholder="Any additional details..."
                   value={requestData.description}
                   onChange={(e) => setRequestData(prev => ({ ...prev, description: e.target.value }))}
-                  rows={2}
+                  rows={3}
                 />
-              </div>
 
-              {/* Modal Footer */}
-              <div className="px-6 py-4 bg-dark-bg flex gap-3">
-                <Button
-                  variant="ghost"
-                  className="flex-1"
-                  onClick={() => setShowRequestModal(false)}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  className="flex-1"
-                  onClick={handleSubmitCommunityRequest}
-                  isLoading={isSubmittingRequest}
-                  disabled={!requestData.name.trim() || !requestData.location.trim()}
-                  rightIcon={<Send className="w-4 h-4" />}
-                >
-                  Submit Request
-                </Button>
+                {/* Actions */}
+                <div className="flex gap-3 pt-2">
+                  <Button
+                    variant="ghost"
+                    className="flex-1"
+                    onClick={() => setShowRequestModal(false)}
+                    disabled={isSubmittingRequest}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    className="flex-1"
+                    onClick={handleSubmitCommunityRequest}
+                    isLoading={isSubmittingRequest}
+                    disabled={!requestData.name.trim() || !requestData.location.trim()}
+                    rightIcon={<Send className="w-4 h-4" />}
+                  >
+                    Submit Request
+                  </Button>
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -571,11 +670,11 @@ function CommunityTypeCard({
   description: string
 }) {
   return (
-    <button className="p-4 rounded-2xl bg-dark-bg hover:bg-dark-elevated transition-colors text-center group">
-      <div className="w-10 h-10 rounded-xl bg-dark-card flex items-center justify-center mx-auto mb-2 group-hover:shadow-soft transition-shadow">
-        <Icon className="w-5 h-5 text-primary-500" />
+    <button className="p-4 rounded-2xl bg-dark-hover hover:bg-dark-hover/80 transition-colors text-center group border border-dark-border">
+      <div className="w-10 h-10 rounded-xl bg-dark-card flex items-center justify-center mx-auto mb-2 group-hover:shadow-soft transition-shadow border border-dark-border">
+        <Icon className="w-5 h-5 text-primary-400" />
       </div>
-      <p className="font-medium text-neutral-100 text-sm">{label}</p>
+      <p className="font-medium text-neutral-200 text-sm">{label}</p>
       <p className="text-xs text-neutral-500">{description}</p>
     </button>
   )
