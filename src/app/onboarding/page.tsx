@@ -220,32 +220,46 @@ export default function OnboardingPage() {
         }
       }
 
-      // Update user profile (CRITICAL)
-      console.log('→ Updating profile with:', {
+      // Update user profile (CRITICAL) - Use UPSERT to handle missing records
+      console.log('→ Upserting profile with:', {
+        id: authUser.id,
         name: name.trim(),
         bio: bio.trim() || null,
         avatar_url: finalAvatarUrl,
         interests: selectedInterests
       })
 
-      const { error: updateError, data: updateData } = await (supabase
+      // Add timeout to prevent infinite hanging
+      const updatePromise = (supabase
         .from('users') as any)
-        .update({
+        .upsert({
+          id: authUser.id,
           name: name.trim(),
           bio: bio.trim() || null,
           avatar_url: finalAvatarUrl,
           interests: selectedInterests.length > 0 ? selectedInterests : null,
           updated_at: new Date().toISOString(),
+        }, {
+          onConflict: 'id'
         })
-        .eq('id', authUser.id)
         .select()
 
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Database operation timed out after 10 seconds')), 10000)
+      )
+
+      const { error: updateError, data: updateData } = await Promise.race([
+        updatePromise,
+        timeoutPromise
+      ]) as any
+
       if (updateError) {
-        console.error('✗ Profile update error:', updateError)
+        console.error('✗ Profile upsert error:', updateError)
+        console.error('Error details:', JSON.stringify(updateError, null, 2))
         throw new Error(`Failed to update profile: ${updateError.message}`)
       }
 
-      console.log('✓ Profile updated successfully:', updateData)
+      console.log('✓ Profile upserted successfully:', updateData)
 
       // Join community if selected (OPTIONAL/NON-BLOCKING)
       if (selectedCommunity) {
