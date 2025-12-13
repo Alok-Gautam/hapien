@@ -211,6 +211,26 @@ CREATE INDEX IF NOT EXISTS idx_notifications_read ON public.notifications(read);
 CREATE INDEX IF NOT EXISTS idx_notifications_created ON public.notifications(created_at DESC);
 
 -- =====================================================
+-- COMMUNITY REQUESTS TABLE
+-- =====================================================
+CREATE TABLE IF NOT EXISTS public.community_requests (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  requested_by UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  type TEXT NOT NULL CHECK (type IN ('society', 'campus', 'office')),
+  location TEXT NOT NULL,
+  description TEXT,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+  admin_notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes for community request lookups
+CREATE INDEX IF NOT EXISTS idx_community_requests_user ON public.community_requests(requested_by);
+CREATE INDEX IF NOT EXISTS idx_community_requests_status ON public.community_requests(status);
+
+-- =====================================================
 -- ROW LEVEL SECURITY POLICIES
 -- =====================================================
 
@@ -225,6 +245,7 @@ ALTER TABLE public.hangout_rsvps ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.comments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.reactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.community_requests ENABLE ROW LEVEL SECURITY;
 
 -- Users policies
 CREATE POLICY "Users are viewable by everyone" ON public.users FOR SELECT USING (true);
@@ -310,6 +331,10 @@ CREATE POLICY "Users can delete own reactions" ON public.reactions FOR DELETE US
 CREATE POLICY "Users can view own notifications" ON public.notifications FOR SELECT USING (auth.uid() = user_id);
 CREATE POLICY "System can create notifications" ON public.notifications FOR INSERT WITH CHECK (true);
 CREATE POLICY "Users can update own notifications" ON public.notifications FOR UPDATE USING (auth.uid() = user_id);
+
+-- Community requests policies
+CREATE POLICY "Users can view own requests" ON public.community_requests FOR SELECT USING (auth.uid() = requested_by);
+CREATE POLICY "Users can create requests" ON public.community_requests FOR INSERT WITH CHECK (auth.uid() = requested_by);
 
 -- =====================================================
 -- FUNCTIONS & TRIGGERS

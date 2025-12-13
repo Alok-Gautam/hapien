@@ -156,11 +156,11 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Cover Image */}
       <div>
-        <label className="block text-sm font-medium text-neutral-700 mb-2">
+        <label className="block text-sm font-medium text-neutral-300 mb-2">
           Cover Image (optional)
         </label>
         {coverPreview ? (
-          <div className="relative aspect-video rounded-xl overflow-hidden bg-neutral-100">
+          <div className="relative aspect-video rounded-xl overflow-hidden bg-dark-elevated">
             <img
               src={coverPreview}
               alt="Cover preview"
@@ -178,7 +178,7 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="w-full aspect-video rounded-xl border-2 border-dashed border-neutral-300 flex flex-col items-center justify-center gap-2 text-neutral-500 hover:border-primary-400 hover:text-primary-600 transition-colors"
+            className="w-full aspect-video rounded-xl border-2 border-dashed border-neutral-300 flex flex-col items-center justify-center gap-2 text-neutral-500 hover:border-primary-400 hover:text-primary-400 transition-colors"
           >
             <ImageIcon className="w-8 h-8" />
             <span className="text-sm">Add a cover image</span>
@@ -203,7 +203,7 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
 
       {/* Category Selection */}
       <div>
-        <label className="block text-sm font-medium text-neutral-700 mb-3">
+        <label className="block text-sm font-medium text-neutral-300 mb-3">
           Category
         </label>
         <div className="grid grid-cols-5 gap-2">
@@ -215,14 +215,14 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
               className={cn(
                 'flex flex-col items-center gap-1 p-3 rounded-xl border-2 transition-all',
                 selectedCategory === key
-                  ? `border-${config.color}-500 bg-${config.color}-50 shadow-soft`
-                  : 'border-transparent bg-neutral-50 hover:bg-neutral-100'
+                  ? `border-${config.color}-500 bg-${config.color}-50 shadow-soft border border-dark-border`
+                  : 'border-transparent bg-dark-bg hover:bg-dark-elevated'
               )}
             >
               <span className="text-2xl">{config.emoji}</span>
               <span className={cn(
                 'text-xs font-medium',
-                selectedCategory === key ? `text-${config.color}-700` : 'text-neutral-600'
+                selectedCategory === key ? `text-${config.color}-700` : 'text-neutral-400'
               )}>
                 {config.label}
               </span>
@@ -241,14 +241,14 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
 
       {/* Community Selection */}
       <div>
-        <label className="block text-sm font-medium text-neutral-700 mb-2">
+        <label className="block text-sm font-medium text-neutral-300 mb-2">
           Community
         </label>
         <select
           {...register('community_id')}
           className={cn(
-            'w-full px-4 py-3 rounded-xl border bg-white',
-            errors.community_id ? 'border-red-300' : 'border-neutral-200',
+            'w-full px-4 py-3 rounded-xl border bg-dark-card',
+            errors.community_id ? 'border-red-300' : 'border-dark-border',
             'focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400'
           )}
         >
@@ -260,7 +260,7 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
           ))}
         </select>
         {errors.community_id && (
-          <p className="mt-1 text-sm text-red-600">{errors.community_id.message}</p>
+          <p className="mt-1 text-sm text-tertiary-300">{errors.community_id.message}</p>
         )}
       </div>
 
@@ -303,7 +303,7 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
 
       {/* Visibility */}
       <div>
-        <label className="block text-sm font-medium text-neutral-700 mb-3">
+        <label className="block text-sm font-medium text-neutral-300 mb-3">
           Who can see this?
         </label>
         <div className="space-y-2">
@@ -317,8 +317,8 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
               className={cn(
                 'flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all',
                 watch('visibility') === option.value
-                  ? 'border-primary-500 bg-primary-50'
-                  : 'border-transparent bg-neutral-50 hover:bg-neutral-100'
+                  ? 'border-primary-500 bg-primary-900/30'
+                  : 'border-transparent bg-dark-bg hover:bg-dark-elevated'
               )}
             >
               <input
@@ -328,7 +328,7 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
                 className="mt-1"
               />
               <div>
-                <p className="font-medium text-neutral-900">{option.label}</p>
+                <p className="font-medium text-neutral-100">{option.label}</p>
                 <p className="text-sm text-neutral-500">{option.desc}</p>
               </div>
             </label>

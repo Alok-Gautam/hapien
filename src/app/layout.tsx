@@ -57,7 +57,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: '#a855f7',
+  themeColor: '#0a7ea4',
 }
 
 export default function RootLayout({
@@ -67,6 +67,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      </head>
       <body>
         {children}
         <Toaster
@@ -74,21 +79,22 @@ export default function RootLayout({
           toastOptions={{
             duration: 4000,
             style: {
-              background: '#1c1917',
-              color: '#fafaf9',
+              background: '#111827',
+              color: '#f1f5f9',
               borderRadius: '12px',
               padding: '12px 16px',
+              border: '1px solid #1e293b',
             },
             success: {
               iconTheme: {
-                primary: '#22c55e',
-                secondary: '#fafaf9',
+                primary: '#0ea5e9',
+                secondary: '#f1f5f9',
               },
             },
             error: {
               iconTheme: {
-                primary: '#f43f5e',
-                secondary: '#fafaf9',
+                primary: '#f97316',
+                secondary: '#f1f5f9',
               },
             },
           }}

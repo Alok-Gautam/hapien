@@ -101,7 +101,7 @@ export function HangoutCard({ hangout, compact = false, onRsvpChange }: HangoutC
         <Card 
           variant="elevated" 
           padding="none" 
-          className="overflow-hidden hover:shadow-soft-lg transition-shadow cursor-pointer"
+          className="overflow-hidden hover:shadow-soft border border-dark-border-lg transition-shadow cursor-pointer"
         >
           {/* Cover or Category Gradient */}
           <div className={cn(
@@ -125,11 +125,11 @@ export function HangoutCard({ hangout, compact = false, onRsvpChange }: HangoutC
           </div>
           
           <div className="p-3">
-            <h3 className="font-semibold text-neutral-900 line-clamp-1">
+            <h3 className="font-semibold text-neutral-100 line-clamp-1">
               {hangout.title}
             </h3>
             
-            <div className="flex items-center gap-2 mt-2 text-sm text-neutral-600">
+            <div className="flex items-center gap-2 mt-2 text-sm text-neutral-400">
               <Calendar className="w-4 h-4 text-primary-500" />
               <span className={cn(isToday && 'text-secondary-600 font-medium')}>
                 {dateLabel}
@@ -170,7 +170,7 @@ export function HangoutCard({ hangout, compact = false, onRsvpChange }: HangoutC
             <div>
               <Link 
                 href={`/profile/${hangout.host.id}`}
-                className="font-medium text-neutral-900 hover:text-primary-600 transition-colors"
+                className="font-medium text-neutral-100 hover:text-primary-400 transition-colors"
               >
                 {hangout.host.name}
               </Link>
@@ -197,20 +197,20 @@ export function HangoutCard({ hangout, compact = false, onRsvpChange }: HangoutC
       {/* Content */}
       <div className="p-4">
         <Link href={`/hangouts/${hangout.id}`}>
-          <h3 className="text-xl font-display font-semibold text-neutral-900 hover:text-primary-600 transition-colors">
+          <h3 className="text-xl font-display font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
             {hangout.title}
           </h3>
         </Link>
         
         {hangout.description && (
-          <p className="text-neutral-600 mt-2 line-clamp-2">
+          <p className="text-neutral-400 mt-2 line-clamp-2">
             {hangout.description}
           </p>
         )}
 
         {/* Details */}
         <div className="flex flex-col gap-2 mt-4">
-          <div className="flex items-center gap-2 text-neutral-600">
+          <div className="flex items-center gap-2 text-neutral-400">
             <Calendar className="w-5 h-5 text-primary-500" />
             <span className={cn(
               'font-medium',
@@ -223,7 +223,7 @@ export function HangoutCard({ hangout, compact = false, onRsvpChange }: HangoutC
           </div>
           
           {hangout.location && (
-            <div className="flex items-center gap-2 text-neutral-600">
+            <div className="flex items-center gap-2 text-neutral-400">
               <MapPin className="w-5 h-5 text-tertiary-500" />
               <span className="line-clamp-1">
                 {hangout.location.place_name || hangout.location.address}
@@ -231,7 +231,7 @@ export function HangoutCard({ hangout, compact = false, onRsvpChange }: HangoutC
             </div>
           )}
 
-          <div className="flex items-center gap-2 text-neutral-600">
+          <div className="flex items-center gap-2 text-neutral-400">
             <Users className="w-5 h-5 text-primary-500" />
             <span>
               {goingUsers.length} going
@@ -243,13 +243,13 @@ export function HangoutCard({ hangout, compact = false, onRsvpChange }: HangoutC
 
         {/* Participants Preview */}
         {goingUsers.length > 0 && (
-          <div className="flex items-center gap-3 mt-4 p-3 bg-neutral-50 rounded-xl">
+          <div className="flex items-center gap-3 mt-4 p-3 bg-dark-bg rounded-xl">
             <AvatarGroup 
               users={goingUsers.slice(0, 5).map(r => r.user)} 
               size="sm"
               max={5}
             />
-            <span className="text-sm text-neutral-600">
+            <span className="text-sm text-neutral-400">
               {goingUsers.length === 1 
                 ? `${goingUsers[0].user.name} is going`
                 : `${goingUsers[0].user.name} and ${goingUsers.length - 1} others are going`}
@@ -285,7 +285,7 @@ export function HangoutCard({ hangout, compact = false, onRsvpChange }: HangoutC
         {/* View Details Link */}
         <Link 
           href={`/hangouts/${hangout.id}`}
-          className="flex items-center justify-center gap-1 mt-3 text-sm text-primary-600 hover:text-primary-700 font-medium"
+          className="flex items-center justify-center gap-1 mt-3 text-sm text-primary-400 hover:text-primary-700 font-medium"
         >
           View Details
           <ChevronRight className="w-4 h-4" />

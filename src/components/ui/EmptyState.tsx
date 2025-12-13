@@ -36,7 +36,7 @@ export function EmptyState({
         return (
           <Link
             href={action.href}
-            className="px-6 py-2.5 bg-primary-500 text-white font-medium rounded-xl hover:bg-primary-600 transition-colors"
+            className="px-6 py-2.5 bg-primary-900/300 text-white font-medium rounded-xl hover:bg-primary-600 transition-colors"
           >
             {action.label}
           </Link>
@@ -46,7 +46,7 @@ export function EmptyState({
         return (
           <button
             onClick={action.onClick}
-            className="px-6 py-2.5 bg-primary-500 text-white font-medium rounded-xl hover:bg-primary-600 transition-colors"
+            className="px-6 py-2.5 bg-primary-900/300 text-white font-medium rounded-xl hover:bg-primary-600 transition-colors"
           >
             {action.label}
           </button>
@@ -70,7 +70,7 @@ export function EmptyState({
           {typeof Icon === 'function' ? <Icon className="w-12 h-12" /> : Icon}
         </div>
       )}
-      <h3 className="text-lg font-semibold text-neutral-900 mb-2">{title}</h3>
+      <h3 className="text-lg font-semibold text-neutral-100 mb-2">{title}</h3>
       {description && (
         <p className="text-neutral-500 max-w-sm mb-6">{description}</p>
       )}

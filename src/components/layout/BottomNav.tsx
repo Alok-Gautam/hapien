@@ -33,7 +33,7 @@ export function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-lg border-t border-neutral-100 pb-safe lg:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-dark-card/90 backdrop-blur-lg border-t border-dark-border pb-safe lg:hidden">
       <div className="flex items-center justify-around h-16">
         {navItems.map((item) => {
           const isActive = pathname.startsWith(item.href)
@@ -48,7 +48,7 @@ export function BottomNav() {
               <div
                 className={cn(
                   'flex flex-col items-center gap-1 transition-colors',
-                  isActive ? 'text-primary-600' : 'text-neutral-400'
+                  isActive ? 'text-primary-400' : 'text-neutral-400'
                 )}
               >
                 <div className="relative">
@@ -56,7 +56,7 @@ export function BottomNav() {
                   {isActive && (
                     <motion.div
                       layoutId="bottomNavIndicator"
-                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary-500 rounded-full"
+                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary-900/300 rounded-full"
                     />
                   )}
                 </div>

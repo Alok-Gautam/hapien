@@ -18,14 +18,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-sm font-medium text-neutral-700 mb-1.5"
+            className="block text-sm font-medium text-neutral-300 mb-1.5"
           >
             {label}
           </label>
         )}
         <div className="relative">
           {leftIcon && (
-            <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400">
+            <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500">
               {leftIcon}
             </div>
           )}
@@ -33,10 +33,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             className={cn(
-              'w-full px-4 py-3 rounded-xl border border-neutral-200 bg-white text-neutral-900 placeholder:text-neutral-400',
+              'w-full px-4 py-3 rounded-xl border border-dark-border bg-dark-card text-neutral-100 placeholder:text-neutral-500',
               'transition-all duration-200',
               'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
-              'disabled:bg-neutral-50 disabled:text-neutral-500 disabled:cursor-not-allowed',
+              'disabled:bg-dark-bg disabled:text-neutral-400 disabled:cursor-not-allowed',
               leftIcon && 'pl-11',
               rightIcon && 'pr-11',
               error && 'border-tertiary-500 focus:ring-tertiary-500',
@@ -45,13 +45,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {rightIcon && (
-            <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-400">
+            <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500">
               {rightIcon}
             </div>
           )}
         </div>
         {error && (
-          <p className="mt-1.5 text-sm text-tertiary-500">{error}</p>
+          <p className="mt-1.5 text-sm text-tertiary-400">{error}</p>
         )}
         {hint && !error && (
           <p className="mt-1.5 text-sm text-neutral-500">{hint}</p>

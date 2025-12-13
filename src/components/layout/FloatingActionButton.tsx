@@ -33,12 +33,12 @@ export function FloatingActionButton() {
               <Link
                 href="/create/post"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl shadow-soft hover:shadow-soft-lg transition-all group"
+                className="flex items-center gap-3 px-4 py-3 bg-dark-card rounded-xl shadow-soft border border-dark-border hover:shadow-soft border border-dark-border-lg transition-all group"
               >
                 <div className="w-10 h-10 rounded-full bg-secondary-100 flex items-center justify-center group-hover:bg-secondary-200 transition-colors">
                   <FileText className="w-5 h-5 text-secondary-600" />
                 </div>
-                <span className="font-medium text-neutral-700 whitespace-nowrap">
+                <span className="font-medium text-neutral-300 whitespace-nowrap">
                   New Post
                 </span>
               </Link>
@@ -46,12 +46,12 @@ export function FloatingActionButton() {
               <Link
                 href="/hangouts/create"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl shadow-soft hover:shadow-soft-lg transition-all group"
+                className="flex items-center gap-3 px-4 py-3 bg-dark-card rounded-xl shadow-soft border border-dark-border hover:shadow-soft border border-dark-border-lg transition-all group"
               >
                 <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center group-hover:bg-primary-200 transition-colors">
-                  <Calendar className="w-5 h-5 text-primary-600" />
+                  <Calendar className="w-5 h-5 text-primary-400" />
                 </div>
-                <span className="font-medium text-neutral-700 whitespace-nowrap">
+                <span className="font-medium text-neutral-300 whitespace-nowrap">
                   New Hangout
                 </span>
               </Link>

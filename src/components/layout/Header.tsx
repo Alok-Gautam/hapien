@@ -37,7 +37,7 @@ export function Header({
         'sticky top-0 z-30 px-4 py-3',
         transparent
           ? 'bg-transparent'
-          : 'bg-white/90 backdrop-blur-lg border-b border-neutral-100'
+          : 'bg-dark-card/90 backdrop-blur-lg border-b border-dark-border'
       )}
     >
       <div className="flex items-center justify-between max-w-4xl mx-auto">
@@ -48,12 +48,12 @@ export function Header({
               <div className="w-9 h-9 rounded-xl bg-gradient-primary flex items-center justify-center">
                 <span className="text-white font-bold text-lg">H</span>
               </div>
-              <span className="font-display text-xl font-bold text-neutral-900 hidden sm:block">
+              <span className="font-display text-xl font-bold text-neutral-100 hidden sm:block">
                 Hapien
               </span>
             </Link>
           ) : (
-            <h1 className="font-display text-xl font-semibold text-neutral-900">
+            <h1 className="font-display text-xl font-semibold text-neutral-100">
               {title || 'Hapien'}
             </h1>
           )}
@@ -64,7 +64,7 @@ export function Header({
           {showSearch && (
             <Link
               href="/search"
-              className="p-2.5 text-neutral-500 hover:text-neutral-700 hover:bg-neutral-100 rounded-xl transition-colors"
+              className="p-2.5 text-neutral-500 hover:text-neutral-300 hover:bg-dark-elevated rounded-xl transition-colors"
             >
               <Search className="w-5 h-5" />
             </Link>
@@ -73,7 +73,7 @@ export function Header({
           {showNotifications && (
             <Link
               href="/notifications"
-              className="relative p-2.5 text-neutral-500 hover:text-neutral-700 hover:bg-neutral-100 rounded-xl transition-colors"
+              className="relative p-2.5 text-neutral-500 hover:text-neutral-300 hover:bg-dark-elevated rounded-xl transition-colors"
             >
               <Bell className="w-5 h-5" />
               {/* Notification badge */}
@@ -126,8 +126,8 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
       className={cn(
         'px-4 py-2 text-sm font-medium rounded-xl transition-colors',
         isActive
-          ? 'text-primary-600 bg-primary-50'
-          : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
+          ? 'text-primary-400 bg-primary-900/30'
+          : 'text-neutral-400 hover:text-neutral-100 hover:bg-dark-elevated'
       )}
     >
       {children}

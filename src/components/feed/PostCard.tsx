@@ -160,7 +160,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
               size="md"
             />
             <div>
-              <p className="font-semibold text-neutral-900 hover:text-primary-600 transition-colors">
+              <p className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
                 {post.user.name}
               </p>
               <div className="flex items-center gap-2 text-sm text-neutral-500">
@@ -170,7 +170,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
                     <span>•</span>
                     <Link
                       href={`/communities/${post.community_id}`}
-                      className="hover:text-primary-600 transition-colors"
+                      className="hover:text-primary-400 transition-colors"
                     >
                       {post.community.name}
                     </Link>
@@ -184,7 +184,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
           <div className="relative">
             <button 
               onClick={() => setShowMenu(!showMenu)}
-              className="p-2 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
+              className="p-2 text-neutral-400 hover:text-neutral-400 hover:bg-dark-elevated rounded-lg transition-colors"
             >
               <MoreHorizontal className="w-5 h-5" />
             </button>
@@ -195,7 +195,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
                   className="fixed inset-0 z-10" 
                   onClick={() => setShowMenu(false)} 
                 />
-                <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-xl shadow-soft-lg border border-neutral-100 py-1 z-20">
+                <div className="absolute right-0 top-full mt-1 w-48 bg-dark-card rounded-xl shadow-soft border border-dark-border-lg border border-dark-border py-1 z-20">
                   {isOwner ? (
                     <>
                       <button
@@ -203,7 +203,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
                           setShowMenu(false)
                           setShowEditModal(true)
                         }}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-700 hover:bg-neutral-50 transition-colors"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-300 hover:bg-dark-bg transition-colors"
                       >
                         <Edit2 className="w-4 h-4" />
                         <span>Edit post</span>
@@ -211,7 +211,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
                       <button
                         onClick={handleDelete}
                         disabled={isDeleting}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 text-red-600 hover:bg-red-50 transition-colors"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-tertiary-300 hover:bg-tertiary-900/30 transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                         <span>{isDeleting ? 'Deleting...' : 'Delete post'}</span>
@@ -223,7 +223,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
                         setShowMenu(false)
                         toast.success('Post reported')
                       }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-700 hover:bg-neutral-50 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-300 hover:bg-dark-bg transition-colors"
                     >
                       <Flag className="w-4 h-4" />
                       <span>Report post</span>
@@ -238,7 +238,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
         {/* Content */}
         {post.content && (
           <div className="px-4 pb-3">
-            <p className="text-neutral-800 whitespace-pre-wrap">{post.content}</p>
+            <p className="text-neutral-200 whitespace-pre-wrap">{post.content}</p>
           </div>
         )}
 
@@ -257,7 +257,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
                 <div
                   key={url}
                   className={cn(
-                    'relative bg-neutral-100',
+                    'relative bg-dark-elevated',
                     post.media_urls!.length === 1 ? 'aspect-[4/3]' : 'aspect-square',
                     post.media_urls!.length === 3 && index === 0 && 'row-span-2',
                   )}
@@ -301,7 +301,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
                   <div
                     key={type}
                     className={cn(
-                      'w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-sm',
+                      'w-5 h-5 rounded-full bg-dark-card flex items-center justify-center shadow-sm',
                       config?.activeColor
                     )}
                   >
@@ -315,7 +315,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
         )}
 
         {/* Actions */}
-        <div className="flex items-center border-t border-neutral-100">
+        <div className="flex items-center border-t border-dark-border">
           {/* Reaction button */}
           <div className="relative flex-1">
             <button
@@ -326,7 +326,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
                 'w-full flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors',
                 userReaction
                   ? REACTION_TYPES.find(r => r.type === userReaction.type)?.activeColor
-                  : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'
+                  : 'text-neutral-400 hover:text-neutral-100 hover:bg-dark-bg'
               )}
             >
               {userReaction ? (
@@ -351,14 +351,14 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
               <div
                 onMouseEnter={() => setShowReactions(true)}
                 onMouseLeave={() => setShowReactions(false)}
-                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 p-2 bg-white rounded-full shadow-soft-lg flex gap-1 z-10"
+                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 p-2 bg-dark-card rounded-full shadow-soft border border-dark-border-lg flex gap-1 z-10"
               >
                 {REACTION_TYPES.map(({ type, icon: Icon, label, activeColor }) => (
                   <button
                     key={type}
                     onClick={() => handleReaction(type)}
                     className={cn(
-                      'p-2 rounded-full hover:bg-neutral-100 transition-all hover:scale-125',
+                      'p-2 rounded-full hover:bg-dark-elevated transition-all hover:scale-125',
                       userReaction?.type === type && activeColor
                     )}
                     title={label}
@@ -373,7 +373,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
           {/* Comment button */}
           <Link
             href={`/post/${post.id}`}
-            className="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium text-neutral-400 hover:text-neutral-100 hover:bg-dark-bg transition-colors"
           >
             <MessageCircle className="w-5 h-5" />
             <span>Comment</span>
@@ -383,7 +383,7 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
           </Link>
 
           {/* Share button */}
-          <button className="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 transition-colors">
+          <button className="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium text-neutral-400 hover:text-neutral-100 hover:bg-dark-bg transition-colors">
             <Share2 className="w-5 h-5" />
             <span>Share</span>
           </button>
@@ -393,12 +393,12 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
       {/* Edit Modal */}
       {showEditModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="w-full max-w-lg bg-white rounded-2xl overflow-hidden">
-            <div className="p-4 border-b border-neutral-100 flex items-center justify-between">
+          <div className="w-full max-w-lg bg-dark-card rounded-2xl overflow-hidden">
+            <div className="p-4 border-b border-dark-border flex items-center justify-between">
               <h2 className="font-semibold text-lg">Edit Post</h2>
               <button
                 onClick={() => setShowEditModal(false)}
-                className="p-2 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
+                className="p-2 text-neutral-400 hover:text-neutral-400 hover:bg-dark-elevated rounded-lg transition-colors"
               >
                 ✕
               </button>
@@ -408,21 +408,21 @@ export function PostCard({ post, onReactionUpdate, onReaction, onDelete }: PostC
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
                 rows={5}
-                className="w-full p-3 border border-neutral-200 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none resize-none"
+                className="w-full p-3 border border-dark-border rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none resize-none"
                 placeholder="What's on your mind?"
               />
             </div>
-            <div className="p-4 border-t border-neutral-100 flex justify-end gap-3">
+            <div className="p-4 border-t border-dark-border flex justify-end gap-3">
               <button
                 onClick={() => setShowEditModal(false)}
-                className="px-4 py-2 text-neutral-600 hover:text-neutral-900 transition-colors"
+                className="px-4 py-2 text-neutral-400 hover:text-neutral-100 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleEdit}
                 disabled={isSaving || !editContent.trim()}
-                className="px-4 py-2 bg-primary-500 text-white font-medium rounded-xl hover:bg-primary-600 transition-colors disabled:opacity-50"
+                className="px-4 py-2 bg-primary-900/300 text-white font-medium rounded-xl hover:bg-primary-600 transition-colors disabled:opacity-50"
               >
                 {isSaving ? 'Saving...' : 'Save'}
               </button>
