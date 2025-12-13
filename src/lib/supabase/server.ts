@@ -2,18 +2,22 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { Database } from '@/types/database'
 
-// Validate and clean environment variables
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
-
 export async function createClient() {
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Supabase environment variables are not configured')
-  }
+  // Get environment variables
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
+
+  // Use placeholders during build if env vars aren't set
+  const url = supabaseUrl && supabaseUrl.includes('supabase.co') 
+    ? supabaseUrl 
+    : 'https://placeholder.supabase.co'
+  const key = supabaseAnonKey && supabaseAnonKey.startsWith('eyJ') 
+    ? supabaseAnonKey 
+    : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.placeholder'
 
   const cookieStore = await cookies()
 
-  return createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
+  return createServerClient<Database>(url, key, {
     cookies: {
       get(name: string) {
         return cookieStore.get(name)?.value

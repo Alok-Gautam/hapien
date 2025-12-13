@@ -1,14 +1,17 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-// Validate and clean environment variables at module level
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
-
 export async function middleware(request: NextRequest) {
-  // If env vars are missing, allow request to proceed (will show error on page)
-  if (!supabaseUrl || !supabaseAnonKey) {
-    console.error('Supabase environment variables are not configured')
+  // Get environment variables
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
+
+  // Check if we have valid config
+  const hasValidConfig = supabaseUrl?.includes('supabase.co') && supabaseAnonKey?.startsWith('eyJ')
+  
+  // If env vars are missing or invalid, allow request to proceed
+  if (!hasValidConfig) {
+    console.warn('[Middleware] Supabase not configured, skipping auth check')
     return NextResponse.next()
   }
 
@@ -18,7 +21,7 @@ export async function middleware(request: NextRequest) {
     },
   })
 
-  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+  const supabase = createServerClient(supabaseUrl!, supabaseAnonKey!, {
     cookies: {
       get(name: string) {
         return request.cookies.get(name)?.value

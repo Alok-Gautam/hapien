@@ -126,31 +126,40 @@ export function useGoogleAuth() {
 export function useOTPAuth() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const supabase = createClient()
-
+  
   const sendOTP = async (phone: string): Promise<boolean> => {
     setIsLoading(true)
     setError(null)
 
     try {
+      // Create client inside the function to ensure runtime env vars
+      const supabase = createClient()
+      
       let formattedPhone = phone.replace(/\D/g, '')
       if (!formattedPhone.startsWith('91')) {
         formattedPhone = '91' + formattedPhone
       }
       formattedPhone = '+' + formattedPhone
 
+      console.log('[OTP] Sending to:', formattedPhone)
+      
       const { error: otpError } = await supabase.auth.signInWithOtp({
         phone: formattedPhone,
       })
 
       if (otpError) {
+        console.error('[OTP] Error:', otpError)
+        console.error('[OTP] Error code:', otpError.code)
+        console.error('[OTP] Error status:', otpError.status)
         setError(otpError.message)
         return false
       }
 
+      console.log('[OTP] Sent successfully')
       return true
-    } catch (err) {
-      setError('Failed to send OTP. Please try again.')
+    } catch (err: any) {
+      console.error('[OTP] Caught error:', err)
+      setError(err?.message || 'Failed to send OTP. Please try again.')
       return false
     } finally {
       setIsLoading(false)
@@ -162,11 +171,15 @@ export function useOTPAuth() {
     setError(null)
 
     try {
+      const supabase = createClient()
+      
       let formattedPhone = phone.replace(/\D/g, '')
       if (!formattedPhone.startsWith('91')) {
         formattedPhone = '91' + formattedPhone
       }
       formattedPhone = '+' + formattedPhone
+
+      console.log('[OTP] Verifying for:', formattedPhone)
 
       const { data, error: verifyError } = await supabase.auth.verifyOtp({
         phone: formattedPhone,
@@ -175,11 +188,13 @@ export function useOTPAuth() {
       })
 
       if (verifyError) {
+        console.error('[OTP] Verify error:', verifyError)
         setError(verifyError.message)
         return false
       }
 
       if (data.user) {
+        console.log('[OTP] User verified:', data.user.id)
         const { data: existingUser } = await supabase
           .from('users')
           .select('id')
@@ -187,6 +202,7 @@ export function useOTPAuth() {
           .single()
 
         if (!existingUser) {
+          console.log('[OTP] Creating new user profile')
           await supabase.from('users').insert({
             id: data.user.id,
             phone: formattedPhone,
@@ -195,8 +211,9 @@ export function useOTPAuth() {
       }
 
       return true
-    } catch (err) {
-      setError('Invalid OTP. Please try again.')
+    } catch (err: any) {
+      console.error('[OTP] Verify caught error:', err)
+      setError(err?.message || 'Invalid OTP. Please try again.')
       return false
     } finally {
       setIsLoading(false)
