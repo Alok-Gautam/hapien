@@ -272,12 +272,12 @@ export default function EditProfilePage() {
 
                 <div>
                   <label className="block text-sm font-medium text-neutral-700 mb-1.5">
-                    Phone
+                    Email
                   </label>
                   <Input
-                    value={profile.phone}
+                    value={profile.email || ''}
                     disabled
-                    hint="Phone number cannot be changed"
+                    hint="Email is linked to your Google account"
                   />
                 </div>
               </div>

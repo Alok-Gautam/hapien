@@ -4,7 +4,7 @@ import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Phone, ArrowRight, ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Phone, Loader2 } from 'lucide-react'
 import { Button, Input } from '@/components/ui'
 import { useOTPAuth } from '@/hooks/useAuth'
 
@@ -16,27 +16,35 @@ function LoginContent() {
   const [phone, setPhone] = useState('')
   const { sendOTP, isLoading, error, clearError } = useOTPAuth()
 
+  const formatPhoneDisplay = (value: string) => {
+    // Remove all non-digits
+    const digits = value.replace(/\D/g, '')
+    // Limit to 10 digits
+    return digits.slice(0, 10)
+  }
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    clearError()
+    setPhone(formatPhoneDisplay(e.target.value))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (phone.length < 10) {
+    if (phone.length !== 10) {
       return
     }
 
     const success = await sendOTP(phone)
     if (success) {
-      // Store phone in session storage for verification page
-      sessionStorage.setItem('hapien_phone', phone)
-      router.push(`/auth/verify?redirectTo=${encodeURIComponent(redirectTo)}`)
+      // Store phone and redirect info for verify page
+      sessionStorage.setItem('authPhone', phone)
+      sessionStorage.setItem('authRedirectTo', redirectTo)
+      router.push('/auth/verify')
     }
   }
 
-  const formatPhoneInput = (value: string) => {
-    // Remove non-digits
-    const digits = value.replace(/\D/g, '')
-    // Limit to 10 digits
-    return digits.slice(0, 10)
-  }
+  const isValidPhone = phone.length === 10
 
   return (
     <div className="min-h-screen bg-gradient-warm flex flex-col">
@@ -76,46 +84,112 @@ function LoginContent() {
             </p>
           </div>
 
-          {/* Form */}
+          {/* Login Card */}
           <div className="bg-white rounded-3xl shadow-soft p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-2">
+              {/* Phone Input */}
+              <div className="space-y-2">
+                <label htmlFor="phone" className="block text-sm font-medium text-neutral-700">
                   Phone Number
                 </label>
-                <div className="flex gap-3">
-                  <div className="flex items-center px-4 bg-neutral-100 rounded-xl text-neutral-600 font-medium">
-                    +91
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                    <span className="text-neutral-500 font-medium">+91</span>
                   </div>
                   <Input
+                    id="phone"
                     type="tel"
                     inputMode="numeric"
-                    placeholder="Enter your mobile number"
+                    placeholder="98765 43210"
                     value={phone}
-                    onChange={(e) => {
-                      clearError()
-                      setPhone(formatPhoneInput(e.target.value))
-                    }}
-                    leftIcon={<Phone className="w-5 h-5" />}
-                    className="flex-1"
+                    onChange={handlePhoneChange}
+                    className="pl-14 text-lg tracking-wide"
+                    autoComplete="tel"
+                    autoFocus
                   />
                 </div>
-                {error && (
-                  <p className="mt-2 text-sm text-tertiary-500">{error}</p>
-                )}
+                <p className="text-xs text-neutral-500">
+                  We'll send you a one-time verification code
+                </p>
               </div>
 
+              {/* Error Message */}
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-3 bg-red-50 border border-red-200 rounded-xl"
+                >
+                  <p className="text-sm text-red-600 text-center">{error}</p>
+                </motion.div>
+              )}
+
+              {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full"
                 size="lg"
-                isLoading={isLoading}
-                disabled={phone.length < 10}
-                rightIcon={<ArrowRight className="w-5 h-5" />}
+                className="w-full"
+                disabled={!isValidPhone || isLoading}
               >
-                Get OTP
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                    Sending OTP...
+                  </>
+                ) : (
+                  <>
+                    <Phone className="w-5 h-5 mr-2" />
+                    Send OTP
+                  </>
+                )}
               </Button>
             </form>
+
+            {/* Divider */}
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-neutral-200" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-white text-neutral-500">
+                  Secure & Private
+                </span>
+              </div>
+            </div>
+
+            {/* Benefits */}
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p className="text-sm text-neutral-600">
+                  No passwords to remember
+                </p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p className="text-sm text-neutral-600">
+                  Your number is only visible to friends
+                </p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p className="text-sm text-neutral-600">
+                  Connect with your local community
+                </p>
+              </div>
+            </div>
 
             <p className="text-sm text-neutral-500 text-center mt-6">
               By continuing, you agree to our{' '}

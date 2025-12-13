@@ -1,35 +1,38 @@
 'use client'
 
 import { useState, useEffect, useRef, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowLeft, RefreshCw } from 'lucide-react'
+import { ArrowLeft, Loader2, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui'
 import { useOTPAuth } from '@/hooks/useAuth'
-import { formatPhone } from '@/utils/helpers'
 
 function VerifyContent() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirectTo') || '/feed'
-  
-  const [otp, setOtp] = useState(['', '', '', '', '', ''])
   const [phone, setPhone] = useState('')
+  const [redirectTo, setRedirectTo] = useState('/feed')
+  const [otp, setOtp] = useState(['', '', '', '', '', ''])
   const [resendTimer, setResendTimer] = useState(30)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
   
   const { verifyOTP, sendOTP, isLoading, error, clearError } = useOTPAuth()
 
+  // Get phone from session storage
   useEffect(() => {
-    const storedPhone = sessionStorage.getItem('hapien_phone')
+    const storedPhone = sessionStorage.getItem('authPhone')
+    const storedRedirect = sessionStorage.getItem('authRedirectTo')
+    
     if (!storedPhone) {
       router.replace('/auth/login')
       return
     }
+    
     setPhone(storedPhone)
+    if (storedRedirect) setRedirectTo(storedRedirect)
   }, [router])
 
+  // Resend timer countdown
   useEffect(() => {
     if (resendTimer > 0) {
       const timer = setTimeout(() => setResendTimer(resendTimer - 1), 1000)
@@ -37,54 +40,60 @@ function VerifyContent() {
     }
   }, [resendTimer])
 
-  const handleChange = (index: number, value: string) => {
+  const handleOtpChange = (index: number, value: string) => {
     clearError()
     
     // Only allow digits
-    if (value && !/^\d+$/.test(value)) return
+    if (value && !/^\d$/.test(value)) return
 
     const newOtp = [...otp]
-    
-    // Handle paste
-    if (value.length > 1) {
-      const digits = value.slice(0, 6).split('')
-      digits.forEach((digit, i) => {
-        if (index + i < 6) {
-          newOtp[index + i] = digit
-        }
-      })
-      setOtp(newOtp)
-      
-      // Focus last filled input or next empty
-      const nextIndex = Math.min(index + digits.length, 5)
-      inputRefs.current[nextIndex]?.focus()
-      return
-    }
-
     newOtp[index] = value
     setOtp(newOtp)
 
-    // Auto-advance to next input
+    // Auto-focus next input
     if (value && index < 5) {
       inputRefs.current[index + 1]?.focus()
+    }
+
+    // Auto-submit when all digits entered
+    if (value && index === 5) {
+      const fullOtp = newOtp.join('')
+      if (fullOtp.length === 6) {
+        handleVerify(fullOtp)
+      }
     }
   }
 
   const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus()
+    // Handle backspace
+    if (e.key === 'Backspace') {
+      if (!otp[index] && index > 0) {
+        inputRefs.current[index - 1]?.focus()
+      }
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault()
+    const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6)
     
-    const otpString = otp.join('')
-    if (otpString.length !== 6) return
+    if (pastedData.length === 6) {
+      const newOtp = pastedData.split('')
+      setOtp(newOtp)
+      inputRefs.current[5]?.focus()
+      handleVerify(pastedData)
+    }
+  }
 
-    const success = await verifyOTP(phone, otpString)
+  const handleVerify = async (otpCode: string) => {
+    const success = await verifyOTP(phone, otpCode)
     if (success) {
-      sessionStorage.removeItem('hapien_phone')
+      // Clear session storage
+      sessionStorage.removeItem('authPhone')
+      sessionStorage.removeItem('authRedirectTo')
+      
+      // Redirect based on whether user has profile
+      // The middleware will handle redirecting to onboarding if needed
       router.push(redirectTo)
     }
   }
@@ -100,7 +109,17 @@ function VerifyContent() {
     }
   }
 
-  const isComplete = otp.every((digit) => digit !== '')
+  const formatPhone = (p: string) => {
+    return `+91 ${p.slice(0, 5)} ${p.slice(5)}`
+  }
+
+  if (!phone) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-warm">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-warm flex flex-col">
@@ -114,7 +133,7 @@ function VerifyContent() {
           className="inline-flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span>Back</span>
+          <span>Change number</span>
         </Link>
       </header>
 
@@ -125,85 +144,93 @@ function VerifyContent() {
           animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-md"
         >
-          {/* Header */}
+          {/* Logo */}
           <div className="text-center mb-8">
-            <div className="w-16 h-16 rounded-2xl bg-primary-100 flex items-center justify-center mx-auto mb-6">
-              <span className="text-3xl">📱</span>
+            <div className="w-14 h-14 rounded-2xl bg-gradient-primary flex items-center justify-center shadow-glow mx-auto mb-6">
+              <span className="text-white font-bold text-2xl">H</span>
             </div>
             <h1 className="font-display text-3xl font-bold text-neutral-900 mb-2">
               Verify your number
             </h1>
             <p className="text-neutral-600">
               We sent a 6-digit code to{' '}
-              <span className="font-medium text-neutral-900">
-                {formatPhone(phone)}
-              </span>
+              <span className="font-medium text-neutral-900">{formatPhone(phone)}</span>
             </p>
           </div>
 
-          {/* Form */}
+          {/* Verify Card */}
           <div className="bg-white rounded-3xl shadow-soft p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-6">
               {/* OTP Input */}
-              <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-3 text-center">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-neutral-700 text-center">
                   Enter verification code
                 </label>
-                <div className="flex justify-center gap-2 sm:gap-3">
+                <div 
+                  className="flex justify-center gap-2 sm:gap-3"
+                  onPaste={handlePaste}
+                >
                   {otp.map((digit, index) => (
                     <input
                       key={index}
-                      ref={(el) => {
-                        inputRefs.current[index] = el
-                      }}
+                      ref={(el) => { inputRefs.current[index] = el }}
                       type="text"
                       inputMode="numeric"
-                      maxLength={6}
+                      maxLength={1}
                       value={digit}
-                      onChange={(e) => handleChange(index, e.target.value)}
+                      onChange={(e) => handleOtpChange(index, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(index, e)}
-                      className="w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-semibold rounded-xl border-2 border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
+                      className="w-11 h-14 sm:w-12 sm:h-16 text-center text-2xl font-bold rounded-xl border-2 border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
+                      autoFocus={index === 0}
                     />
                   ))}
                 </div>
-                {error && (
-                  <p className="mt-3 text-sm text-tertiary-500 text-center">
-                    {error}
-                  </p>
-                )}
               </div>
 
-              <Button
-                type="submit"
-                className="w-full"
-                size="lg"
-                isLoading={isLoading}
-                disabled={!isComplete}
-              >
-                Verify & Continue
-              </Button>
-            </form>
-
-            {/* Resend */}
-            <div className="text-center mt-6">
-              {resendTimer > 0 ? (
-                <p className="text-sm text-neutral-500">
-                  Resend code in{' '}
-                  <span className="font-medium text-neutral-700">
-                    {resendTimer}s
-                  </span>
-                </p>
-              ) : (
-                <button
-                  onClick={handleResend}
-                  disabled={isLoading}
-                  className="inline-flex items-center gap-2 text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors"
+              {/* Error Message */}
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-3 bg-red-50 border border-red-200 rounded-xl"
                 >
-                  <RefreshCw className="w-4 h-4" />
-                  Resend code
-                </button>
+                  <p className="text-sm text-red-600 text-center">{error}</p>
+                </motion.div>
               )}
+
+              {/* Loading indicator */}
+              {isLoading && (
+                <div className="flex items-center justify-center gap-2 text-primary-600">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span className="text-sm">Verifying...</span>
+                </div>
+              )}
+
+              {/* Resend */}
+              <div className="text-center">
+                {resendTimer > 0 ? (
+                  <p className="text-sm text-neutral-500">
+                    Resend code in <span className="font-medium">{resendTimer}s</span>
+                  </p>
+                ) : (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleResend}
+                    disabled={isLoading}
+                    className="text-primary-600"
+                  >
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    Resend code
+                  </Button>
+                )}
+              </div>
             </div>
+
+            {/* Help text */}
+            <p className="text-xs text-neutral-400 text-center mt-6">
+              Didn't receive the code? Check your SMS inbox or try resending.
+            </p>
           </div>
         </motion.div>
       </main>

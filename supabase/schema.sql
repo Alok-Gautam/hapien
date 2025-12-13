@@ -9,7 +9,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- =====================================================
 CREATE TABLE IF NOT EXISTS public.users (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  phone TEXT NOT NULL UNIQUE,
+  email TEXT UNIQUE,
+  phone TEXT UNIQUE,
   name TEXT,
   bio TEXT,
   avatar_url TEXT,
@@ -18,7 +19,8 @@ CREATE TABLE IF NOT EXISTS public.users (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Index for phone lookup
+-- Indexes for user lookup
+CREATE INDEX IF NOT EXISTS idx_users_email ON public.users(email);
 CREATE INDEX IF NOT EXISTS idx_users_phone ON public.users(phone);
 
 -- =====================================================

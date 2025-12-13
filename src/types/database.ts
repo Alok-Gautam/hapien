@@ -12,7 +12,8 @@ export type Database = {
       users: {
         Row: {
           id: string
-          phone: string
+          email: string | null
+          phone: string | null
           name: string | null
           bio: string | null
           avatar_url: string | null
@@ -22,7 +23,8 @@ export type Database = {
         }
         Insert: {
           id: string
-          phone: string
+          email?: string | null
+          phone?: string | null
           name?: string | null
           bio?: string | null
           avatar_url?: string | null
@@ -32,7 +34,8 @@ export type Database = {
         }
         Update: {
           id?: string
-          phone?: string
+          email?: string | null
+          phone?: string | null
           name?: string | null
           bio?: string | null
           avatar_url?: string | null

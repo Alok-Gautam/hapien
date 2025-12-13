@@ -79,6 +79,50 @@ export function useAuth() {
   }
 }
 
+export function useGoogleAuth() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const supabase = createClient()
+
+  const signInWithGoogle = async (redirectTo?: string): Promise<boolean> => {
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const { error: authError } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        },
+      })
+
+      if (authError) {
+        setError(authError.message)
+        return false
+      }
+
+      return true
+    } catch (err) {
+      setError('Failed to sign in with Google. Please try again.')
+      return false
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return {
+    signInWithGoogle,
+    isLoading,
+    error,
+    clearError: () => setError(null),
+  }
+}
+
+// Keep OTP auth for backwards compatibility (can be removed if not needed)
 export function useOTPAuth() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -89,7 +133,6 @@ export function useOTPAuth() {
     setError(null)
 
     try {
-      // Format phone number for India
       let formattedPhone = phone.replace(/\D/g, '')
       if (!formattedPhone.startsWith('91')) {
         formattedPhone = '91' + formattedPhone
@@ -136,7 +179,6 @@ export function useOTPAuth() {
         return false
       }
 
-      // Create user profile if it doesn't exist
       if (data.user) {
         const { data: existingUser } = await supabase
           .from('users')
