@@ -12,6 +12,12 @@ export function useAuth() {
   useEffect(() => {
     console.log('🔵 useAuth: Effect started')
 
+        // Safety timeout - force loading to false after 5 seconds
+    const timeoutId = setTimeout(() => {
+      console.log('⏱️ useAuth timeout reached - forcing isLoading to false')
+      setIsLoading(false)
+    }, 5000)
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       console.log('🟢 Session result:', session ? 'Has session' : 'No session')
       setAuthUser(session?.user ?? null)
@@ -27,18 +33,22 @@ export function useAuth() {
           .then(({ data }) => {
             console.log('🟡 Profile loaded:', data?.name)
             setUser(data)
+            clearTimeout(timeoutId)
             setIsLoading(false) // ← Set loading false after profile loads
           })
           .catch((err) => {
             console.error('🔴 Profile fetch error:', err)
+            clearTimeout(timeoutId)
             setIsLoading(false) // ← Set loading false even on error
           })
       } else {
         console.log('🔵 NO session, setting isLoading to false')
+        clearTimeout(timeoutId)
         setIsLoading(false) // ← Set loading false if no session
       }
     }).catch((err) => {
       console.error('🔴 Session error:', err)
+      clearTimeout(timeoutId)
       setIsLoading(false) // ← Set loading false on session error
     })
 
@@ -63,6 +73,7 @@ export function useAuth() {
     )
 
     return () => subscription.unsubscribe()
+          clearTimeout(timeoutId)
   }, [])
 
   return { authUser, user, isLoading }
