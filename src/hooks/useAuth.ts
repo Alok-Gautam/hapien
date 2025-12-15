@@ -3,6 +3,16 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
+// Helper to add timeout to promises
+const withTimeout = <T>(promise: Promise<T>, ms: number): Promise<T> => {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => 
+      setTimeout(() => reject(new Error(`Timeout after ${ms}ms`)), ms)
+    )
+  ])
+}
+
 export function useAuth() {
   const [authUser, setAuthUser] = useState(null)
   const [user, setUser] = useState(null)
@@ -19,12 +29,15 @@ export function useAuth() {
       if (session?.user) {
         console.log('🚨 Fetching profile for:', session.user.email)
         // Fetch user profile
+        withTimeout(
         supabase
           .from('users')
           .select('*')
           .eq('id', session.user.id)
           .maybeSingle()
-          .then(({ data }) => {
+          .then(({ data }) => {,
+        10000 // 10 second timeout
+      )
             console.log('🚨 Profile loaded:', data?.name)
             setUser(data)
             setIsLoading(false) // ← Set loading false after profile loads
