@@ -66,11 +66,6 @@ export default function AdminCommunitiesPage() {
   // Check if user is admin
   const isAdmin = user?.is_admin === true
 
-  useEffect(() => {
-    if (!authLoading && !authUser) {
-      router.push('/auth/login')
-    }
-  }, [authLoading, authUser, router])
 
   useEffect(() => {
     fetchRequests()
@@ -191,6 +186,11 @@ export default function AdminCommunitiesPage() {
   }
 
   if (authLoading) {
+    return <LoadingScreen />
+  }
+
+    if (!authUser) {
+    router.push('/auth/login')
     return <LoadingScreen />
   }
 
