@@ -12,6 +12,7 @@ export default function FeedPage() {
   const { user, isLoading: authLoading, authUser } = useAuth()
   const [feedLoading, setFeedLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+    const [redirectAttempted, setRedirectAttempted] = useState(false)
 
   useEffect(() => {
     console.log('=== Feed Page Loaded ===')
@@ -38,6 +39,20 @@ export default function FeedPage() {
       router.push('/onboarding')
       return
     }
+
+        // Handle redirect after successful auth
+        if (!redirectAttempted) {
+                const searchParams = new URLSearchParams(window.location.search)
+                const redirectTo = searchParams.get('from')
+
+                if (redirectTo) {
+                          console.log('Redirecting to intended destination:', redirectTo)
+                          setRedirectAttempted(true)
+                          router.push(redirectTo)
+                          return
+                        }
+                setRedirectAttempted(true)
+              }
 
     console.log('✓ User authenticated and profile complete')
     setFeedLoading(false)
