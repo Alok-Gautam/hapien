@@ -2,54 +2,76 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-
-// ULTRA-MINIMAL VERSION FOR DIAGNOSTICS
-// This version does NOTHING except set isLoading to false after 2 seconds
-// If this doesn't work, the problem is NOT in useAuth
+import { User as SupabaseUser } from '@supabase/supabase-js'
+import type { User } from '@/types/database'
 
 export function useAuth() {
-  const [authUser, setAuthUser] = useState(null)
-  const [user, setUser] = useState(null)
+  const [authUser, setAuthUser] = useState<SupabaseUser | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const supabase = createClient()
 
-  useEffect(() => {
-    console.log('🚨 DIAGNOSTIC MODE: useAuth effect started')
-    console.log('Current time:', new Date().toISOString())
-    
-    // Force loading to false after 2 seconds NO MATTER WHAT
-    const timer = setTimeout(() => {
-      console.log('🚨 DIAGNOSTIC: Setting isLoading to FALSE now')
-      setIsLoading(false)
-    }, 2000)
+  const fetchProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', userId)
+        .single()
 
-    // Try to get session but don't block on it
+      if (error) throw error
+      return data as User
+    } catch (error) {
+      console.error('Error fetching profile:', error)
+      return null
+    }
+  }
+
+  const refreshProfile = async () => {
+    if (!authUser?.id) return
+    const profile = await fetchProfile(authUser.id)
+    setUser(profile)
+  }
+
+  useEffect(() => {
+    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log('🚨 DIAGNOSTIC: Session result:', session ? 'Has session' : 'No session')
+      setAuthUser(session?.user ?? null)
       if (session?.user) {
-        setAuthUser(session.user as any)
-        console.log('🚨 DIAGNOSTIC: User email:', session.user.email)
+        fetchProfile(session.user.id).then(setUser)
       }
-    }).catch(err => {
-      console.error('🚨 DIAGNOSTIC: Session error:', err)
+      setIsLoading(false)
     })
 
-    return () => {
-      console.log('🚨 DIAGNOSTIC: Cleanup running')
-      clearTimeout(timer)
-    }
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      setAuthUser(session?.user ?? null)
+      if (session?.user) {
+        const profile = await fetchProfile(session.user.id)
+        setUser(profile)
+      } else {
+        setUser(null)
+      }
+      setIsLoading(false)
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
-  console.log('🚨 DIAGNOSTIC: Render - isLoading =', isLoading)
+  const signOut = async () => {
+    await supabase.auth.signOut()
+    setAuthUser(null)
+    setUser(null)
+  }
 
   return {
     authUser,
     user,
     isLoading,
-    signOut: async () => {},
-    refreshProfile: async () => {},
+    signOut,
+    refreshProfile,
     isAuthenticated: !!authUser,
-    hasProfile: false,
+    hasProfile: !!user?.name,
   }
 }
 
