@@ -126,3 +126,22 @@ export function useAuth() {
     hasProfile: !!user?.name,
   }
 }
+
+// Stub export for legacy OTP code (not used with email magic links)
+export function useOTPAuth() {
+  console.warn('useOTPAuth is deprecated - using email magic links instead')
+  
+  return {
+    sendOTP: async (phone: string) => {
+      console.error('OTP auth is disabled')
+      throw new Error('OTP authentication is no longer supported. Please use email magic links.')
+    },
+    verifyOTP: async (phone: string, otp: string) => {
+      console.error('OTP auth is disabled')
+      throw new Error('OTP authentication is no longer supported. Please use email magic links.')
+    },
+    isLoading: false,
+    error: null,
+    clearError: () => {},
+  }
+}
