@@ -2,74 +2,92 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { User as SupabaseUser } from '@supabase/supabase-js'
-import type { User } from '@/types/database'
 
 export function useAuth() {
-  const [authUser, setAuthUser] = useState<SupabaseUser | null>(null)
-  const [user, setUser] = useState<User | null>(null)
+  const [authUser, setAuthUser] = useState(null)
+  const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const supabase = createClient()
 
-  const fetchProfile = async (userId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', userId)
-        .single()
-
-      if (error) throw error
-      return data as User
-    } catch (error) {
-      console.error('Error fetching profile:', error)
-      return null
-    }
-  }
-
-  const refreshProfile = async () => {
-    if (!authUser?.id) return
-    const profile = await fetchProfile(authUser.id)
-    setUser(profile)
-  }
-
   useEffect(() => {
-    // Get initial session
+    console.log('🚨 useAuth: Effect started')
+    
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log('🚨 Session result:', session ? 'Has session' : 'No session')
       setAuthUser(session?.user ?? null)
+      
       if (session?.user) {
-        fetchProfile(session.user.id).then(setUser)
-      }
-      setIsLoading(false)
-    })
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setAuthUser(session?.user ?? null)
-      if (session?.user) {
-        const profile = await fetchProfile(session.user.id)
-        setUser(profile)
+        console.log('🚨 Fetching profile for:', session.user.email)
+        // Fetch user profile
+        supabase
+          .from('users')
+          .select('*')
+          .eq('id', session.user.id)
+          .maybeSingle()
+          .then(({ data }) => {
+            console.log('🚨 Profile loaded:', data?.name)
+            setUser(data)
+            setIsLoading(false) // ← Set loading false after profile loads
+          })
+          .catch((err) => {
+            console.error('🚨 Profile fetch error:', err)
+            setIsLoading(false) // ← Set loading false even on error
+          })
       } else {
-        setUser(null)
+        console.log('🚨 No session, setting isLoading to false')
+        setIsLoading(false) // ← Set loading false if no session
       }
-      setIsLoading(false)
+    }).catch((err) => {
+      console.error('🚨 Session error:', err)
+      setIsLoading(false) // ← Set loading false on session error
     })
 
-    return () => subscription.unsubscribe()
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('🚨 Auth state changed:', event)
+        setAuthUser(session?.user ?? null)
+        
+        if (session?.user) {
+          const { data } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', session.user.id)
+            .maybeSingle()
+          setUser(data)
+        } else {
+          setUser(null)
+        }
+      }
+    )
+
+    return () => {
+      console.log('🚨 Cleaning up auth subscription')
+      subscription.unsubscribe()
+    }
   }, [])
 
-  const signOut = async () => {
-    await supabase.auth.signOut()
-    setAuthUser(null)
-    setUser(null)
-  }
+  console.log('🚨 useAuth render - isLoading:', isLoading, 'authUser:', !!authUser, 'user:', !!user)
 
   return {
     authUser,
     user,
     isLoading,
-    signOut,
-    refreshProfile,
+    signOut: async () => {
+      await supabase.auth.signOut()
+      setUser(null)
+      setAuthUser(null)
+    },
+    refreshProfile: async () => {
+      if (authUser) {
+        const { data } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', authUser.id)
+          .maybeSingle()
+        setUser(data)
+      }
+    },
     isAuthenticated: !!authUser,
     hasProfile: !!user?.name,
   }
