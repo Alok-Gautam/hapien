@@ -1,221 +1,180 @@
 'use client'
 
-import { useState, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Phone, Loader2 } from 'lucide-react'
+import { Mail, ArrowRight, Sparkles, Check } from 'lucide-react'
 import { Button, Input } from '@/components/ui'
-import { useOTPAuth } from '@/hooks/useAuth'
+import { createClient } from '@/lib/supabase/client'
+import toast from 'react-hot-toast'
 
-function LoginContent() {
+export default function AuthPage() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirectTo') || '/feed'
-  
-  const [phone, setPhone] = useState('')
-  const { sendOTP, isLoading, error, clearError } = useOTPAuth()
+  const supabase = createClient()
 
-  const formatPhoneDisplay = (value: string) => {
-    // Remove all non-digits
-    const digits = value.replace(/\D/g, '')
-    // Limit to 10 digits
-    return digits.slice(0, 10)
-  }
+  const [email, setEmail] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [emailSent, setEmailSent] = useState(false)
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    clearError()
-    setPhone(formatPhoneDisplay(e.target.value))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSendMagicLink = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    if (phone.length !== 10) {
+
+    if (!email.trim() || !email.includes('@')) {
+      toast.error('Please enter a valid email address')
       return
     }
 
-    const success = await sendOTP(phone)
-    if (success) {
-      // Store phone and redirect info for verify page
-      sessionStorage.setItem('authPhone', phone)
-      sessionStorage.setItem('authRedirectTo', redirectTo)
-      router.push('/auth/verify')
+    setIsLoading(true)
+    console.log('=== Sending magic link ===')
+    console.log('Email:', email)
+
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        email: email.trim().toLowerCase(),
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      })
+
+      if (error) {
+        console.error('Magic link error:', error)
+        throw error
+      }
+
+      console.log('✓ Magic link sent successfully')
+      setEmailSent(true)
+      toast.success('Check your email for the magic link!')
+
+    } catch (error: any) {
+      console.error('✗ Auth error:', error)
+      toast.error(error.message || 'Failed to send magic link. Please try again.')
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  const isValidPhone = phone.length === 10
-
-  return (
-    <div className="min-h-screen bg-dark-bg flex flex-col">
-      {/* Background decoration */}
-      <div className="fixed inset-0 bg-mesh pointer-events-none" />
-
-      {/* Header */}
-      <header className="relative z-10 px-4 py-4">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-neutral-400 hover:text-neutral-200 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back</span>
-        </Link>
-      </header>
-
-      {/* Main content */}
-      <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-8">
+  if (emailSent) {
+    return (
+      <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-mesh pointer-events-none opacity-30" />
+        
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-md"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="relative z-10 w-full max-w-md"
         >
-          {/* Logo */}
-          <div className="text-center mb-8">
-            <Link href="/" className="inline-flex items-center gap-3 mb-6">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-primary flex items-center justify-center shadow-glow">
-                <span className="text-white font-bold text-2xl">H</span>
-              </div>
-            </Link>
-            <h1 className="font-display text-3xl font-bold text-neutral-100 mb-2">
-              Welcome to Hapien
+          <div className="bg-dark-card rounded-3xl shadow-soft p-8 text-center border border-dark-border">
+            <div className="w-16 h-16 bg-primary-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Mail className="w-8 h-8 text-primary-400" />
+            </div>
+
+            <h1 className="font-display text-2xl font-bold text-neutral-100 mb-3">
+              Check your email
             </h1>
-            <p className="text-neutral-400">
-              Enter your phone number to get started
+            
+            <p className="text-neutral-400 mb-6">
+              We sent a magic link to <span className="text-neutral-200 font-medium">{email}</span>
             </p>
-          </div>
 
-          {/* Login Card */}
-          <div className="bg-dark-card rounded-3xl shadow-soft border border-dark-border p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Phone Input */}
-              <div className="space-y-2">
-                <label htmlFor="phone" className="block text-sm font-medium text-neutral-300">
-                  Phone Number
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                    <span className="text-neutral-400 font-medium">+91</span>
-                  </div>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    inputMode="numeric"
-                    placeholder="98765 43210"
-                    value={phone}
-                    onChange={handlePhoneChange}
-                    className="pl-14 text-lg tracking-wide"
-                    autoComplete="tel"
-                    autoFocus
-                  />
+            <div className="bg-dark-hover rounded-2xl p-4 mb-6 border border-dark-border">
+              <div className="flex items-start gap-3 text-left">
+                <Check className="w-5 h-5 text-primary-400 flex-shrink-0 mt-0.5" />
+                <div className="text-sm text-neutral-300">
+                  <p className="font-medium mb-1">Click the link in your email</p>
+                  <p className="text-neutral-500">
+                    The link will log you in automatically. It expires in 1 hour.
+                  </p>
                 </div>
-                <p className="text-xs text-neutral-500">
-                  We'll send you a one-time verification code
-                </p>
-              </div>
-
-              {/* Error Message */}
-              {error && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-3 bg-tertiary-900/50 border border-tertiary-700 rounded-xl"
-                >
-                  <p className="text-sm text-tertiary-300 text-center">{error}</p>
-                </motion.div>
-              )}
-
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full"
-                disabled={!isValidPhone || isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                    Sending OTP...
-                  </>
-                ) : (
-                  <>
-                    <Phone className="w-5 h-5 mr-2" />
-                    Send OTP
-                  </>
-                )}
-              </Button>
-            </form>
-
-            {/* Divider */}
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-dark-border" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-dark-card text-neutral-500">
-                  Secure & Private
-                </span>
               </div>
             </div>
 
-            {/* Benefits */}
             <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary-900/50 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <svg className="w-3.5 h-3.5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <p className="text-sm text-neutral-400">
-                  No passwords to remember
-                </p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary-900/50 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <svg className="w-3.5 h-3.5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <p className="text-sm text-neutral-400">
-                  Your number is only visible to friends
-                </p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary-900/50 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <svg className="w-3.5 h-3.5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <p className="text-sm text-neutral-400">
-                  Connect with your local community
-                </p>
-              </div>
-            </div>
+              <button
+                onClick={() => {
+                  setEmailSent(false)
+                  setEmail('')
+                }}
+                className="text-sm text-neutral-400 hover:text-neutral-300 transition-colors"
+              >
+                Use a different email
+              </button>
 
-            <p className="text-sm text-neutral-500 text-center mt-6">
-              By continuing, you agree to our{' '}
-              <Link href="/terms" className="text-primary-400 hover:underline">
-                Terms of Service
-              </Link>{' '}
-              and{' '}
-              <Link href="/privacy" className="text-primary-400 hover:underline">
-                Privacy Policy
-              </Link>
-            </p>
+              <p className="text-xs text-neutral-500">
+                Didn't receive it? Check your spam folder
+              </p>
+            </div>
           </div>
         </motion.div>
-      </main>
-    </div>
-  )
-}
-
-export default function LoginPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-dark-bg">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
       </div>
-    }>
-      <LoginContent />
-    </Suspense>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
+      {/* Background decoration */}
+      <div className="fixed inset-0 bg-mesh pointer-events-none opacity-30" />
+
+      {/* Content */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative z-10 w-full max-w-md"
+      >
+        {/* Logo/Brand */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-2xl shadow-glow mb-4">
+            <Sparkles className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="font-display text-4xl font-bold text-neutral-100 mb-2">
+            Welcome to Hapien
+          </h1>
+          <p className="text-neutral-400">
+            Connect with your community
+          </p>
+        </div>
+
+        {/* Auth Card */}
+        <div className="bg-dark-card rounded-3xl shadow-soft p-8 border border-dark-border">
+          <h2 className="font-display text-2xl font-bold text-neutral-100 mb-6">
+            Sign in with email
+          </h2>
+
+          <form onSubmit={handleSendMagicLink} className="space-y-6">
+            <Input
+              type="email"
+              label="Email address"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              leftIcon={<Mail className="w-5 h-5 text-neutral-500" />}
+              required
+              autoComplete="email"
+              autoFocus
+            />
+
+            <Button
+              type="submit"
+              className="w-full"
+              isLoading={isLoading}
+              disabled={!email.trim()}
+              rightIcon={<ArrowRight className="w-5 h-5" />}
+            >
+              Send magic link
+            </Button>
+          </form>
+
+          <div className="mt-6 pt-6 border-t border-dark-border">
+            <p className="text-sm text-neutral-400 text-center">
+              We'll send you a magic link to sign in. No password needed!
+            </p>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <p className="text-center text-sm text-neutral-500 mt-6">
+          By continuing, you agree to Hapien's Terms of Service and Privacy Policy
+        </p>
+      </motion.div>
+    </div>
   )
 }
