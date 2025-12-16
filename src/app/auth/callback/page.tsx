@@ -1,30 +1,48 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Loader2 } from 'lucide-react'
+import { Loader2, AlertCircle } from 'lucide-react'
+import { Card, Button } from '@/components/ui'
+import Link from 'next/link'
 
 export default function AuthCallbackPage() {
   const router = useRouter()
-  const supabase = createClient()
+  const searchParams = useSearchParams()
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const handleCallback = async () => {
       console.log('=== Auth callback started ===')
+      const supabase = createClient()
 
       try {
-        // Get the session from the URL hash
+        const code = searchParams?.get('code')
+        console.log('Auth code from URL:', code ? 'present' : 'missing')
+
+        // Exchange code for session
+        if (code) {
+          const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+          if (exchangeError) {
+            console.error('✗ Code exchange error:', exchangeError)
+            setError('Failed to verify login link. Please try again.')
+            return
+          }
+        }
+
+        // Get the session
         const { data: { session }, error: sessionError } = await supabase.auth.getSession()
 
         if (sessionError) {
           console.error('✗ Session error:', sessionError)
-          throw sessionError
+          setError('Session error. Please try logging in again.')
+          return
         }
 
         if (!session) {
           console.error('✗ No session found')
-          router.push('/auth/login?error=no-session')
+          setError('No session found. Please try logging in again.')
           return
         }
 
@@ -79,13 +97,43 @@ export default function AuthCallbackPage() {
 
       } catch (error) {
         console.error('✗✗✗ Callback error:', error)
-        router.push('/auth/login?error=callback-failed')
+        setError(error instanceof Error ? error.message : 'Authentication failed. Please try again.')
       }
     }
 
     handleCallback()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
+        <Card className="max-w-md w-full p-8 text-center">
+          <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <AlertCircle className="w-8 h-8 text-red-400" />
+          </div>
+          <h2 className="text-xl font-bold text-neutral-100 mb-2">
+            Authentication Failed
+          </h2>
+          <p className="text-neutral-400 mb-6">
+            {error}
+          </p>
+          <div className="flex gap-3">
+            <Link href="/" className="flex-1">
+              <Button variant="outline" className="w-full">
+                Go Home
+              </Button>
+            </Link>
+            <Link href="/auth/login" className="flex-1">
+              <Button className="w-full">
+                Try Again
+              </Button>
+            </Link>
+          </div>
+        </Card>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-dark-bg flex items-center justify-center">
