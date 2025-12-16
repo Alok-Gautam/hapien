@@ -12,7 +12,7 @@ export default function AuthCallbackPage() {
   useEffect(() => {
     const handleCallback = async () => {
       console.log('=== Auth callback started ===')
-      
+
       try {
         // Get the session from the URL hash
         const { data: { session }, error: sessionError } = await supabase.auth.getSession()
@@ -24,7 +24,7 @@ export default function AuthCallbackPage() {
 
         if (!session) {
           console.error('✗ No session found')
-          router.push('/auth?error=no-session')
+          router.push('/auth/login?error=no-session')
           return
         }
 
@@ -44,7 +44,7 @@ export default function AuthCallbackPage() {
 
         if (!profile) {
           console.log('→ No profile found, creating initial profile...')
-          
+
           // Create initial user profile
           const { error: insertError } = await (supabase
             .from('users') as any)
@@ -66,7 +66,7 @@ export default function AuthCallbackPage() {
           router.push('/onboarding')
         } else {
           console.log('✓ Profile exists:', profile)
-          
+
           // Check if onboarding is complete
           if (!profile.name) {
             console.log('→ Onboarding incomplete, redirecting to onboarding...')
@@ -79,12 +79,13 @@ export default function AuthCallbackPage() {
 
       } catch (error) {
         console.error('✗✗✗ Callback error:', error)
-        router.push('/auth?error=callback-failed')
+        router.push('/auth/login?error=callback-failed')
       }
     }
 
     handleCallback()
-  }, [router, supabase])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="min-h-screen bg-dark-bg flex items-center justify-center">
