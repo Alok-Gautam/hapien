@@ -23,13 +23,7 @@ import { useAuth } from '@/hooks/useAuth'
 import toast from 'react-hot-toast'
 import { cn } from '@/utils/helpers'
 
-const INTERESTS = [
-  'Sports', 'Fitness', 'Food', 'Travel', 'Music', 'Movies',
-  'Reading', 'Gaming', 'Photography', 'Art', 'Tech', 'Business',
-  'Cooking', 'Fashion', 'Pets', 'Gardening', 'Yoga', 'Dance'
-]
-
-const STEPS = ['profile', 'interests', 'community'] as const
+const STEPS = ['profile', 'community'] as const
 type Step = typeof STEPS[number]
 
 const COMMUNITY_TYPES = [
@@ -51,9 +45,6 @@ export default function OnboardingPage() {
   const [bio, setBio] = useState('')
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
-
-  // Interests state
-  const [selectedInterests, setSelectedInterests] = useState<string[]>([])
 
   // Community state
   const [communitySearch, setCommunitySearch] = useState('')
@@ -77,14 +68,6 @@ export default function OnboardingPage() {
       setAvatarFile(file)
       setAvatarUrl(URL.createObjectURL(file))
     }
-  }
-
-  const toggleInterest = (interest: string) => {
-    setSelectedInterests(prev =>
-      prev.includes(interest)
-        ? prev.filter(i => i !== interest)
-        : [...prev, interest]
-    )
   }
 
   const handleNext = () => {
@@ -168,7 +151,6 @@ export default function OnboardingPage() {
     console.log('authUser:', authUser)
     console.log('name:', name)
     console.log('bio:', bio)
-    console.log('selectedInterests:', selectedInterests)
     console.log('selectedCommunity:', selectedCommunity)
     
     // Check if user is authenticated
@@ -425,66 +407,7 @@ export default function OnboardingPage() {
               </motion.div>
             )}
 
-            {/* Step 2: Interests */}
-            {currentStep === 'interests' && (
-              <motion.div
-                key="interests"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-              >
-                <div className="text-center mb-8">
-                  <h1 className="font-display text-3xl font-bold text-neutral-100 mb-2">
-                    Pick your interests
-                  </h1>
-                  <p className="text-neutral-400">
-                    Help us suggest hangouts you'll love
-                  </p>
-                </div>
-
-                <div className="bg-dark-card rounded-3xl shadow-soft p-8 space-y-6 border border-dark-border">
-                  <div className="flex flex-wrap gap-2">
-                    {INTERESTS.map((interest) => (
-                      <button
-                        key={interest}
-                        onClick={() => toggleInterest(interest)}
-                        className={cn(
-                          'px-4 py-2 rounded-full text-sm font-medium transition-all',
-                          selectedInterests.includes(interest)
-                            ? 'bg-primary-500 text-white shadow-glow'
-                            : 'bg-dark-hover text-neutral-300 hover:bg-dark-hover/80 hover:text-neutral-100'
-                        )}
-                      >
-                        {selectedInterests.includes(interest) && (
-                          <Check className="w-4 h-4 inline mr-1" />
-                        )}
-                        {interest}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="flex gap-3">
-                    <Button
-                      onClick={handleBack}
-                      variant="ghost"
-                      className="flex-1"
-                      leftIcon={<ArrowLeft className="w-5 h-5" />}
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      onClick={handleNext}
-                      className="flex-1"
-                      rightIcon={<ArrowRight className="w-5 h-5" />}
-                    >
-                      Continue
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Step 3: Community */}
+            {/* Step 2: Community */}
             {currentStep === 'community' && (
               <motion.div
                 key="community"
