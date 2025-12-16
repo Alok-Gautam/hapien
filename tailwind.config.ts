@@ -66,12 +66,12 @@ const config: Config = {
           900: '#171717',
           950: '#000000',
         },
-        // Dark backgrounds - grey base
-        'dark-bg': '#282828',
-        'dark-card': '#323232',
-        'dark-elevated': '#3c3c3c',
-        'dark-border': '#464646',
-        'dark-hover': '#505050',
+        // Dark backgrounds - deep navy/purple gradient
+        'dark-bg': '#010040',
+        'dark-card': '#010660',
+        'dark-elevated': '#1a1a5a',
+        'dark-border': '#2a2a7a',
+        'dark-hover': '#3a3a9a',
         // Category colors for hangouts - all using #727EF5
         category: {
           sports: '#727ef5',
@@ -131,10 +131,10 @@ const config: Config = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-dark': 'linear-gradient(135deg, #282828 0%, #323232 50%, #3c3c3c 100%)',
+        'gradient-dark': 'linear-gradient(135deg, #010040 0%, #5d146f 50%, #010660 100%)',
         'gradient-primary': 'linear-gradient(135deg, #727ef5 0%, #727ef5 100%)',
         'gradient-secondary': 'linear-gradient(135deg, #727ef5 0%, #727ef5 100%)',
-        'mesh-dark': 'radial-gradient(at 40% 20%, rgba(114, 126, 245, 0.12) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(114, 126, 245, 0.08) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(114, 126, 245, 0.06) 0px, transparent 50%)',
+        'mesh-dark': 'radial-gradient(at 40% 20%, rgba(93, 20, 111, 0.15) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(114, 126, 245, 0.12) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(1, 0, 64, 0.1) 0px, transparent 50%)',
       },
     },
   },
