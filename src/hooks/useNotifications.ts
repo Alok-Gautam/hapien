@@ -15,6 +15,9 @@ interface Notification {
   created_at: string
 }
 
+// Flag to track if notifications table exists (to avoid repeated failed queries)
+let notificationsTableExists: boolean | null = null
+
 export function useNotifications() {
   const { user } = useAuth()
   const supabase = createClient()
@@ -30,19 +33,34 @@ export function useNotifications() {
       return
     }
 
+    // Skip if we already know the table doesn't exist
+    if (notificationsTableExists === false) {
+      setIsLoading(false)
+      return
+    }
+
     try {
-      const { data, error } = await supabase
-        .from('notifications')
+      const { data, error } = await (supabase
+        .from('notifications') as any)
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(20)
 
-      if (error) throw error
-
-      const notifs = (data || []) as Notification[]
-      setNotifications(notifs)
-      setUnreadCount(notifs.filter(n => !n.read).length)
+      if (error) {
+        // Check if error is "table doesn't exist"
+        if (error.code === '42P01' || error.message?.includes('does not exist')) {
+          console.log('Notifications table does not exist yet')
+          notificationsTableExists = false
+        } else {
+          throw error
+        }
+      } else {
+        notificationsTableExists = true
+        const notifs = (data || []) as Notification[]
+        setNotifications(notifs)
+        setUnreadCount(notifs.filter(n => !n.read).length)
+      }
     } catch (error) {
       console.error('Error fetching notifications:', error)
     } finally {
@@ -56,16 +74,28 @@ export function useNotifications() {
       return
     }
 
+    // Skip if we already know the table doesn't exist
+    if (notificationsTableExists === false) {
+      return
+    }
+
     try {
-      const { count, error } = await supabase
-        .from('notifications')
+      const { count, error } = await (supabase
+        .from('notifications') as any)
         .select('*', { count: 'exact', head: true })
         .eq('user_id', user.id)
         .eq('read', false)
 
-      if (error) throw error
-
-      setUnreadCount(count || 0)
+      if (error) {
+        if (error.code === '42P01' || error.message?.includes('does not exist')) {
+          notificationsTableExists = false
+        } else {
+          throw error
+        }
+      } else {
+        notificationsTableExists = true
+        setUnreadCount(count || 0)
+      }
     } catch (error) {
       console.error('Error fetching unread count:', error)
     }
