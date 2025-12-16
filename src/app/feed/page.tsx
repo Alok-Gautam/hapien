@@ -33,30 +33,42 @@ export default function FeedPage() {
       return
     }
 
-    // Check profile completion
+    // Check profile completion - but only if user data has loaded
+    // If authUser exists but user is null, the profile might still be loading
+    if (authUser && user === null) {
+      // User profile not loaded yet, wait a bit more
+      // But set a safety timeout to prevent infinite loading
+      const timeout = setTimeout(() => {
+        console.log('⏱️ Feed page timeout - profile may not exist')
+        setFeedLoading(false)
+      }, 3000)
+      return () => clearTimeout(timeout)
+    }
+
+    // Now user data is loaded (could be undefined if no profile, or an object)
     if (!user?.name) {
       console.log('✗ Profile incomplete, redirecting to onboarding')
       router.push('/onboarding')
       return
     }
 
-        // Handle redirect after successful auth
-        if (!redirectAttempted) {
-                const searchParams = new URLSearchParams(window.location.search)
-                const redirectTo = searchParams.get('from')
+    // Handle redirect after successful auth
+    if (!redirectAttempted) {
+      const searchParams = new URLSearchParams(window.location.search)
+      const redirectTo = searchParams.get('from')
 
-                if (redirectTo) {
-                          console.log('Redirecting to intended destination:', redirectTo)
-                          setRedirectAttempted(true)
-                          router.push(redirectTo)
-                          return
-                        }
-                setRedirectAttempted(true)
-              }
+      if (redirectTo) {
+        console.log('Redirecting to intended destination:', redirectTo)
+        setRedirectAttempted(true)
+        router.push(redirectTo)
+        return
+      }
+      setRedirectAttempted(true)
+    }
 
     console.log('✓ User authenticated and profile complete')
     setFeedLoading(false)
-  }, [authLoading, authUser, user, router])
+  }, [authLoading, authUser, user, router, redirectAttempted])
 
   // Show loading while checking auth
   if (authLoading || feedLoading) {
