@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     template: '%s | Hapien',
   },
   description:
-    'Hapien is a private, hyperlocal social network that nurtures friendships and creates new connections within built communities through recurring hangouts.',
+    'Hapien is a private, hyperlocal social network that nurtures connections within built communities through recurring hangouts.',
   keywords: [
     'social network',
     'community',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: 'Hapien',
     title: 'Hapien - The Happy Sapien Network',
     description:
-      'A private, hyperlocal social network that nurtures friendships through shared experiences.',
+      'A private, hyperlocal social network that nurtures connections through shared experiences.',
     images: [
       {
         url: '/og-image.png',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Hapien - The Happy Sapien Network',
     description:
-      'A private, hyperlocal social network that nurtures friendships through shared experiences.',
+      'A private, hyperlocal social network that nurtures connections through shared experiences.',
     images: ['/og-image.png'],
   },
   manifest: '/manifest.json',

@@ -1,6 +1,6 @@
 # Hapien - The Happy Sapien Network 🌟
 
-A private, hyperlocal social network that nurtures friendships and creates new connections within built communities through recurring hangouts.
+A private, hyperlocal social network that nurtures connections within built communities through recurring hangouts.
 
 ## 🎯 Overview
 

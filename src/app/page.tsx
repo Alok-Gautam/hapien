@@ -61,7 +61,7 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-100 leading-tight mb-6"
               >
-                Where real friendships{' '}
+                Where real connections{' '}
                 <span className="gradient-text">flourish</span> through shared
                 moments
               </motion.h1>
@@ -73,7 +73,7 @@ export default function LandingPage() {
                 className="text-xl text-neutral-400 mb-8 leading-relaxed"
               >
                 Hapien is a private, hyperlocal social network that nurtures your
-                existing friendships and creates new connections within your
+                existing connections and creates new ones within your
                 communities through regular hangouts.
               </motion.p>
 
@@ -111,7 +111,7 @@ export default function LandingPage() {
                 Everything you need to stay connected
               </h2>
               <p className="text-lg text-neutral-400 max-w-2xl mx-auto">
-                Built for real-world friendships, not vanity metrics.
+                Built for real-world connections, not vanity metrics.
               </p>
             </motion.div>
 
@@ -209,7 +209,7 @@ const features = [
   {
     title: 'Hyperlocal',
     description:
-      'Connect with people in your neighborhood. Real friendships happen in real places.',
+      'Connect with people in your neighborhood. Real connections happen in real places.',
     icon: MapPin,
     color: 'bg-tertiary-600',
   },
