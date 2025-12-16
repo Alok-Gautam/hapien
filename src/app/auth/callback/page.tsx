@@ -1,13 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Loader2, AlertCircle } from 'lucide-react'
 import { Card, Button } from '@/components/ui'
 import Link from 'next/link'
 
-export default function AuthCallbackPage() {
+function AuthCallbackContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [error, setError] = useState<string | null>(null)
@@ -20,15 +20,22 @@ export default function AuthCallbackPage() {
       try {
         const code = searchParams?.get('code')
         console.log('Auth code from URL:', code ? 'present' : 'missing')
+        console.log('Full URL search params:', searchParams?.toString())
 
         // Exchange code for session
         if (code) {
-          const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+          console.log('→ Exchanging code for session...')
+          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+          console.log('Exchange result:', { data, error: exchangeError })
+
           if (exchangeError) {
             console.error('✗ Code exchange error:', exchangeError)
-            setError('Failed to verify login link. Please try again.')
+            setError(`Failed to verify login link: ${exchangeError.message}`)
             return
           }
+          console.log('✓ Code exchange successful')
+        } else {
+          console.log('⚠ No code in URL, checking for existing session')
         }
 
         // Get the session
@@ -147,5 +154,22 @@ export default function AuthCallbackPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function AuthCallbackPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-dark-bg flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-primary-400 animate-spin mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-neutral-100 mb-2">
+            Loading...
+          </h2>
+        </div>
+      </div>
+    }>
+      <AuthCallbackContent />
+    </Suspense>
   )
 }
