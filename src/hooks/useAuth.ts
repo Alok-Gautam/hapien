@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 export function useAuth() {
-  const [authUser, setAuthUser] = useState(null)
-  const [user, setUser] = useState(null)
+  const [authUser, setAuthUser] = useState<any>(null)
+  const [user, setUser] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
   const supabase = createClient()
 
@@ -72,9 +72,31 @@ export function useAuth() {
       }
     )
 
-    return () => subscription.unsubscribe()
-          clearTimeout(timeoutId)
+    return () => {
+      subscription.unsubscribe()
+      clearTimeout(timeoutId)
+    }
   }, [])
 
-  return { authUser, user, isLoading }
+  // Function to refresh user profile data
+  const refreshProfile = useCallback(async () => {
+    if (!authUser?.id) return
+
+    console.log('🔄 Refreshing profile for:', authUser.id)
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', authUser.id)
+      .maybeSingle()
+
+    if (error) {
+      console.error('🔴 Profile refresh error:', error)
+      return
+    }
+
+    console.log('✓ Profile refreshed:', data?.name)
+    setUser(data)
+  }, [authUser?.id, supabase])
+
+  return { authUser, user, isLoading, refreshProfile }
 }
