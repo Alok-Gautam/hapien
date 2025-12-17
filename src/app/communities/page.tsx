@@ -102,11 +102,11 @@ export default function CommunitiesPage() {
       await (supabase.from('community_memberships') as any).insert({
         user_id: user.id,
         community_id: communityId,
-        status: 'pending',
+        status: 'approved',
         role: 'member',
       })
 
-      toast.success('Request sent! Waiting for admin approval.')
+      toast.success('You joined the community!')
       fetchCommunities()
     } catch (error) {
       console.error('Error joining community:', error)
@@ -279,13 +279,13 @@ export default function CommunitiesPage() {
                             </h3>
                           </Link>
                           {community.description && (
-                            <p className="text-sm text-neutral-500 mt-1 line-clamp-2">
+                            <p className="text-sm text-neutral-400 mt-1 line-clamp-2">
                               {community.description}
                             </p>
                           )}
 
                           {/* Location & Members */}
-                          <div className="flex items-center gap-4 mt-3 text-sm text-neutral-500">
+                          <div className="flex items-center gap-4 mt-3 text-sm text-neutral-400">
                             {community.location && (
                               <span className="flex items-center gap-1">
                                 <MapPin className="w-3.5 h-3.5" />
