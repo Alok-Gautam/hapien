@@ -64,10 +64,10 @@ export function FloatingActionButton() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200',
+          'w-16 h-16 rounded-full flex items-center justify-center shadow-xl transition-all duration-200 font-bold',
           isOpen
-            ? 'bg-neutral-700 rotate-45'
-            : 'bg-secondary-500 hover:bg-secondary-600 hover:shadow-glow'
+            ? 'bg-red-600 rotate-45'
+            : 'bg-amber-500 hover:bg-amber-600 hover:shadow-2xl'
         )}
       >
         {isOpen ? (

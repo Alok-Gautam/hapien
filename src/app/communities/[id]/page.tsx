@@ -285,11 +285,9 @@ export default function CommunityDetailPage() {
                   <TypeIcon className="w-3 h-3 mr-1" />
                   {typeConfig.label}
                 </Badge>
-                {community?.name && (
-                  <h1 className="text-4xl font-display font-bold text-white break-words mb-2">
-                    {community.name}
-                  </h1>
-                )}
+                <h1 className="text-4xl font-display font-bold text-white break-words mb-2 min-h-[2.5rem] flex items-center">
+                  {community?.name || 'Loading...'}
+                </h1>
                 {community.description && (
                   <p className="text-neutral-400 mt-2">{community.description}</p>
                 )}
