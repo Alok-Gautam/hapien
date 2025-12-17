@@ -403,7 +403,8 @@ export default function OnboardingPage() {
               .insert({
                 user_id: authUser.id,
                 community_id: selectedCommunity,
-                status: 'pending',
+                status: 'approved',
+                role: 'member',
               })
               .select(),
             10000
