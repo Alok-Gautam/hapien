@@ -280,14 +280,16 @@ export default function CommunityDetailPage() {
           {/* Info Card */}
           <Card variant="elevated" className="p-6">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-              <div>
-                <Badge variant="default" size="sm" className="mb-2">
+              <div className="flex-1">
+                <Badge variant="default" size="sm" className="mb-3 inline-block">
                   <TypeIcon className="w-3 h-3 mr-1" />
                   {typeConfig.label}
                 </Badge>
-                <h1 className="text-3xl font-display font-bold text-white break-words">
-                  {community?.name || 'Community Name'}
-                </h1>
+                {community?.name && (
+                  <h1 className="text-4xl font-display font-bold text-white break-words mb-2">
+                    {community.name}
+                  </h1>
+                )}
                 {community.description && (
                   <p className="text-neutral-400 mt-2">{community.description}</p>
                 )}
