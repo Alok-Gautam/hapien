@@ -127,7 +127,48 @@ export default function OnboardingPage() {
 
       console.log('Using user ID:', session.user.id)
 
-      const { data, error } = await (supabase
+      // First, create the community so user can join it immediately
+      console.log('Creating community...')
+      const { data: communityData, error: communityError } = await (supabase
+        .from('communities') as any)
+        .insert({
+          name: requestData.name.trim(),
+          type: requestData.type,
+          location: requestData.location.trim(),
+          description: requestData.description.trim() || null,
+          admin_id: session.user.id,
+        })
+        .select()
+        .single()
+
+      if (communityError) {
+        console.error('Community creation error:', communityError)
+        throw new Error(communityError.message || 'Failed to create community')
+      }
+
+      console.log('Community created:', communityData)
+
+      // Add user as admin member of the community
+      console.log('Adding user to community...')
+      const { error: membershipError } = await (supabase
+        .from('community_memberships') as any)
+        .insert({
+          user_id: session.user.id,
+          community_id: communityData.id,
+          status: 'approved',
+          role: 'admin',
+        })
+
+      if (membershipError) {
+        console.error('Membership creation error:', membershipError)
+        console.warn('Could not add user as member, but community was created')
+      } else {
+        console.log('User added as community admin')
+      }
+
+      // Then, submit request for admin review/audit
+      console.log('Submitting community request...')
+      const { data: requestResponse, error: requestError } = await (supabase
         .from('community_requests') as any)
         .insert({
           name: requestData.name.trim(),
@@ -138,14 +179,15 @@ export default function OnboardingPage() {
         })
         .select()
 
-      if (error) {
-        console.error('Database error:', error)
-        console.error('Error details:', error.code, error.message, error.details)
-        throw new Error(error.message || 'Failed to submit community request')
+      if (requestError) {
+        console.error('Request submission error:', requestError)
+        // Don't fail if request submission fails - community is already created
+        console.warn('Request submission failed but community was created')
+      } else {
+        console.log('Request submitted successfully:', requestResponse)
       }
 
-      console.log('Request submitted successfully:', data)
-      toast.success('Community request submitted! We\'ll review it soon.')
+      toast.success('Community created! You can now join it.')
       setShowRequestModal(false)
       setRequestData({ name: '', type: 'society', location: '', description: '' })
 
