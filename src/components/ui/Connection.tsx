@@ -29,7 +29,7 @@ export function ConnectionStreak({
   return (
     <div
       className={cn(
-        'flex items-center gap-3 p-3 bg-amber-50 rounded-xl border border-amber-100',
+        'flex items-center gap-3 p-3 bg-amber-900/20 rounded-xl border border-amber-700',
         className
       )}
     >
@@ -41,18 +41,18 @@ export function ConnectionStreak({
           connectionStrength="strong"
           showConnectionRing
         />
-        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center shadow-warm">
+        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-amber-900/200 rounded-full flex items-center justify-center shadow-warm">
           <Flame className="w-3 h-3 text-white" />
         </div>
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-medium text-stone-900 truncate">{person.name}</p>
+        <p className="font-medium text-stone-50 truncate">{person.name}</p>
         <p className="text-sm text-stone-500">
           {streakCount} {streakLabel}
         </p>
       </div>
       <div className="text-right">
-        <p className="text-2xl font-display font-bold text-amber-600">{streakCount}</p>
+        <p className="text-2xl font-display font-bold text-amber-400">{streakCount}</p>
         <p className="text-xs text-stone-400">
           {nextMilestone - streakCount} to next
         </p>
@@ -81,11 +81,11 @@ const hintIcons = {
 }
 
 const hintColors = {
-  interest: 'text-amber-600 bg-amber-50',
-  timing: 'text-sage-600 bg-sage-50',
-  proximity: 'text-rose-600 bg-rose-50',
-  activity: 'text-amber-600 bg-amber-50',
-  serendipity: 'text-rose-600 bg-rose-50',
+  interest: 'text-amber-400 bg-amber-900/20',
+  timing: 'text-sage-400 bg-sage-900/20',
+  proximity: 'text-rose-400 bg-rose-900/20',
+  activity: 'text-amber-400 bg-amber-900/20',
+  serendipity: 'text-rose-400 bg-rose-900/20',
 }
 
 export function CompatibilityHints({ hints, className }: CompatibilityHintsProps) {
@@ -103,7 +103,7 @@ export function CompatibilityHints({ hints, className }: CompatibilityHintsProps
               <div className={cn('w-7 h-7 rounded-full flex items-center justify-center', hintColors[hint.type])}>
                 <Icon className="w-4 h-4" />
               </div>
-              <span className="text-stone-700">{hint.content}</span>
+              <span className="text-stone-300">{hint.content}</span>
             </div>
           )
         })}
@@ -145,9 +145,9 @@ export function ConnectionJourney({
               <div
                 className={cn(
                   'w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300',
-                  isComplete && 'bg-amber-500 text-white',
-                  isCurrent && 'bg-rose-500 text-white animate-breathe',
-                  !isComplete && !isCurrent && 'bg-stone-100 text-stone-400'
+                  isComplete && 'bg-amber-900/200 text-white',
+                  isCurrent && 'bg-rose-900/200 text-white animate-breathe',
+                  !isComplete && !isCurrent && 'bg-stone-700 text-stone-400'
                 )}
               >
                 <Icon className="w-5 h-5" />
@@ -155,7 +155,7 @@ export function ConnectionJourney({
               <span
                 className={cn(
                   'text-xs mt-1 text-center max-w-[60px]',
-                  isComplete || isCurrent ? 'text-stone-700' : 'text-stone-400'
+                  isComplete || isCurrent ? 'text-stone-50' : 'text-stone-400'
                 )}
               >
                 {stage.label}
@@ -165,7 +165,7 @@ export function ConnectionJourney({
         })}
       </div>
       {/* Progress bar connecting the stages */}
-      <div className="relative h-1 bg-stone-100 rounded-full mx-5">
+      <div className="relative h-1 bg-stone-700 rounded-full mx-5">
         <div
           className="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-400 to-rose-400 rounded-full transition-all duration-500"
           style={{ width: `${(currentStage / (stages.length - 1)) * 100}%` }}
@@ -203,7 +203,7 @@ export function MilestoneBadge({ milestone, size = 'md', className }: MilestoneB
           sizes[size].wrapper,
           milestone.unlocked
             ? 'bg-gradient-to-br from-amber-400 to-rose-400 shadow-warm'
-            : 'bg-stone-100'
+            : 'bg-stone-700'
         )}
       >
         <span
@@ -218,7 +218,7 @@ export function MilestoneBadge({ milestone, size = 'md', className }: MilestoneB
       <span
         className={cn(
           'text-xs font-medium text-center',
-          milestone.unlocked ? 'text-stone-700' : 'text-stone-400'
+          milestone.unlocked ? 'text-stone-50' : 'text-stone-400'
         )}
       >
         {milestone.label}
@@ -245,7 +245,7 @@ export function MilestonesGrid({ milestones, className }: MilestonesGridProps) {
   return (
     <div className={className}>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-medium text-stone-900">Milestones</h3>
+        <h3 className="font-medium text-stone-50">Milestones</h3>
         <span className="text-sm text-stone-500">
           {unlockedCount} / {milestones.length} unlocked
         </span>
@@ -272,19 +272,19 @@ interface ConnectionStatsProps {
 export function ConnectionStats({ stats, className }: ConnectionStatsProps) {
   return (
     <div className={cn('grid grid-cols-3 gap-3', className)}>
-      <div className="text-center p-3 bg-rose-50 rounded-xl">
+      <div className="text-center p-3 bg-rose-900/20 rounded-xl">
         <Heart className="w-5 h-5 text-rose-500 mx-auto mb-1" />
-        <p className="text-xl font-display font-bold text-stone-900">{stats.closeFriends}</p>
+        <p className="text-xl font-display font-bold text-stone-50">{stats.closeFriends}</p>
         <p className="text-xs text-stone-500">Close friends</p>
       </div>
-      <div className="text-center p-3 bg-amber-50 rounded-xl">
+      <div className="text-center p-3 bg-amber-900/20 rounded-xl">
         <Calendar className="w-5 h-5 text-amber-500 mx-auto mb-1" />
-        <p className="text-xl font-display font-bold text-stone-900">{stats.hangoutsHosted}</p>
+        <p className="text-xl font-display font-bold text-stone-50">{stats.hangoutsHosted}</p>
         <p className="text-xs text-stone-500">Hangouts hosted</p>
       </div>
-      <div className="text-center p-3 bg-sage-50 rounded-xl">
+      <div className="text-center p-3 bg-sage-900/20 rounded-xl">
         <Sparkles className="w-5 h-5 text-sage-500 mx-auto mb-1" />
-        <p className="text-xl font-display font-bold text-stone-900">{stats.connectionsTotal}</p>
+        <p className="text-xl font-display font-bold text-stone-50">{stats.connectionsTotal}</p>
         <p className="text-xs text-stone-500">Connections</p>
       </div>
     </div>

@@ -104,17 +104,17 @@ export default function CreateActivityPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-bg">
+    <div className="min-h-screen bg-stone-900">
       {/* Header */}
       <header className="sticky top-0 z-40 glass-dark px-4 py-4 safe-top">
         <div className="max-w-2xl mx-auto flex items-center gap-4">
           <button
             onClick={handleBack}
-            className="p-2 -ml-2 text-text-secondary hover:text-text-primary transition-colors"
+            className="p-2 -ml-2 text-stone-300 hover:text-stone-50 transition-colors"
           >
             <ArrowLeft className="w-6 h-6" />
           </button>
-          <h1 className="text-lg font-semibold text-text-primary">
+          <h1 className="text-lg font-semibold text-stone-50">
             {step === 'category' && 'What do you want to do?'}
             {step === 'when' && `${selectedCategory?.emoji} ${selectedCategory?.label}`}
             {step === 'who' && `${selectedCategory?.emoji} ${selectedCategory?.label}`}
@@ -142,15 +142,15 @@ export default function CreateActivityPage() {
                     onClick={() => handleCategorySelect(category)}
                     className={cn(
                       'flex flex-col items-center gap-2 p-4 rounded-2xl',
-                      'border border-dark-border',
-                      'hover:border-coral-500/50 hover:bg-dark-surface/80',
+                      'border border-stone-700',
+                      'hover:border-coral-500/50 hover:bg-stone-700/80',
                       'transition-all duration-200'
                     )}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
                     <span className="text-3xl">{category.emoji}</span>
-                    <span className="text-xs text-text-secondary font-medium">
+                    <span className="text-xs text-stone-300 font-medium">
                       {category.label}
                     </span>
                   </motion.button>
@@ -158,9 +158,9 @@ export default function CreateActivityPage() {
               </div>
 
               {/* Custom activity input */}
-              <div className="card-dark p-4">
+              <div className="bg-stone-800 border border-stone-700 rounded-xl p-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-dark-elevated">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-stone-700">
                     <span className="text-xl">✏️</span>
                   </div>
                   <input
@@ -170,7 +170,7 @@ export default function CreateActivityPage() {
                     onChange={(e) => setCustomActivity(e.target.value)}
                     className={cn(
                       'flex-1 bg-transparent border-none outline-none',
-                      'text-text-primary placeholder-text-muted'
+                      'text-stone-50 placeholder-stone-400'
                     )}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && customActivity.trim()) {
@@ -197,7 +197,7 @@ export default function CreateActivityPage() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.2 }}
             >
-              <p className="text-text-secondary text-sm mb-4">When?</p>
+              <p className="text-stone-300 text-sm mb-4">When?</p>
               <div className="grid grid-cols-4 gap-3">
                 {whenOptions.map((option) => (
                   <motion.button
@@ -205,10 +205,10 @@ export default function CreateActivityPage() {
                     onClick={() => handleWhenSelect(option.id)}
                     className={cn(
                       'flex flex-col items-center gap-2 p-4 rounded-2xl',
-                      'border border-dark-border',
+                      'border border-stone-700',
                       option.id === 'now'
                         ? 'border-coral-500/50 bg-coral-500/10'
-                        : 'hover:border-coral-500/50 hover:bg-dark-surface/80',
+                        : 'hover:border-coral-500/50 hover:bg-stone-700/80',
                       'transition-all duration-200'
                     )}
                     whileHover={{ scale: 1.05 }}
@@ -217,7 +217,7 @@ export default function CreateActivityPage() {
                     <span className="text-2xl">{option.emoji}</span>
                     <span className={cn(
                       'text-sm font-bold',
-                      option.id === 'now' ? 'text-coral-500' : 'text-text-primary'
+                      option.id === 'now' ? 'text-coral-500' : 'text-stone-50'
                     )}>
                       {option.label}
                     </span>
@@ -236,7 +236,7 @@ export default function CreateActivityPage() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.2 }}
             >
-              <p className="text-text-secondary text-sm mb-4">How many people?</p>
+              <p className="text-stone-300 text-sm mb-4">How many people?</p>
               <div className="grid grid-cols-3 gap-3 mb-8">
                 {whoOptions.map((option) => (
                   <motion.button
@@ -244,18 +244,18 @@ export default function CreateActivityPage() {
                     onClick={() => handleWhoSelect(option.id)}
                     className={cn(
                       'flex flex-col items-center gap-2 p-4 rounded-2xl',
-                      'border border-dark-border',
-                      'hover:border-coral-500/50 hover:bg-dark-surface/80',
+                      'border border-stone-700',
+                      'hover:border-coral-500/50 hover:bg-stone-700/80',
                       'transition-all duration-200'
                     )}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Users className="w-6 h-6 text-text-secondary" />
-                    <span className="text-lg font-bold text-text-primary">
+                    <Users className="w-6 h-6 text-stone-300" />
+                    <span className="text-lg font-bold text-stone-50">
                       {option.label}
                     </span>
-                    <span className="text-xs text-text-muted">
+                    <span className="text-xs text-stone-400">
                       {option.description}
                     </span>
                   </motion.button>
@@ -263,13 +263,13 @@ export default function CreateActivityPage() {
               </div>
 
               {/* Location hint */}
-              <div className="card-dark p-4 flex items-center gap-3">
+              <div className="bg-stone-800 border border-stone-700 rounded-xl p-4 flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-jade-500" />
                 <div>
-                  <p className="text-text-primary text-sm font-medium">
+                  <p className="text-stone-50 text-sm font-medium">
                     Clubhouse Court
                   </p>
-                  <p className="text-text-muted text-xs">
+                  <p className="text-stone-400 text-xs">
                     Default for {selectedCategory?.label?.toLowerCase()}
                   </p>
                 </div>
@@ -296,7 +296,7 @@ export default function CreateActivityPage() {
                 <span className="text-5xl">{selectedCategory?.emoji}</span>
               </motion.div>
 
-              <h2 className="text-xl font-bold text-text-primary mb-2 text-center">
+              <h2 className="text-xl font-bold text-stone-50 mb-2 text-center">
                 Finding you a {selectedCategory?.label?.toLowerCase()} partner...
               </h2>
 
@@ -318,11 +318,11 @@ export default function CreateActivityPage() {
                 />
               </div>
 
-              <p className="text-text-secondary text-sm text-center">
+              <p className="text-stone-300 text-sm text-center">
                 Notifying 12 {selectedCategory?.label?.toLowerCase()} players nearby
               </p>
 
-              <p className="text-text-muted text-xs mt-8 text-center">
+              <p className="text-stone-400 text-xs mt-8 text-center">
                 First to respond gets the game!
               </p>
             </motion.div>
@@ -352,7 +352,7 @@ export default function CreateActivityPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-2xl font-bold text-text-primary mb-8"
+                className="text-2xl font-bold text-stone-50 mb-8"
               >
                 MATCH FOUND!
               </motion.h2>
@@ -362,7 +362,7 @@ export default function CreateActivityPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="card-dark-elevated p-6 w-full max-w-sm mb-6"
+                className="bg-stone-700 border border-stone-600 rounded-xl p-6 w-full max-w-sm mb-6"
               >
                 <div className="flex flex-col items-center text-center">
                   <div className="w-20 h-20 rounded-full bg-coral-500/20 flex items-center justify-center mb-4 avatar-ring-active">
@@ -370,13 +370,13 @@ export default function CreateActivityPage() {
                       {matchedUser.name[0]}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-text-primary mb-1">
+                  <h3 className="text-xl font-bold text-stone-50 mb-1">
                     {matchedUser.name}
                   </h3>
-                  <p className="text-text-secondary text-sm mb-4">
+                  <p className="text-stone-300 text-sm mb-4">
                     {matchedUser.tower}
                   </p>
-                  <p className="text-text-secondary text-sm italic">
+                  <p className="text-stone-300 text-sm italic">
                     "I'm in! See you at the court."
                   </p>
                 </div>
@@ -387,19 +387,19 @@ export default function CreateActivityPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="card-dark p-4 w-full max-w-sm mb-8"
+                className="bg-stone-800 border border-stone-700 rounded-xl p-4 w-full max-w-sm mb-8"
               >
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-2xl">{selectedCategory?.emoji}</span>
-                  <span className="text-text-primary font-semibold">
+                  <span className="text-stone-50 font-semibold">
                     {selectedCategory?.label}
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-text-secondary text-sm mb-2">
+                <div className="flex items-center gap-2 text-stone-300 text-sm mb-2">
                   <MapPin className="w-4 h-4 text-jade-500" />
                   <span>Clubhouse Court</span>
                 </div>
-                <div className="flex items-center gap-2 text-text-secondary text-sm">
+                <div className="flex items-center gap-2 text-stone-300 text-sm">
                   <Clock className="w-4 h-4 text-coral-500" />
                   <span>
                     {selectedWhen === 'now' && 'Starting now'}
@@ -438,7 +438,7 @@ export default function CreateActivityPage() {
       {(step === 'category' || step === 'when' || step === 'who') && (
         <footer className="fixed bottom-0 left-0 right-0 p-4 glass-dark safe-bottom">
           <div className="max-w-2xl mx-auto">
-            <div className="flex items-center gap-2 text-text-muted text-sm justify-center">
+            <div className="flex items-center gap-2 text-stone-400 text-sm justify-center">
               <Sparkles className="w-4 h-4" />
               <span>
                 {step === 'category' && '8 people are looking for activities right now'}

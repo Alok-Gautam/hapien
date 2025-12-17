@@ -23,7 +23,7 @@ export function AppShell({
   contentClassName,
 }: AppShellProps) {
   return (
-    <div className={cn('min-h-screen bg-stone-50', className)}>
+    <div className={cn('min-h-screen bg-stone-900', className)}>
       {showHeader && <Header title={headerTitle} />}
       
       <main

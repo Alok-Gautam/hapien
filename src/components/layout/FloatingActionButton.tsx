@@ -33,9 +33,9 @@ export function FloatingActionButton() {
               <Link
                 href="/wall"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 bg-dark-card rounded-xl shadow-soft border border-dark-border hover:shadow-soft hover:bg-dark-hover transition-all group"
+                className="flex items-center gap-3 px-4 py-3 bg-stone-800 rounded-xl shadow-soft border border-stone-700 hover:shadow-soft hover:bg-stone-700 transition-all group"
               >
-                <div className="w-10 h-10 rounded-full bg-secondary-100 flex items-center justify-center group-hover:bg-secondary-200 transition-colors">
+                <div className="w-10 h-10 rounded-full bg-secondary-900/20 flex items-center justify-center group-hover:bg-secondary-200 transition-colors">
                   <FileText className="w-5 h-5 text-secondary-600" />
                 </div>
                 <span className="font-medium text-neutral-300 whitespace-nowrap">
@@ -46,9 +46,9 @@ export function FloatingActionButton() {
               <Link
                 href="/hangouts/create"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 bg-dark-card rounded-xl shadow-soft border border-dark-border hover:shadow-soft hover:bg-dark-hover transition-all group"
+                className="flex items-center gap-3 px-4 py-3 bg-stone-800 rounded-xl shadow-soft border border-stone-700 hover:shadow-soft hover:bg-stone-700 transition-all group"
               >
-                <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center group-hover:bg-primary-200 transition-colors">
+                <div className="w-10 h-10 rounded-full bg-primary-900/20 flex items-center justify-center group-hover:bg-primary-200 transition-colors">
                   <Calendar className="w-5 h-5 text-primary-400" />
                 </div>
                 <span className="font-medium text-neutral-300 whitespace-nowrap">
@@ -67,7 +67,7 @@ export function FloatingActionButton() {
           'w-16 h-16 rounded-full flex items-center justify-center shadow-xl transition-all duration-200 font-bold',
           isOpen
             ? 'bg-red-600 rotate-45'
-            : 'bg-amber-500 hover:bg-amber-600 hover:shadow-2xl'
+            : 'bg-amber-900/200 hover:bg-amber-600 hover:shadow-2xl'
         )}
       >
         {isOpen ? (

@@ -25,11 +25,11 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            'w-full px-4 py-3 rounded-xl border border-dark-border bg-dark-card text-neutral-100 placeholder:text-neutral-500',
+            'w-full px-4 py-3 rounded-xl border border-stone-600 bg-stone-800 text-stone-50 placeholder:text-stone-400',
             'transition-all duration-200 resize-none',
-            'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
-            'disabled:bg-dark-bg disabled:text-neutral-400 disabled:cursor-not-allowed',
-            error && 'border-tertiary-500 focus:ring-tertiary-500',
+            'focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent',
+            'disabled:bg-stone-900 disabled:text-stone-500 disabled:cursor-not-allowed',
+            error && 'border-rose-500 focus:ring-rose-500',
             className
           )}
           {...props}
@@ -38,7 +38,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           <p className="mt-1.5 text-sm text-tertiary-400">{error}</p>
         )}
         {hint && !error && (
-          <p className="mt-1.5 text-sm text-neutral-500">{hint}</p>
+          <p className="mt-1.5 text-sm text-stone-500">{hint}</p>
         )}
       </div>
     )

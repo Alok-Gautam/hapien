@@ -31,38 +31,38 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       'inline-flex items-center justify-center font-medium',
       'transition-all duration-300 ease-soft-out',
       'rounded-xl',
-      'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-50',
+      'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-900',
       'disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none'
     )
 
     const variants = {
-      // Primary - Warm amber gradient
+      // Primary - Violet gradient (Euphoria)
       primary: cn(
-        'bg-gradient-to-r from-amber-500 to-amber-600',
+        'bg-gradient-to-r from-violet-500 to-violet-600',
         'text-white font-medium',
-        'hover:from-amber-600 hover:to-amber-700',
+        'hover:from-violet-600 hover:to-violet-700',
         'hover:shadow-warm active:scale-[0.98]',
-        'focus:ring-amber-500/50'
+        'focus:ring-violet-500/50'
       ),
-      // Secondary - Soft stone
+      // Secondary - Dark purple
       secondary: cn(
-        'bg-stone-100 text-stone-700',
-        'hover:bg-stone-200',
-        'border border-stone-200',
+        'bg-stone-700 text-stone-300',
+        'hover:bg-stone-600',
+        'border border-stone-600',
         'focus:ring-stone-400/50'
       ),
       // Ghost - Transparent
       ghost: cn(
-        'bg-transparent text-stone-600',
-        'hover:bg-stone-100 hover:text-stone-900',
+        'bg-transparent text-stone-400',
+        'hover:bg-stone-700 hover:text-stone-50',
         'focus:ring-stone-400/50'
       ),
-      // Outline - Bordered
+      // Outline - Violet bordered
       outline: cn(
-        'border-2 border-amber-500 text-amber-600',
+        'border-2 border-violet-500 text-violet-400',
         'bg-transparent',
-        'hover:bg-amber-50',
-        'focus:ring-amber-500/50'
+        'hover:bg-violet-900/20',
+        'focus:ring-violet-500/50'
       ),
       // Danger - Rose red
       danger: cn(
@@ -72,13 +72,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         'hover:shadow-intimate active:scale-[0.98]',
         'focus:ring-rose-500/50'
       ),
-      // Intimate - Rose gradient for connection actions
+      // Intimate - Magenta gradient for connection actions
       intimate: cn(
-        'bg-gradient-to-r from-rose-500 to-rose-600',
+        'bg-gradient-to-r from-magenta-600 to-magenta-500',
         'text-white font-medium',
-        'hover:from-rose-600 hover:to-rose-700',
+        'hover:from-magenta-700 hover:to-magenta-600',
         'hover:shadow-intimate-lg active:scale-[0.98]',
-        'focus:ring-rose-500/50'
+        'focus:ring-magenta-500/50'
       ),
       // Safe - Sage green for trust/safety actions
       safe: cn(
@@ -148,41 +148,41 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       'inline-flex items-center justify-center',
       'transition-all duration-300 ease-soft-out',
       'rounded-full',
-      'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-50',
+      'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-900',
       'disabled:opacity-50 disabled:cursor-not-allowed'
     )
 
     const variants = {
       primary: cn(
-        'bg-gradient-to-r from-amber-500 to-amber-600',
+        'bg-gradient-to-r from-violet-500 to-violet-600',
         'text-white',
-        'hover:from-amber-600 hover:to-amber-700 hover:shadow-warm',
-        'focus:ring-amber-500/50'
+        'hover:from-violet-600 hover:to-violet-700 hover:shadow-warm',
+        'focus:ring-violet-500/50'
       ),
       secondary: cn(
-        'bg-stone-100 text-stone-600',
-        'hover:bg-stone-200 hover:text-stone-900',
+        'bg-stone-700 text-stone-300',
+        'hover:bg-stone-600 hover:text-stone-50',
         'focus:ring-stone-400/50'
       ),
       ghost: cn(
-        'bg-transparent text-stone-500',
-        'hover:bg-stone-100 hover:text-stone-700',
+        'bg-transparent text-stone-400',
+        'hover:bg-stone-700 hover:text-stone-50',
         'focus:ring-stone-400/50'
       ),
       outline: cn(
-        'border border-stone-200 text-stone-600',
+        'border border-stone-600 text-stone-400',
         'bg-transparent',
-        'hover:bg-stone-50 hover:border-stone-300',
+        'hover:bg-stone-700 hover:border-stone-500',
         'focus:ring-stone-400/50'
       ),
       intimate: cn(
-        'bg-rose-50 text-rose-600',
-        'hover:bg-rose-100 hover:text-rose-700',
-        'focus:ring-rose-500/50'
+        'bg-magenta-900/20 text-magenta-400',
+        'hover:bg-magenta-900/30 hover:text-magenta-300',
+        'focus:ring-magenta-500/50'
       ),
       safe: cn(
-        'bg-sage-50 text-sage-600',
-        'hover:bg-sage-100 hover:text-sage-700',
+        'bg-sage-900/20 text-sage-400',
+        'hover:bg-sage-900/30 hover:text-sage-300',
         'focus:ring-sage-500/50'
       ),
     }

@@ -75,7 +75,7 @@ export function AchievementBadge({
       {/* Badge content */}
       <div className="relative z-10 flex flex-col items-center">
         {isLocked ? (
-          <Lock className="w-6 h-6 text-text-muted" />
+          <Lock className="w-6 h-6 text-stone-400" />
         ) : (
           <span className={s.emoji}>{displayInfo.emoji}</span>
         )}
@@ -96,7 +96,7 @@ export function AchievementBadge({
 
       {/* Progress indicator */}
       {showProgress && !isLocked && (
-        <div className={`absolute -bottom-1 left-1/2 -translate-x-1/2 ${s.progress} text-text-muted whitespace-nowrap`}>
+        <div className={`absolute -bottom-1 left-1/2 -translate-x-1/2 ${s.progress} text-stone-400 whitespace-nowrap`}>
           {displayInfo.progressDisplay}
         </div>
       )}
@@ -125,7 +125,7 @@ export function AchievementCard({ achievementKey, progress, className = '' }: Ac
 
   return (
     <div
-      className={`card-dark p-4 ${className}`}
+      className={`bg-stone-800 border border-stone-700 rounded-xl p-4 ${className}`}
       style={{
         borderLeft: `3px solid ${isLocked ? '#3A3A3E' : displayInfo.tierColor}`,
       }}
@@ -139,7 +139,7 @@ export function AchievementCard({ achievementKey, progress, className = '' }: Ac
           }}
         >
           {isLocked ? (
-            <Lock className="w-6 h-6 text-text-muted" />
+            <Lock className="w-6 h-6 text-stone-400" />
           ) : (
             <span className="text-3xl">{displayInfo.emoji}</span>
           )}
@@ -148,7 +148,7 @@ export function AchievementCard({ achievementKey, progress, className = '' }: Ac
         {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h4 className="font-semibold text-text-primary">{displayInfo.name}</h4>
+            <h4 className="font-semibold text-stone-50">{displayInfo.name}</h4>
             {!isLocked && (
               <span
                 className="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase"
@@ -162,11 +162,11 @@ export function AchievementCard({ achievementKey, progress, className = '' }: Ac
             )}
           </div>
 
-          <p className="text-sm text-text-muted mb-2">{displayInfo.description}</p>
+          <p className="text-sm text-stone-400 mb-2">{displayInfo.description}</p>
 
           {/* Progress bar */}
           <div className="relative">
-            <div className="w-full h-2 rounded-full bg-dark-surface overflow-hidden">
+            <div className="w-full h-2 rounded-full bg-stone-700 overflow-hidden">
               <motion.div
                 className="h-full rounded-full"
                 style={{ background: isLocked ? '#3A3A3E' : displayInfo.tierColor }}
@@ -175,7 +175,7 @@ export function AchievementCard({ achievementKey, progress, className = '' }: Ac
                 transition={{ duration: 0.5, ease: 'easeOut' }}
               />
             </div>
-            <div className="flex justify-between mt-1 text-xs text-text-muted">
+            <div className="flex justify-between mt-1 text-xs text-stone-400">
               <span>{displayInfo.progressDisplay}</span>
               {displayInfo.nextMilestone && (
                 <span>{displayInfo.nextMilestone - progress} more to next tier</span>
@@ -228,7 +228,7 @@ export function BadgeCollection({ achievements, showLocked = true, className = '
     <div className={className}>
       {unlocked.length > 0 && (
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-3">
+          <h3 className="text-sm font-semibold text-stone-400 uppercase tracking-wider mb-3">
             Unlocked ({unlocked.length})
           </h3>
           <div className="grid grid-cols-4 gap-3">
@@ -241,7 +241,7 @@ export function BadgeCollection({ achievements, showLocked = true, className = '
 
       {showLocked && locked.length > 0 && (
         <div>
-          <h3 className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-3">
+          <h3 className="text-sm font-semibold text-stone-400 uppercase tracking-wider mb-3">
             Locked ({locked.length})
           </h3>
           <div className="grid grid-cols-4 gap-3 opacity-60">

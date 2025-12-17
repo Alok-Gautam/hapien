@@ -3,14 +3,12 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  User, 
-  Camera, 
-  ArrowRight, 
+import {
+  User,
+  Camera,
+  ArrowRight,
   ArrowLeft,
   Check,
-  Building2,
-  GraduationCap,
   Home,
   Search,
   X,
@@ -25,12 +23,6 @@ import { cn } from '@/utils/helpers'
 
 const STEPS = ['profile', 'community'] as const
 type Step = typeof STEPS[number]
-
-const COMMUNITY_TYPES = [
-  { value: 'society', label: 'Society', description: 'Residential complex' },
-  { value: 'campus', label: 'Campus', description: 'College or university' },
-  { value: 'office', label: 'Office', description: 'Workplace or coworking' },
-] as const
 
 export default function OnboardingPage() {
   const router = useRouter()
@@ -61,7 +53,6 @@ export default function OnboardingPage() {
   const [isSubmittingRequest, setIsSubmittingRequest] = useState(false)
   const [requestData, setRequestData] = useState({
     name: '',
-    type: 'society' as 'society' | 'campus' | 'office',
     location: '',
     description: ''
   })
@@ -162,7 +153,6 @@ export default function OnboardingPage() {
         .from('communities') as any)
         .insert({
           name: requestData.name.trim(),
-          type: requestData.type,
           location: requestData.location.trim(),
           description: requestData.description.trim() || null,
           admin_id: session.user.id,
@@ -201,7 +191,6 @@ export default function OnboardingPage() {
         .from('community_requests') as any)
         .insert({
           name: requestData.name.trim(),
-          type: requestData.type,
           location: requestData.location.trim(),
           description: requestData.description.trim() || null,
           requested_by: session.user.id,
@@ -218,7 +207,7 @@ export default function OnboardingPage() {
 
       toast.success('Community created! You can now join it.')
       setShowRequestModal(false)
-      setRequestData({ name: '', type: 'society', location: '', description: '' })
+      setRequestData({ name: '', location: '', description: '' })
 
       // Trigger search to show the newly created community
       setCommunitySearch(requestData.name.trim())
@@ -443,7 +432,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-bg flex flex-col">
+    <div className="min-h-screen bg-stone-900 flex flex-col">
       {/* Background decoration */}
       <div className="fixed inset-0 bg-mesh pointer-events-none opacity-30" />
 
@@ -456,12 +445,12 @@ export default function OnboardingPage() {
                 key={step}
                 className={cn(
                   'flex-1 h-1.5 rounded-full transition-colors',
-                  index <= stepIndex ? 'bg-primary-500' : 'bg-dark-card'
+                  index <= stepIndex ? 'bg-primary-500' : 'bg-stone-800'
                 )}
               />
             ))}
           </div>
-          <p className="text-sm text-neutral-400 text-center">
+          <p className="text-sm text-stone-400 text-center">
             Step {stepIndex + 1} of {STEPS.length}
           </p>
         </div>
@@ -480,19 +469,19 @@ export default function OnboardingPage() {
                 exit={{ opacity: 0, x: -20 }}
               >
                 <div className="text-center mb-8">
-                  <h1 className="font-display text-3xl font-bold text-neutral-100 mb-2">
+                  <h1 className="font-display text-3xl font-bold text-stone-50 mb-2">
                     Create your profile
                   </h1>
-                  <p className="text-neutral-400">
+                  <p className="text-stone-400">
                     Tell us a bit about yourself
                   </p>
                 </div>
 
-                <div className="bg-dark-card rounded-3xl shadow-soft p-8 space-y-6 border border-dark-border">
+                <div className="bg-stone-800 rounded-3xl shadow-soft p-8 space-y-6 border border-stone-700">
                   {/* Avatar */}
                   <div className="flex flex-col items-center gap-4">
                     <div className="relative">
-                      <div className="w-24 h-24 rounded-full bg-dark-hover flex items-center justify-center overflow-hidden border-2 border-primary-500/20">
+                      <div className="w-24 h-24 rounded-full bg-stone-700 flex items-center justify-center overflow-hidden border-2 border-primary-500/20">
                         {avatarUrl ? (
                           <img
                             src={avatarUrl}
@@ -500,7 +489,7 @@ export default function OnboardingPage() {
                             className="w-full h-full object-cover"
                           />
                         ) : (
-                          <User className="w-12 h-12 text-neutral-500" />
+                          <User className="w-12 h-12 text-stone-500" />
                         )}
                       </div>
                       <label className="absolute bottom-0 right-0 p-2 bg-primary-500 rounded-full cursor-pointer hover:bg-primary-600 transition-colors shadow-glow">
@@ -513,7 +502,7 @@ export default function OnboardingPage() {
                         />
                       </label>
                     </div>
-                    <p className="text-sm text-neutral-400">Upload profile photo</p>
+                    <p className="text-sm text-stone-400">Upload profile photo</p>
                   </div>
 
                   {/* Name */}
@@ -554,43 +543,24 @@ export default function OnboardingPage() {
                 exit={{ opacity: 0, x: -20 }}
               >
                 <div className="text-center mb-8">
-                  <h1 className="font-display text-3xl font-bold text-neutral-100 mb-2">
+                  <h1 className="font-display text-3xl font-bold text-stone-50 mb-2">
                     Join a community
                   </h1>
-                  <p className="text-neutral-400">
+                  <p className="text-stone-400">
                     Where do you spend most of your time?
                   </p>
                 </div>
 
-                <div className="bg-dark-card rounded-3xl shadow-soft p-8 space-y-6 border border-dark-border">
-                  {/* Community Types */}
-                  <div className="grid grid-cols-3 gap-3">
-                    <CommunityTypeCard
-                      icon={Home}
-                      label="Society"
-                      description="Residential"
-                    />
-                    <CommunityTypeCard
-                      icon={GraduationCap}
-                      label="Campus"
-                      description="College"
-                    />
-                    <CommunityTypeCard
-                      icon={Building2}
-                      label="Office"
-                      description="Workplace"
-                    />
-                  </div>
-
+                <div className="bg-stone-800 rounded-3xl shadow-soft p-8 space-y-6 border border-stone-700">
                   {/* Search */}
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-500" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
                     <input
                       type="text"
                       placeholder="Search communities..."
                       value={communitySearch}
                       onChange={(e) => setCommunitySearch(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-dark-hover border border-dark-border rounded-xl text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      className="w-full pl-10 pr-4 py-3 bg-stone-700 border border-stone-700 rounded-xl text-stone-50 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
 
@@ -608,11 +578,13 @@ export default function OnboardingPage() {
                           className={`w-full p-3 rounded-xl text-left border-2 transition-all ${
                             selectedCommunity === community.id
                               ? 'bg-primary-500/20 border-primary-500'
-                              : 'bg-dark-hover border-dark-border hover:border-neutral-500'
+                              : 'bg-stone-700 border-stone-700 hover:border-neutral-500'
                           }`}
                         >
-                          <p className="font-medium text-neutral-100">{community.name}</p>
-                          <p className="text-sm text-neutral-400">{community.type}</p>
+                          <p className="font-medium text-stone-50">{community.name}</p>
+                          {community.location && (
+                            <p className="text-sm text-stone-400">{typeof community.location === 'string' ? community.location : community.location.city || community.location.address}</p>
+                          )}
                         </button>
                       ))}
                     </div>
@@ -627,7 +599,7 @@ export default function OnboardingPage() {
                     </div>
                   )}
 
-                  <p className="text-sm text-neutral-400 text-center">
+                  <p className="text-sm text-stone-400 text-center">
                     Can't find yours?{' '}
                     <button 
                       onClick={() => setShowRequestModal(true)}
@@ -659,7 +631,7 @@ export default function OnboardingPage() {
                   <button
                     onClick={handleComplete}
                     disabled={isLoading}
-                    className="w-full text-sm text-neutral-400 hover:text-neutral-300 transition-colors disabled:opacity-50"
+                    className="w-full text-sm text-stone-400 hover:text-neutral-300 transition-colors disabled:opacity-50"
                   >
                     Skip for now
                   </button>
@@ -685,46 +657,23 @@ export default function OnboardingPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-md bg-dark-card rounded-3xl shadow-xl overflow-hidden border border-dark-border"
+              className="w-full max-w-md bg-stone-800 rounded-3xl shadow-xl overflow-hidden border border-stone-700"
             >
               {/* Modal Header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-dark-border">
-                <h2 className="font-display text-xl font-bold text-neutral-100">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-stone-700">
+                <h2 className="font-display text-xl font-bold text-stone-50">
                   Request New Community
                 </h2>
                 <button
                   onClick={() => setShowRequestModal(false)}
-                  className="p-2 rounded-full hover:bg-dark-hover transition-colors"
+                  className="p-2 rounded-full hover:bg-stone-700 transition-colors"
                 >
-                  <X className="w-5 h-5 text-neutral-400" />
+                  <X className="w-5 h-5 text-stone-400" />
                 </button>
               </div>
 
               {/* Modal Body */}
               <div className="p-6 space-y-5">
-                {/* Community Type */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-neutral-300">
-                    Community Type
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {COMMUNITY_TYPES.map((type) => (
-                      <button
-                        key={type.value}
-                        onClick={() => setRequestData(prev => ({ ...prev, type: type.value }))}
-                        className={cn(
-                          'p-3 rounded-xl text-center transition-all border-2',
-                          requestData.type === type.value
-                            ? 'bg-primary-500/20 border-primary-500 text-primary-400'
-                            : 'bg-dark-hover border-dark-border text-neutral-400 hover:border-neutral-600'
-                        )}
-                      >
-                        <p className="text-xs font-medium">{type.label}</p>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
                 {/* Community Name */}
                 <Input
                   label="Community Name"
@@ -740,7 +689,7 @@ export default function OnboardingPage() {
                   placeholder="City, State"
                   value={requestData.location}
                   onChange={(e) => setRequestData(prev => ({ ...prev, location: e.target.value }))}
-                  leftIcon={<MapPin className="w-4 h-4 text-neutral-500" />}
+                  leftIcon={<MapPin className="w-4 h-4 text-stone-500" />}
                   required
                 />
 
@@ -779,25 +728,5 @@ export default function OnboardingPage() {
         )}
       </AnimatePresence>
     </div>
-  )
-}
-
-function CommunityTypeCard({
-  icon: Icon,
-  label,
-  description,
-}: {
-  icon: typeof Home
-  label: string
-  description: string
-}) {
-  return (
-    <button className="p-4 rounded-2xl bg-dark-hover hover:bg-dark-hover/80 transition-colors text-center group border border-dark-border">
-      <div className="w-10 h-10 rounded-xl bg-dark-card flex items-center justify-center mx-auto mb-2 group-hover:shadow-soft transition-shadow border border-dark-border">
-        <Icon className="w-5 h-5 text-primary-400" />
-      </div>
-      <p className="font-medium text-neutral-200 text-sm">{label}</p>
-      <p className="text-xs text-neutral-500">{description}</p>
-    </button>
   )
 }

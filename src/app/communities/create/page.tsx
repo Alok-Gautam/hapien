@@ -5,14 +5,11 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import {
   Home,
-  GraduationCap,
-  Building2,
   MapPin,
   Image as ImageIcon,
   ArrowLeft,
   X,
   Users,
-  User,
 } from 'lucide-react'
 import { AppShell } from '@/components/layout'
 import { Button, Card, Input, Textarea } from '@/components/ui'
@@ -23,40 +20,12 @@ import { cn } from '@/utils/helpers'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 
-type CommunityType = 'society' | 'campus' | 'office'
-
-const communityTypes = [
-  {
-    type: 'society' as CommunityType,
-    label: 'Residential Society',
-    description: 'Connect with neighbors in your housing society or apartment complex',
-    icon: Home,
-    color: 'tertiary',
-  },
-  {
-    type: 'campus' as CommunityType,
-    label: 'College Campus',
-    description: 'Connect with fellow students and alumni from your college',
-    icon: GraduationCap,
-    color: 'primary',
-  },
-  {
-    type: 'office' as CommunityType,
-    label: 'Office Complex',
-    description: 'Network with professionals in your office building or campus',
-    icon: Building2,
-    color: 'secondary',
-  },
-]
-
 export default function CreateCommunityPage() {
   const router = useRouter()
   const { authUser, user, isLoading: authLoading } = useAuth()
   const supabase = createClient()
   const coverInputRef = useRef<HTMLInputElement>(null)
 
-  const [step, setStep] = useState(1)
-  const [selectedType, setSelectedType] = useState<CommunityType | null>(null)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [address, setAddress] = useState('')
@@ -79,7 +48,7 @@ export default function CreateCommunityPage() {
   }
 
   const handleSubmit = async () => {
-    if (!user || !selectedType || !name.trim()) return
+    if (!user || !name.trim()) return
 
     setIsSubmitting(true)
 
@@ -119,22 +88,11 @@ export default function CreateCommunityPage() {
         }
       }
 
-      // Create community with direct fetch using user's access token
+      // Create community using Supabase client
       console.log('Creating community...')
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-      // Get user's access token for authenticated requests
-      const { data: { session } } = await supabase.auth.getSession()
-      const accessToken = session?.access_token
-
-      if (!accessToken) {
-        throw new Error('Not authenticated. Please log in again.')
-      }
 
       const communityData = {
         name: name.trim(),
-        type: selectedType,
         description: description.trim() || null,
         cover_image_url: coverImageUrl,
         admin_id: user.id,
@@ -142,58 +100,47 @@ export default function CreateCommunityPage() {
           address: address.trim() || null,
           city: city.trim() || null,
         } : null,
-        member_count: 1,
+        member_count: 0,
       }
 
-      const response = await withTimeout(
-        fetch(`${supabaseUrl}/rest/v1/communities`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': supabaseKey!,
-            'Authorization': `Bearer ${accessToken}`,
-            'Prefer': 'return=representation',
-          },
-          body: JSON.stringify(communityData),
-        }),
-        15000
-      )
+      const { data: community, error: communityError } = await supabase
+        .from('communities')
+        .insert(communityData)
+        .select()
+        .single()
 
-      if (!response.ok) {
-        const errorText = await response.text()
-        console.error('Community creation error:', response.status, errorText)
-        throw new Error(`Failed to create community: ${errorText}`)
+      if (communityError) {
+        console.error('Community creation error:', communityError)
+        console.error('Error message:', communityError.message)
+        console.error('Error code:', communityError.code)
+        console.error('Error details:', communityError.details)
+        console.error('Error hint:', communityError.hint)
+        throw communityError
       }
 
-      const [community] = await response.json()
       console.log('Community created:', community)
 
-      // Add creator as admin member (with direct fetch)
+      // Add creator as admin member
       try {
-        await withTimeout(
-          fetch(`${supabaseUrl}/rest/v1/community_memberships`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'apikey': supabaseKey!,
-              'Authorization': `Bearer ${accessToken}`,
-            },
-            body: JSON.stringify({
-              user_id: user.id,
-              community_id: community.id,
-              status: 'approved',
-              role: 'admin',
-            }),
-          }),
-          10000
-        )
+        const { error: membershipError } = await supabase
+          .from('community_memberships')
+          .insert({
+            user_id: user.id,
+            community_id: community.id,
+            status: 'approved',
+            role: 'admin',
+          })
+
+        if (membershipError) {
+          console.error('Membership creation error:', membershipError)
+        }
       } catch (memberErr) {
         console.error('Membership creation failed:', memberErr)
         // Continue anyway - community was created
       }
 
       toast.success('Community created successfully!')
-      router.push(`/communities/${(community as any).id}`)
+      router.push(`/communities/${community.id}`)
     } catch (error: any) {
       console.error('Error creating community:', error)
       if (error.message === 'TIMEOUT') {
@@ -213,15 +160,15 @@ export default function CreateCommunityPage() {
   // Show message if not logged in
   if (!authUser) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
+      <div className="min-h-screen bg-stone-900 flex items-center justify-center p-4">
         <Card className="max-w-md w-full p-8 text-center">
           <div className="w-16 h-16 bg-primary-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <Users className="w-8 h-8 text-primary-400" />
           </div>
-          <h2 className="text-xl font-bold text-neutral-100 mb-2">
+          <h2 className="text-xl font-bold text-stone-50 mb-2">
             Login Required
           </h2>
-          <p className="text-neutral-400 mb-6">
+          <p className="text-stone-400 mb-6">
             You need to be logged in to create a community. Please log in or go back to continue browsing.
           </p>
           <div className="flex gap-3">
@@ -244,15 +191,15 @@ export default function CreateCommunityPage() {
   // Show message if profile incomplete
   if (!user?.name) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
+      <div className="min-h-screen bg-stone-900 flex items-center justify-center p-4">
         <Card className="max-w-md w-full p-8 text-center">
           <div className="w-16 h-16 bg-primary-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <User className="w-8 h-8 text-primary-400" />
           </div>
-          <h2 className="text-xl font-bold text-neutral-100 mb-2">
+          <h2 className="text-xl font-bold text-stone-50 mb-2">
             Complete Your Profile
           </h2>
-          <p className="text-neutral-400 mb-6">
+          <p className="text-stone-400 mb-6">
             Before you can create a community, please complete your profile setup. This helps others in the community know who you are.
           </p>
           <div className="flex gap-3">
@@ -275,12 +222,12 @@ export default function CreateCommunityPage() {
   return (
     <AppShell>
 
-      <main className="min-h-screen pt-16 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-16 pb-24 bg-stone-900">
         <div className="max-w-2xl mx-auto px-4 py-6">
           {/* Back button */}
           <Link
             href="/communities"
-            className="inline-flex items-center gap-2 text-neutral-400 hover:text-neutral-100 mb-6"
+            className="inline-flex items-center gap-2 text-stone-400 hover:text-stone-50 mb-6"
           >
             <ArrowLeft className="w-5 h-5" />
             Back to Communities
@@ -288,105 +235,20 @@ export default function CreateCommunityPage() {
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-display font-bold text-neutral-100">
+            <h1 className="text-2xl font-display font-bold text-stone-50">
               Create a Community
             </h1>
-            <p className="text-neutral-400 mt-1">
-              {step === 1 
-                ? 'Choose what type of community you want to create'
-                : 'Fill in the details for your community'}
+            <p className="text-stone-400 mt-1">
+              Fill in the details for your community
             </p>
           </div>
 
-          {/* Progress indicator */}
-          <div className="flex items-center gap-2 mb-8">
-            <div className={cn(
-              'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium',
-              step >= 1 ? 'bg-primary-500 text-white' : 'bg-neutral-200 text-neutral-500'
-            )}>
-              1
-            </div>
-            <div className={cn('flex-1 h-1 rounded', step >= 2 ? 'bg-primary-500' : 'bg-neutral-200')} />
-            <div className={cn(
-              'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium',
-              step >= 2 ? 'bg-primary-500 text-white' : 'bg-neutral-200 text-neutral-500'
-            )}>
-              2
-            </div>
-          </div>
-
-          {/* Step 1: Select Type */}
-          {step === 1 && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="space-y-4"
-            >
-              {communityTypes.map((type) => {
-                const Icon = type.icon
-                const isSelected = selectedType === type.type
-                
-                return (
-                  <button
-                    key={type.type}
-                    onClick={() => setSelectedType(type.type)}
-                    className={cn(
-                      'w-full p-6 rounded-2xl border-2 transition-all text-left',
-                      isSelected
-                        ? 'border-primary-500 bg-primary-900/30'
-                        : 'border-dark-border bg-dark-card hover:border-neutral-300'
-                    )}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className={cn(
-                        'w-12 h-12 rounded-xl flex items-center justify-center',
-                        type.color === 'tertiary' && 'bg-tertiary-100',
-                        type.color === 'primary' && 'bg-primary-100',
-                        type.color === 'secondary' && 'bg-secondary-100',
-                      )}>
-                        <Icon className={cn(
-                          'w-6 h-6',
-                          type.color === 'tertiary' && 'text-tertiary-600',
-                          type.color === 'primary' && 'text-primary-400',
-                          type.color === 'secondary' && 'text-secondary-600',
-                        )} />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-neutral-100">{type.label}</h3>
-                        <p className="text-sm text-neutral-500 mt-1">{type.description}</p>
-                      </div>
-                      <div className={cn(
-                        'w-5 h-5 rounded-full border-2 flex items-center justify-center',
-                        isSelected ? 'border-primary-500 bg-primary-500' : 'border-neutral-300'
-                      )}>
-                        {isSelected && (
-                          <div className="w-2 h-2 rounded-full bg-dark-card" />
-                        )}
-                      </div>
-                    </div>
-                  </button>
-                )
-              })}
-
-              <div className="pt-6">
-                <Button
-                  className="w-full"
-                  onClick={() => setStep(2)}
-                  disabled={!selectedType}
-                >
-                  Continue
-                </Button>
-              </div>
-            </motion.div>
-          )}
-
-          {/* Step 2: Details */}
-          {step === 2 && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="space-y-6"
-            >
+          {/* Community Details Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-6"
+          >
               {/* Cover Image */}
               <div>
                 <label className="block text-sm font-medium text-neutral-300 mb-2">
@@ -416,7 +278,7 @@ export default function CreateCommunityPage() {
                 ) : (
                   <button
                     onClick={() => coverInputRef.current?.click()}
-                    className="w-full h-40 border-2 border-dashed border-neutral-300 rounded-xl flex flex-col items-center justify-center text-neutral-500 hover:border-neutral-400 hover:text-neutral-400 transition-colors"
+                    className="w-full h-40 border-2 border-dashed border-neutral-300 rounded-xl flex flex-col items-center justify-center text-stone-500 hover:border-neutral-400 hover:text-stone-400 transition-colors"
                   >
                     <ImageIcon className="w-8 h-8 mb-2" />
                     <span className="text-sm">Click to upload cover image</span>
@@ -456,7 +318,7 @@ export default function CreateCommunityPage() {
                 </label>
                 <div className="space-y-3">
                   <div className="relative">
-                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
                     <Input
                       placeholder="Address"
                       value={address}
@@ -473,16 +335,9 @@ export default function CreateCommunityPage() {
               </div>
 
               {/* Actions */}
-              <div className="flex gap-3 pt-4">
+              <div className="pt-4">
                 <Button
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => setStep(1)}
-                >
-                  Back
-                </Button>
-                <Button
-                  className="flex-1"
+                  className="w-full"
                   onClick={handleSubmit}
                   isLoading={isSubmitting}
                   disabled={!name.trim()}
@@ -490,8 +345,7 @@ export default function CreateCommunityPage() {
                   Create Community
                 </Button>
               </div>
-            </motion.div>
-          )}
+          </motion.div>
         </div>
       </main>
 

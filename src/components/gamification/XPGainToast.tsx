@@ -125,7 +125,7 @@ export function XPGainToast({
                   </motion.span>
                 )}
               </div>
-              <span className="text-xs text-text-muted">{reason}</span>
+              <span className="text-xs text-stone-400">{reason}</span>
             </div>
 
             {/* Particles */}
@@ -174,7 +174,7 @@ export function LevelUpModal({ newLevel, levelTitle, unlocks, onClose }: LevelUp
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.8, opacity: 0 }}
         transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-        className="card-dark-elevated p-8 mx-4 max-w-sm text-center"
+        className="bg-stone-700 border border-stone-600 rounded-xl p-8 mx-4 max-w-sm text-center"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Confetti effect */}
@@ -216,7 +216,7 @@ export function LevelUpModal({ newLevel, levelTitle, unlocks, onClose }: LevelUp
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="text-2xl font-bold text-text-primary mb-2"
+          className="text-2xl font-bold text-stone-50 mb-2"
         >
           Level Up!
         </motion.h2>
@@ -245,12 +245,12 @@ export function LevelUpModal({ newLevel, levelTitle, unlocks, onClose }: LevelUp
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="mt-4 pt-4 border-t border-dark-border"
+            className="mt-4 pt-4 border-t border-stone-700"
           >
-            <p className="text-sm text-text-muted mb-3">New unlocks:</p>
+            <p className="text-sm text-stone-400 mb-3">New unlocks:</p>
             <div className="space-y-2">
               {unlocks.map((unlock, i) => (
-                <div key={i} className="flex items-center gap-2 text-text-primary">
+                <div key={i} className="flex items-center gap-2 text-stone-50">
                   <span>{unlock.icon}</span>
                   <span className="text-sm">{unlock.description}</span>
                 </div>

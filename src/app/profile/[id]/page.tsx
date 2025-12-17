@@ -376,7 +376,7 @@ export default function UserProfilePage() {
   return (
     <AppShell>
 
-      <main className="min-h-screen pt-16 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-16 pb-24 bg-stone-900">
         {/* Profile Header */}
         <div className="bg-gradient-to-br from-primary-500 to-primary-700 pt-8 pb-20 px-4">
           <div className="max-w-2xl mx-auto">
@@ -417,25 +417,25 @@ export default function UserProfilePage() {
             {/* Stats */}
             <div className="flex items-center justify-around mb-6">
               <div className="text-center">
-                <p className="text-2xl font-bold text-neutral-100">{friendsCount}</p>
-                <p className="text-sm text-neutral-500">{pluralize(friendsCount, 'Friend')}</p>
+                <p className="text-2xl font-bold text-stone-50">{friendsCount}</p>
+                <p className="text-sm text-stone-500">{pluralize(friendsCount, 'Friend')}</p>
               </div>
-              <div className="h-10 w-px bg-neutral-200" />
+              <div className="h-10 w-px bg-stone-700" />
               <div className="text-center">
-                <p className="text-2xl font-bold text-neutral-100">{communities.length}</p>
-                <p className="text-sm text-neutral-500">{pluralize(communities.length, 'Community', 'Communities')}</p>
+                <p className="text-2xl font-bold text-stone-50">{communities.length}</p>
+                <p className="text-sm text-stone-500">{pluralize(communities.length, 'Community', 'Communities')}</p>
               </div>
-              <div className="h-10 w-px bg-neutral-200" />
+              <div className="h-10 w-px bg-stone-700" />
               <div className="text-center">
-                <p className="text-2xl font-bold text-neutral-100">{posts.length}</p>
-                <p className="text-sm text-neutral-500">{pluralize(posts.length, 'Post')}</p>
+                <p className="text-2xl font-bold text-stone-50">{posts.length}</p>
+                <p className="text-sm text-stone-500">{pluralize(posts.length, 'Post')}</p>
               </div>
             </div>
 
             {/* Mutual Friends */}
             {mutualFriends.length > 0 && (
-              <div className="mb-6 pb-6 border-b border-dark-border">
-                <p className="text-sm text-neutral-500 mb-2">
+              <div className="mb-6 pb-6 border-b border-stone-700">
+                <p className="text-sm text-stone-500 mb-2">
                   {mutualFriends.length} mutual {pluralize(mutualFriends.length, 'friend')}
                 </p>
                 <div className="flex -space-x-2">
@@ -445,7 +445,7 @@ export default function UserProfilePage() {
                       src={friend.avatar_url}
                       name={friend.name || 'User'}
                       size="sm"
-                      className="ring-2 ring-white"
+                      className="ring-2 ring-stone-800"
                     />
                   ))}
                 </div>
@@ -517,8 +517,8 @@ export default function UserProfilePage() {
 
             {/* Interests */}
             {profile.interests && profile.interests.length > 0 && (
-              <div className="mt-6 pt-6 border-t border-dark-border">
-                <p className="text-sm text-neutral-500 mb-3">Interests</p>
+              <div className="mt-6 pt-6 border-t border-stone-700">
+                <p className="text-sm text-stone-500 mb-3">Interests</p>
                 <div className="flex flex-wrap gap-2">
                   {profile.interests.map(interest => (
                     <Badge key={interest} variant="primary" size="sm">
@@ -629,18 +629,18 @@ export default function UserProfilePage() {
                       <Link href={`/communities/${community.id}`}>
                         <Card className="p-4 hover:shadow-soft-lg transition-shadow">
                           <div className="flex items-center gap-4">
-                            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary-900/20 to-primary-800/20 flex items-center justify-center">
                               <Home className="w-8 h-8 text-primary-400" />
                             </div>
                             <div className="flex-1">
-                              <h3 className="font-semibold text-neutral-100">{community.name}</h3>
+                              <h3 className="font-semibold text-stone-50">{community.name}</h3>
                               {community.location && (
-                                <p className="text-sm text-neutral-500 flex items-center gap-1 mt-1">
+                                <p className="text-sm text-stone-500 flex items-center gap-1 mt-1">
                                   <MapPin className="w-3 h-3" />
                                   {community.location.address}
                                 </p>
                               )}
-                              <p className="text-sm text-neutral-400 mt-1">
+                              <p className="text-sm text-stone-400 mt-1">
                                 {community.member_count} {pluralize(community.member_count, 'member')}
                               </p>
                             </div>

@@ -9,20 +9,158 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Primary - Amber (Warmth & Joy)
-        amber: {
-          50: '#FFFBEB',
-          100: '#FEF3C7',
-          200: '#FDE68A',
-          300: '#FCD34D',
-          400: '#FBBF24',
-          500: '#F59E0B',
-          600: '#D97706',
-          700: '#B45309',
-          800: '#92400E',
-          900: '#78350F',
+        // Primary - Purple/Violet (Euphoria palette)
+        violet: {
+          50: '#F5F3FF',
+          100: '#EDE9FE',
+          200: '#DDD6FE',
+          300: '#C4B5FD',
+          400: '#A78BFA',
+          500: '#8B5CF6',
+          600: '#7C3AED',
+          700: '#6D28D9',
+          800: '#5B21B6',
+          900: '#4C1D95',
+          950: '#3F157A',
         },
-        // Secondary - Sage (Safety & Trust)
+        // Secondary - Magenta/Pink
+        magenta: {
+          50: '#FDF4FF',
+          100: '#FAE8FF',
+          200: '#F5D0FE',
+          300: '#F0ABFC',
+          400: '#E879F9',
+          500: '#D946EF',
+          600: '#AA31AC',
+          700: '#6E32A2',
+          800: '#5D146F',
+          900: '#4A1259',
+          950: '#2E0A38',
+        },
+        // Accent - Periwinkle/Lavender
+        periwinkle: {
+          50: '#F0F1FF',
+          100: '#E0E3FF',
+          200: '#C7CBFF',
+          300: '#A5ACFF',
+          400: '#727EF5',
+          500: '#5B68E8',
+          600: '#4B55D4',
+          700: '#3D45B0',
+          800: '#33398A',
+          900: '#2D326E',
+          950: '#1C1F42',
+        },
+        // Neutral - Deep Navy/Purple
+        stone: {
+          50: '#F8F7FF',
+          100: '#EEEDFF',
+          200: '#DEDCFF',
+          300: '#C4C1E0',
+          400: '#9B97C0',
+          500: '#736F9A',
+          600: '#504D73',
+          700: '#2D2A4D',
+          800: '#1A1833',
+          900: '#010040',
+          950: '#000020',
+        },
+        // Premium Accent - Electric
+        gold: {
+          light: '#C4B5FD',
+          DEFAULT: '#727EF5',
+          dark: '#5B68E8',
+        },
+        // Legacy support - map to new purple palette
+        primary: {
+          50: '#F5F3FF',
+          100: '#EDE9FE',
+          200: '#DDD6FE',
+          300: '#C4B5FD',
+          400: '#A78BFA',
+          500: '#8B5CF6',
+          600: '#7C3AED',
+          700: '#6D28D9',
+          800: '#5B21B6',
+          900: '#4C1D95',
+          950: '#3F157A',
+        },
+        secondary: {
+          50: '#FDF4FF',
+          100: '#FAE8FF',
+          200: '#F5D0FE',
+          300: '#F0ABFC',
+          400: '#E879F9',
+          500: '#D946EF',
+          600: '#AA31AC',
+          700: '#6E32A2',
+          800: '#5D146F',
+          900: '#4A1259',
+          950: '#2E0A38',
+        },
+        tertiary: {
+          50: '#F0F1FF',
+          100: '#E0E3FF',
+          200: '#C7CBFF',
+          300: '#A5ACFF',
+          400: '#727EF5',
+          500: '#5B68E8',
+          600: '#4B55D4',
+          700: '#3D45B0',
+          800: '#33398A',
+          900: '#2D326E',
+          950: '#1C1F42',
+        },
+        // Keep neutral for backwards compatibility
+        neutral: {
+          50: '#F8F7FF',
+          100: '#EEEDFF',
+          200: '#DEDCFF',
+          300: '#C4C1E0',
+          400: '#9B97C0',
+          500: '#736F9A',
+          600: '#504D73',
+          700: '#2D2A4D',
+          800: '#1A1833',
+          850: '#010040',
+          900: '#010040',
+          950: '#000020',
+        },
+        // Category colors - Euphoria palette
+        category: {
+          sports: '#727EF5',    // periwinkle
+          food: '#AA31AC',      // magenta
+          shopping: '#E879F9',  // light magenta
+          learning: '#8B5CF6',  // violet
+          chill: '#A78BFA',     // light violet
+          coffee: '#6E32A2',    // deep purple
+          walk: '#C4B5FD',      // lavender
+          hobby: '#F0ABFC',     // pink
+        },
+        // Connection strength colors
+        connection: {
+          new: '#9B97C0',       // muted purple
+          growing: '#A78BFA',   // violet-400
+          strong: '#8B5CF6',    // violet-500
+          deep: '#AA31AC',      // magenta
+          kindred: '#E879F9',   // bright magenta
+        },
+        // Dark mode colors
+        dark: {
+          bg: '#010040',        // deep navy
+          card: '#1A1833',      // dark purple
+          surface: '#1A1833',   // dark purple
+          elevated: '#2D2A4D',  // medium purple
+          hover: '#2D2A4D',     // medium purple
+          border: '#504D73',    // muted purple
+        },
+        // Text colors for dark mode
+        text: {
+          primary: '#F8F7FF',   // almost white with purple tint
+          secondary: '#C4C1E0', // light purple
+          muted: '#9B97C0',     // muted purple
+        },
+        // Sage replacement for success states
         sage: {
           50: '#F0FDF4',
           100: '#DCFCE7',
@@ -35,7 +173,7 @@ const config: Config = {
           800: '#166534',
           900: '#14532D',
         },
-        // Tertiary - Rose (Intimacy & Connection)
+        // Rose for error/warning states
         rose: {
           50: '#FFF1F2',
           100: '#FFE4E6',
@@ -48,28 +186,8 @@ const config: Config = {
           800: '#9F1239',
           900: '#881337',
         },
-        // Neutral - Warm Stone (Grounding)
-        stone: {
-          50: '#FAFAF9',
-          100: '#F5F5F4',
-          200: '#E7E5E4',
-          300: '#D6D3D1',
-          400: '#A8A29E',
-          500: '#78716C',
-          600: '#57534E',
-          700: '#44403C',
-          800: '#292524',
-          900: '#1C1917',
-          950: '#0C0A09',
-        },
-        // Premium Accent - Gold
-        gold: {
-          light: '#F5E6D3',
-          DEFAULT: '#D4A574',
-          dark: '#B8956A',
-        },
-        // Legacy support - map old colors to new
-        primary: {
+        // Amber for warnings
+        amber: {
           50: '#FFFBEB',
           100: '#FEF3C7',
           200: '#FDE68A',
@@ -80,82 +198,6 @@ const config: Config = {
           700: '#B45309',
           800: '#92400E',
           900: '#78350F',
-          950: '#78350F',
-        },
-        secondary: {
-          50: '#F0FDF4',
-          100: '#DCFCE7',
-          200: '#BBF7D0',
-          300: '#86EFAC',
-          400: '#4ADE80',
-          500: '#22C55E',
-          600: '#16A34A',
-          700: '#15803D',
-          800: '#166534',
-          900: '#14532D',
-          950: '#14532D',
-        },
-        tertiary: {
-          50: '#FFF1F2',
-          100: '#FFE4E6',
-          200: '#FECDD3',
-          300: '#FDA4AF',
-          400: '#FB7185',
-          500: '#F43F5E',
-          600: '#E11D48',
-          700: '#BE123C',
-          800: '#9F1239',
-          900: '#881337',
-          950: '#881337',
-        },
-        // Keep neutral for backwards compatibility
-        neutral: {
-          50: '#FAFAF9',
-          100: '#F5F5F4',
-          200: '#E7E5E4',
-          300: '#D6D3D1',
-          400: '#A8A29E',
-          500: '#78716C',
-          600: '#57534E',
-          700: '#44403C',
-          800: '#292524',
-          850: '#1C1917',
-          900: '#1C1917',
-          950: '#0C0A09',
-        },
-        // Category colors for hangouts - warm palette
-        category: {
-          sports: '#F59E0B',    // amber
-          food: '#F43F5E',      // rose
-          shopping: '#D4A574',  // gold
-          learning: '#22C55E',  // sage
-          chill: '#FBBF24',     // amber-400
-          coffee: '#B45309',    // amber-700
-          walk: '#86EFAC',      // sage-300
-          hobby: '#FDA4AF',     // rose-300
-        },
-        // Connection strength colors
-        connection: {
-          new: '#D6D3D1',       // stone-300
-          growing: '#FCD34D',   // amber-300
-          strong: '#F59E0B',    // amber-500
-          deep: '#F43F5E',      // rose-500
-          kindred: '#E11D48',   // rose-600
-        },
-        // Dark mode colors
-        dark: {
-          bg: '#1C1917',        // stone-900
-          card: '#292524',      // stone-800
-          surface: '#292524',   // stone-800
-          elevated: '#44403C',  // stone-700
-          hover: '#44403C',     // stone-700
-          border: '#57534E',    // stone-600
-        },
-        // Text colors for dark mode
-        text: {
-          primary: '#FAFAF9',   // stone-50
-          secondary: '#D6D3D1', // stone-300
-          muted: '#A8A29E',     // stone-400
         },
       },
       fontFamily: {
@@ -251,27 +293,27 @@ const config: Config = {
         },
       },
       boxShadow: {
-        // Soft shadows for premium feel
-        'soft-sm': '0 2px 8px -2px rgba(28, 25, 23, 0.08)',
-        'soft-md': '0 4px 16px -4px rgba(28, 25, 23, 0.1)',
-        'soft-lg': '0 8px 32px -8px rgba(28, 25, 23, 0.12)',
-        'soft-xl': '0 16px 48px -12px rgba(28, 25, 23, 0.15)',
-        // Intimate glow for connection moments
-        'intimate': '0 4px 20px -4px rgba(244, 63, 94, 0.15)',
-        'intimate-lg': '0 8px 30px -4px rgba(244, 63, 94, 0.2)',
-        // Warm glow for active states
-        'warm': '0 4px 20px -4px rgba(251, 191, 36, 0.2)',
-        'warm-lg': '0 8px 30px -4px rgba(251, 191, 36, 0.25)',
-        // Safe glow for trust indicators
-        'safe': '0 4px 20px -4px rgba(34, 197, 94, 0.15)',
-        // Premium shadow
-        'premium': '0 1px 2px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.04), 0 16px 32px rgba(0,0,0,0.04)',
+        // Soft shadows - purple tinted
+        'soft-sm': '0 2px 8px -2px rgba(1, 0, 64, 0.3)',
+        'soft-md': '0 4px 16px -4px rgba(1, 0, 64, 0.4)',
+        'soft-lg': '0 8px 32px -8px rgba(1, 0, 64, 0.5)',
+        'soft-xl': '0 16px 48px -12px rgba(1, 0, 64, 0.6)',
+        // Intimate glow - magenta
+        'intimate': '0 4px 20px -4px rgba(170, 49, 172, 0.3)',
+        'intimate-lg': '0 8px 30px -4px rgba(170, 49, 172, 0.4)',
+        // Warm glow - violet for active states
+        'warm': '0 4px 20px -4px rgba(139, 92, 246, 0.3)',
+        'warm-lg': '0 8px 30px -4px rgba(139, 92, 246, 0.4)',
+        // Safe glow
+        'safe': '0 4px 20px -4px rgba(34, 197, 94, 0.2)',
+        // Premium shadow - purple glow
+        'premium': '0 1px 2px rgba(1,0,64,0.1), 0 4px 8px rgba(63,21,122,0.15), 0 16px 32px rgba(110,50,162,0.2)',
         // Inner shadows
-        'inner-soft': 'inset 0 2px 4px 0 rgba(28, 25, 23, 0.05)',
+        'inner-soft': 'inset 0 2px 4px 0 rgba(1, 0, 64, 0.2)',
         // Legacy support
-        'soft': '0 4px 16px -4px rgba(28, 25, 23, 0.1)',
-        'glow': '0 0 20px rgba(251, 191, 36, 0.3)',
-        'glow-purple': '0 0 20px rgba(244, 63, 94, 0.3)',
+        'soft': '0 4px 16px -4px rgba(1, 0, 64, 0.4)',
+        'glow': '0 0 20px rgba(139, 92, 246, 0.4)',
+        'glow-purple': '0 0 20px rgba(170, 49, 172, 0.4)',
       },
       backgroundImage: {
         // Gradient utilities
@@ -280,16 +322,16 @@ const config: Config = {
         'gradient-warm': 'linear-gradient(135deg, #FFFBEB 0%, #FFF1F2 50%, #F0FDF4 100%)',
         'gradient-amber-rose': 'linear-gradient(135deg, #FEF3C7 0%, #FFE4E6 100%)',
         'gradient-hero': 'linear-gradient(180deg, #FEF3C7 0%, #FAFAF9 100%)',
-        // Card gradients
-        'gradient-intimate': 'linear-gradient(135deg, #FFF1F2 0%, #FFFFFF 100%)',
-        'gradient-safe': 'linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%)',
-        'gradient-premium': 'linear-gradient(135deg, #F5F5F4 0%, #FFFFFF 100%)',
-        // Dark mode gradients (optional)
-        'gradient-dark': 'linear-gradient(135deg, #1C1917 0%, #292524 100%)',
-        'gradient-dark-warm': 'linear-gradient(135deg, #292524 0%, #44403C 100%)',
-        // Mesh backgrounds
-        'mesh-warm': 'radial-gradient(at 40% 20%, rgba(254, 243, 199, 0.4) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(255, 228, 230, 0.3) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(220, 252, 231, 0.2) 0px, transparent 50%)',
-        'mesh-dark': 'radial-gradient(at 40% 20%, rgba(69, 48, 15, 0.2) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(136, 19, 55, 0.15) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(20, 83, 45, 0.1) 0px, transparent 50%)',
+        // Card gradients (Euphoria purple)
+        'gradient-intimate': 'linear-gradient(135deg, #1A1833 0%, #010040 100%)',
+        'gradient-safe': 'linear-gradient(135deg, #1A1833 0%, #010040 100%)',
+        'gradient-premium': 'linear-gradient(135deg, #2D2A4D 0%, #1A1833 100%)',
+        // Dark mode gradients
+        'gradient-dark': 'linear-gradient(135deg, #010040 0%, #1A1833 100%)',
+        'gradient-dark-warm': 'linear-gradient(135deg, #1A1833 0%, #2D2A4D 100%)',
+        // Mesh backgrounds - Euphoria style
+        'mesh-warm': 'radial-gradient(at 40% 20%, rgba(139, 92, 246, 0.15) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(170, 49, 172, 0.12) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(114, 126, 245, 0.1) 0px, transparent 50%)',
+        'mesh-dark': 'radial-gradient(at 40% 20%, rgba(63, 21, 122, 0.25) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(110, 50, 162, 0.2) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(114, 126, 245, 0.15) 0px, transparent 50%)',
         // Shimmer gradient
         'shimmer': 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
       },

@@ -34,16 +34,10 @@ import {
   PostWithRelations, 
   HangoutWithRelations 
 } from '@/types/database'
-import { cn, pluralize, communityTypeConfig } from '@/utils/helpers'
+import { cn, pluralize } from '@/utils/helpers'
 import toast from 'react-hot-toast'
 
 type CommunityTab = 'posts' | 'hangouts' | 'members'
-
-const typeIcons = {
-  society: Home,
-  campus: GraduationCap,
-  office: Building2,
-}
 
 export default function CommunityDetailPage() {
   const params = useParams()
@@ -56,7 +50,7 @@ export default function CommunityDetailPage() {
   const [membership, setMembership] = useState<CommunityMembership | null>(null)
   const [posts, setPosts] = useState<PostWithRelations[]>([])
   const [hangouts, setHangouts] = useState<HangoutWithRelations[]>([])
-  const [members, setMembers] = useState<User[]>([])
+  const [members, setMembers] = useState<Array<User & { role?: string }>>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isJoining, setIsJoining] = useState(false)
 
@@ -142,7 +136,7 @@ export default function CommunityDetailPage() {
       // Fetch community members
       const { data: membershipsData } = await supabase
         .from('community_memberships')
-        .select('user_id')
+        .select('user_id, role')
         .eq('community_id', communityId)
         .eq('status', 'approved')
         .limit(50)
@@ -154,7 +148,16 @@ export default function CommunityDetailPage() {
           .select('*')
           .in('id', userIds)
 
-        setMembers((usersData || []) as User[])
+        // Combine user data with role information
+        const membersWithRoles = (usersData || []).map((user: any) => {
+          const membership = (membershipsData as any[]).find((m: any) => m.user_id === user.id)
+          return {
+            ...user,
+            role: membership?.role
+          }
+        })
+
+        setMembers(membersWithRoles)
       }
     } catch (error) {
       console.error('Error fetching community:', error)
@@ -231,8 +234,6 @@ export default function CommunityDetailPage() {
     )
   }
 
-  const TypeIcon = typeIcons[community.type]
-  const typeConfig = communityTypeConfig[community.type]
   const isMember = membership?.status === 'approved'
   const isPending = membership?.status === 'pending'
   const isAdmin = membership?.role === 'admin' || community.admin_id === user.id
@@ -240,14 +241,9 @@ export default function CommunityDetailPage() {
   return (
     <AppShell>
 
-      <main className="min-h-screen pt-16 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-16 pb-24 bg-stone-900">
         {/* Cover & Header */}
-        <div className={cn(
-          'h-48 bg-gradient-to-br relative',
-          community.type === 'society' && 'from-tertiary-400 to-tertiary-600',
-          community.type === 'campus' && 'from-primary-400 to-primary-600',
-          community.type === 'office' && 'from-secondary-400 to-secondary-600',
-        )}>
+        <div className="h-48 bg-gradient-to-br from-violet-500 to-magenta-600 relative">
           {community.cover_image_url && (
             <img
               src={community.cover_image_url}
@@ -260,7 +256,7 @@ export default function CommunityDetailPage() {
           {/* Back Button */}
           <Link
             href="/communities"
-            className="absolute top-4 left-4 p-2 bg-dark-card/20 backdrop-blur-sm rounded-full text-white hover:bg-dark-card/30 transition-colors"
+            className="absolute top-4 left-4 p-2 bg-stone-800/20 backdrop-blur-sm rounded-full text-white hover:bg-stone-800/30 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
@@ -269,7 +265,7 @@ export default function CommunityDetailPage() {
           {isAdmin && (
             <Link
               href={`/communities/${community.id}/admin`}
-              className="absolute top-4 right-4 p-2 bg-dark-card/20 backdrop-blur-sm rounded-full text-white hover:bg-dark-card/30 transition-colors"
+              className="absolute top-4 right-4 p-2 bg-stone-800/20 backdrop-blur-sm rounded-full text-white hover:bg-stone-800/30 transition-colors"
             >
               <Settings className="w-5 h-5" />
             </Link>
@@ -281,17 +277,13 @@ export default function CommunityDetailPage() {
           <Card variant="elevated" className="p-6">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <div className="flex-1">
-                <Badge variant="default" size="sm" className="mb-3 inline-block">
-                  <TypeIcon className="w-3 h-3 mr-1" />
-                  {typeConfig.label}
-                </Badge>
                 <h1 className="text-4xl font-display font-bold text-white break-words mb-2 min-h-[2.5rem] flex items-center">
                   {community?.name || 'Loading...'}
                 </h1>
                 {community.description && (
-                  <p className="text-neutral-400 mt-2">{community.description}</p>
+                  <p className="text-stone-400 mt-2">{community.description}</p>
                 )}
-                <div className="flex items-center gap-4 mt-3 text-sm text-neutral-400">
+                <div className="flex items-center gap-4 mt-3 text-sm text-stone-400">
                   {community.location && (
                     <span className="flex items-center gap-1">
                       <MapPin className="w-4 h-4" />
@@ -337,7 +329,7 @@ export default function CommunityDetailPage() {
 
             {/* Member Preview */}
             {members.length > 0 && (
-              <div className="mt-6 pt-6 border-t border-dark-border">
+              <div className="mt-6 pt-6 border-t border-stone-700">
                 <div className="flex items-center justify-between">
                   <AvatarGroup users={members.slice(0, 8)} size="sm" max={8} />
                   <Link
@@ -452,16 +444,16 @@ export default function CommunityDetailPage() {
                                 size="md"
                               />
                               <div className="flex-1 min-w-0">
-                                <p className="font-semibold text-neutral-100 truncate">
+                                <p className="font-semibold text-stone-50 truncate">
                                   {member.name}
                                 </p>
                                 {member.bio && (
-                                  <p className="text-sm text-neutral-500 truncate">
+                                  <p className="text-sm text-stone-500 truncate">
                                     {member.bio}
                                   </p>
                                 )}
                               </div>
-                              {member.id === community.admin_id && (
+                              {(member.id === community.admin_id || member.role === 'admin') && (
                                 <Badge variant="primary" size="sm">Admin</Badge>
                               )}
                             </div>

@@ -38,7 +38,7 @@ export function AIChatBubble({ onClick, hasUnread = false }: AIChatBubbleProps) 
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
-          className="absolute -top-1 -right-1 w-4 h-4 bg-jade-500 rounded-full border-2 border-dark-bg"
+          className="absolute -top-1 -right-1 w-4 h-4 bg-jade-500 rounded-full border-2 border-stone-900"
         />
       )}
 
@@ -49,9 +49,9 @@ export function AIChatBubble({ onClick, hasUnread = false }: AIChatBubbleProps) 
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
-            className="absolute right-full mr-3 px-3 py-1.5 bg-dark-elevated rounded-lg whitespace-nowrap"
+            className="absolute right-full mr-3 px-3 py-1.5 bg-stone-700 rounded-lg whitespace-nowrap"
           >
-            <span className="text-sm text-text-primary font-medium">Ask {HAPIEN_AI.name}</span>
+            <span className="text-sm text-stone-50 font-medium">Ask {HAPIEN_AI.name}</span>
           </motion.div>
         )}
       </AnimatePresence>

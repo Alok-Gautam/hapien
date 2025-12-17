@@ -183,7 +183,7 @@ export default function WallPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center">
+      <div className="min-h-screen bg-stone-900 flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-coral-500 animate-spin" />
       </div>
     )
@@ -192,14 +192,14 @@ export default function WallPage() {
   if (!user) return null
 
   return (
-    <div className="min-h-screen bg-dark-bg pb-24">
+    <div className="min-h-screen bg-stone-900 pb-24">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-dark-bg/80 backdrop-blur-lg border-b border-dark-border">
+      <header className="sticky top-0 z-40 bg-stone-900/80 backdrop-blur-lg border-b border-stone-700">
         <div className="px-4 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold text-text-primary">Your Wall</h1>
-              <p className="text-sm text-text-muted flex items-center gap-1">
+              <h1 className="text-xl font-bold text-stone-50">Your Wall</h1>
+              <p className="text-sm text-stone-400 flex items-center gap-1">
                 <Users className="w-4 h-4" />
                 {connectionsCount} connections
               </p>

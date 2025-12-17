@@ -159,7 +159,7 @@ function TimeUnit({ value, label, color, isUrgent }: TimeUnitProps) {
       >
         {String(value).padStart(2, '0')}
       </motion.div>
-      <span className="text-xs text-text-muted uppercase tracking-wider">{label}</span>
+      <span className="text-xs text-stone-400 uppercase tracking-wider">{label}</span>
     </div>
   );
 }

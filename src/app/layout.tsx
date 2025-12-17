@@ -57,7 +57,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: '#F59E0B', // Amber primary
+  themeColor: '#8B5CF6', // Violet primary
 }
 
 export default function RootLayout({
@@ -88,32 +88,32 @@ export default function RootLayout({
           toastOptions={{
             duration: 4000,
             style: {
-              background: '#FFFFFF',
-              color: '#1C1917',
+              background: '#1A1833',
+              color: '#F8F7FF',
               borderRadius: '16px',
               padding: '14px 18px',
-              border: '1px solid #E7E5E4',
-              boxShadow: '0 4px 16px -4px rgba(28, 25, 23, 0.1)',
+              border: '1px solid #504D73',
+              boxShadow: '0 4px 16px -4px rgba(63, 21, 122, 0.4)',
               fontFamily: 'Plus Jakarta Sans, system-ui, sans-serif',
             },
             success: {
               iconTheme: {
                 primary: '#22C55E', // Sage
-                secondary: '#FFFFFF',
+                secondary: '#F8F7FF',
               },
               style: {
-                background: '#F0FDF4',
-                borderColor: '#BBF7D0',
+                background: '#14532D',
+                borderColor: '#166534',
               },
             },
             error: {
               iconTheme: {
                 primary: '#F43F5E', // Rose
-                secondary: '#FFFFFF',
+                secondary: '#F8F7FF',
               },
               style: {
-                background: '#FFF1F2',
-                borderColor: '#FECDD3',
+                background: '#9F1239',
+                borderColor: '#BE123C',
               },
             },
           }}

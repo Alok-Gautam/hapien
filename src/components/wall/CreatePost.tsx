@@ -55,7 +55,7 @@ export function CreatePost({ user, onPost }: CreatePostProps) {
   const selectedVisibility = visibilityOptions.find(v => v.value === visibility)!
 
   return (
-    <div className="card-dark p-4">
+    <div className="bg-stone-800 border border-stone-700 rounded-xl p-4">
       {/* User avatar and input */}
       <div className="flex gap-3">
         {/* Avatar */}
@@ -80,7 +80,7 @@ export function CreatePost({ user, onPost }: CreatePostProps) {
             onChange={(e) => setContent(e.target.value)}
             onFocus={() => setIsFocused(true)}
             placeholder="Share a moment with your tribe..."
-            className="w-full bg-transparent text-text-primary placeholder-text-muted resize-none outline-none min-h-[60px]"
+            className="w-full bg-transparent text-stone-50 placeholder-stone-400 resize-none outline-none min-h-[60px]"
             rows={isFocused ? 3 : 2}
           />
 
@@ -115,14 +115,14 @@ export function CreatePost({ user, onPost }: CreatePostProps) {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="flex items-center justify-between mt-3 pt-3 border-t border-dark-border"
+                className="flex items-center justify-between mt-3 pt-3 border-t border-stone-700"
               >
                 {/* Left actions */}
                 <div className="flex items-center gap-2">
                   {/* Image upload */}
                   <button
                     onClick={() => fileInputRef.current?.click()}
-                    className="p-2 text-text-muted hover:text-coral-500 hover:bg-coral-500/10 rounded-lg transition-colors"
+                    className="p-2 text-stone-500 hover:text-coral-500 hover:bg-coral-500/10 rounded-lg transition-colors"
                     title="Add photos"
                   >
                     <Image className="w-5 h-5" />
@@ -140,7 +140,7 @@ export function CreatePost({ user, onPost }: CreatePostProps) {
                   <div className="relative">
                     <button
                       onClick={() => setShowVisibilityDropdown(!showVisibilityDropdown)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-text-secondary hover:text-text-primary hover:bg-dark-surface rounded-lg transition-colors"
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-stone-300 hover:text-stone-50 hover:bg-stone-700 rounded-lg transition-colors"
                     >
                       {selectedVisibility.icon}
                       <span>{selectedVisibility.label}</span>
@@ -153,7 +153,7 @@ export function CreatePost({ user, onPost }: CreatePostProps) {
                           initial={{ opacity: 0, y: -10 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -10 }}
-                          className="absolute bottom-full left-0 mb-2 w-56 card-dark-elevated rounded-xl overflow-hidden z-10"
+                          className="absolute bottom-full left-0 mb-2 w-56 bg-stone-700 rounded-xl overflow-hidden z-10 shadow-lg border border-stone-600"
                         >
                           {visibilityOptions.map((option) => (
                             <button
@@ -162,14 +162,14 @@ export function CreatePost({ user, onPost }: CreatePostProps) {
                                 setVisibility(option.value)
                                 setShowVisibilityDropdown(false)
                               }}
-                              className={`w-full flex items-start gap-3 p-3 hover:bg-dark-surface transition-colors ${
-                                visibility === option.value ? 'bg-dark-surface' : ''
+                              className={`w-full flex items-start gap-3 p-3 hover:bg-stone-600 transition-colors ${
+                                visibility === option.value ? 'bg-stone-600' : ''
                               }`}
                             >
-                              <div className="text-text-muted mt-0.5">{option.icon}</div>
+                              <div className="text-stone-400 mt-0.5">{option.icon}</div>
                               <div className="text-left">
-                                <div className="text-sm font-medium text-text-primary">{option.label}</div>
-                                <div className="text-xs text-text-muted">{option.description}</div>
+                                <div className="text-sm font-medium text-stone-50">{option.label}</div>
+                                <div className="text-xs text-stone-400">{option.description}</div>
                               </div>
                             </button>
                           ))}

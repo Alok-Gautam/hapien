@@ -139,12 +139,12 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
   return (
     <AppShell>
 
-      <main className="min-h-screen pt-16 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-16 pb-24 bg-stone-900">
         <div className="max-w-2xl mx-auto px-4 py-6">
           {/* Back Button */}
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 text-neutral-400 hover:text-neutral-100 mb-6 transition-colors"
+            className="flex items-center gap-2 text-stone-400 hover:text-stone-50 mb-6 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
             Back
@@ -152,10 +152,10 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-display font-bold text-neutral-100">
+            <h1 className="text-2xl font-display font-bold text-stone-50">
               Edit Hangout
             </h1>
-            <p className="text-neutral-400 mt-1">
+            <p className="text-stone-400 mt-1">
               Update your hangout details
             </p>
           </div>
@@ -205,7 +205,7 @@ export default function EditHangoutPage({ params }: EditHangoutPageProps) {
                           'flex items-center gap-2 px-4 py-2 rounded-full border-2 transition-all',
                           category === cat
                             ? `border-${config.color.split('-')[1]}-500 bg-${config.color.split('-')[1]}-50`
-                            : 'border-dark-border hover:border-neutral-300'
+                            : 'border-stone-700 hover:border-neutral-300'
                         )}
                       >
                         <span>{config.emoji}</span>

@@ -7,8 +7,6 @@ import {
   Search,
   Users,
   Home,
-  GraduationCap,
-  Building2,
   Calendar,
   MapPin,
   X,
@@ -24,17 +22,11 @@ import { EmptyState } from '@/components/ui/EmptyState'
 import { createClient } from '@/lib/supabase/client'
 import { useAuth } from '@/hooks/useAuth'
 import { User, Community, Hangout } from '@/types/database'
-import { cn, pluralize, communityTypeConfig } from '@/utils/helpers'
+import { cn, pluralize } from '@/utils/helpers'
 import toast from 'react-hot-toast'
 import { useSearchParams } from 'next/navigation'
 
 type SearchTab = 'all' | 'people' | 'communities' | 'hangouts'
-
-const typeIcons = {
-  society: Home,
-  campus: GraduationCap,
-  office: Building2,
-}
 
 function SearchContent() {
   const { user } = useAuth()
@@ -212,12 +204,12 @@ function SearchContent() {
                   </Link>
                   <div className="flex-1 min-w-0">
                     <Link href={`/profile/${person.id}`}>
-                      <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
+                      <h3 className="font-semibold text-stone-50 hover:text-primary-400 transition-colors">
                         {person.name}
                       </h3>
                     </Link>
                     {person.bio && (
-                      <p className="text-sm text-neutral-500 truncate">{person.bio}</p>
+                      <p className="text-sm text-stone-500 truncate">{person.bio}</p>
                     )}
                   </div>
                   {friendStatus === 'friends' ? (
@@ -261,9 +253,7 @@ function SearchContent() {
     return (
       <div className="space-y-3">
         {communities.map((community, index) => {
-          const TypeIcon = typeIcons[community.type]
           const membership = memberships[community.id]
-          const typeConfig = communityTypeConfig[community.type]
 
           return (
             <motion.div
@@ -274,23 +264,16 @@ function SearchContent() {
             >
               <Card className="p-4">
                 <div className="flex items-center gap-4">
-                  <div className={cn(
-                    'w-12 h-12 rounded-xl flex items-center justify-center',
-                    community.type === 'society' && 'bg-tertiary-100 text-tertiary-600',
-                    community.type === 'campus' && 'bg-primary-100 text-primary-400',
-                    community.type === 'office' && 'bg-secondary-100 text-secondary-600',
-                  )}>
-                    <TypeIcon className="w-6 h-6" />
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-violet-900/20 text-violet-400">
+                    <Home className="w-6 h-6" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <Link href={`/communities/${community.id}`}>
-                      <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
+                      <h3 className="font-semibold text-stone-50 hover:text-primary-400 transition-colors">
                         {community.name}
                       </h3>
                     </Link>
-                    <div className="flex items-center gap-3 text-sm text-neutral-500">
-                      <span>{typeConfig.label}</span>
-                      <span>•</span>
+                    <div className="flex items-center gap-3 text-sm text-stone-500">
                       <span>{community.member_count} {pluralize(community.member_count, 'member')}</span>
                     </div>
                   </div>
@@ -342,7 +325,7 @@ function SearchContent() {
               <Link href={`/hangouts/${hangout.id}`}>
                 <Card className="p-4 hover:shadow-soft-lg transition-shadow">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-primary-100 flex flex-col items-center justify-center text-primary-400">
+                    <div className="w-12 h-12 rounded-xl bg-primary-900/20 flex flex-col items-center justify-center text-primary-400">
                       <span className="text-xs font-medium uppercase">
                         {date.toLocaleDateString('en-US', { month: 'short' })}
                       </span>
@@ -351,8 +334,8 @@ function SearchContent() {
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-neutral-100">{hangout.title}</h3>
-                      <p className="text-sm text-neutral-500 flex items-center gap-1 mt-1">
+                      <h3 className="font-semibold text-stone-50">{hangout.title}</h3>
+                      <p className="text-sm text-stone-500 flex items-center gap-1 mt-1">
                         <MapPin className="w-3 h-3" />
                         {hangout.location?.name || 'TBD'}
                       </p>
@@ -362,7 +345,7 @@ function SearchContent() {
                           name={hangout.host?.name || 'Host'}
                           size="xs"
                         />
-                        <span className="text-sm text-neutral-500">
+                        <span className="text-sm text-stone-500">
                           Hosted by {hangout.host?.name}
                         </span>
                       </div>
@@ -387,7 +370,7 @@ function SearchContent() {
         {people.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-semibold text-neutral-100">People</h2>
+              <h2 className="font-semibold text-stone-50">People</h2>
               {people.length > 3 && (
                 <button
                   onClick={() => setActiveTab('people')}
@@ -404,7 +387,7 @@ function SearchContent() {
         {communities.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-semibold text-neutral-100">Communities</h2>
+              <h2 className="font-semibold text-stone-50">Communities</h2>
               {communities.length > 3 && (
                 <button
                   onClick={() => setActiveTab('communities')}
@@ -421,7 +404,7 @@ function SearchContent() {
         {hangouts.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-semibold text-neutral-100">Hangouts</h2>
+              <h2 className="font-semibold text-stone-50">Hangouts</h2>
               {hangouts.length > 3 && (
                 <button
                   onClick={() => setActiveTab('hangouts')}
@@ -441,19 +424,19 @@ function SearchContent() {
   return (
     <AppShell>
 
-      <main className="min-h-screen pt-16 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-16 pb-24 bg-stone-900">
         <div className="max-w-2xl mx-auto px-4 py-6">
           {/* Search Input */}
           <div className="mb-6">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
               <input
                 type="text"
                 placeholder="Search people, communities, hangouts..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                className="w-full pl-12 pr-12 py-3 bg-dark-card rounded-xl border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
+                className="w-full pl-12 pr-12 py-3 bg-stone-800 rounded-xl border border-stone-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
                 autoFocus
               />
               {searchQuery && (
@@ -465,7 +448,7 @@ function SearchContent() {
                     setHangouts([])
                     setHasSearched(false)
                   }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-neutral-400 hover:text-neutral-400"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-stone-400 hover:text-stone-400"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -482,7 +465,7 @@ function SearchContent() {
           {!hasSearched ? (
             <div className="text-center py-12">
               <Search className="w-12 h-12 text-neutral-300 mx-auto mb-4" />
-              <p className="text-neutral-500">Enter a search term to find people, communities, or hangouts</p>
+              <p className="text-stone-500">Enter a search term to find people, communities, or hangouts</p>
             </div>
           ) : isLoading ? (
             <div className="space-y-4">

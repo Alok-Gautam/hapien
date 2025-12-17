@@ -39,7 +39,7 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="card-dark"
+      className="bg-stone-800 border border-stone-700 rounded-xl"
     >
       {/* Header */}
       <div className="flex items-start justify-between p-4 pb-0">
@@ -61,8 +61,8 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
 
           {/* Name and time */}
           <div>
-            <h4 className="font-semibold text-text-primary">{post.user.name || 'Anonymous'}</h4>
-            <p className="text-xs text-text-muted">{timeAgo}</p>
+            <h4 className="font-semibold text-stone-50">{post.user.name || 'Anonymous'}</h4>
+            <p className="text-xs text-stone-400">{timeAgo}</p>
           </div>
         </div>
 
@@ -70,7 +70,7 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
         <div className="relative">
           <button
             onClick={() => setShowMenu(!showMenu)}
-            className="p-2 text-text-muted hover:text-text-primary hover:bg-dark-surface rounded-lg transition-colors"
+            className="p-2 text-stone-400 hover:text-stone-50 hover:bg-stone-700 rounded-lg transition-colors"
           >
             <MoreHorizontal className="w-5 h-5" />
           </button>
@@ -81,7 +81,7 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="absolute right-0 top-full mt-1 w-48 card-dark-elevated rounded-xl overflow-hidden z-10"
+                className="absolute right-0 top-full mt-1 w-48 bg-stone-700 border border-stone-600 rounded-xl overflow-hidden z-10 shadow-lg"
               >
                 {isOwnPost && onDelete && (
                   <button
@@ -89,7 +89,7 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
                       onDelete(post.id)
                       setShowMenu(false)
                     }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-urgent-500 hover:bg-dark-surface transition-colors"
+                    className="w-full flex items-center gap-3 px-4 py-3 text-rose-500 hover:bg-stone-600 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                     Delete post
@@ -98,7 +98,7 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
                 {!isOwnPost && (
                   <button
                     onClick={() => setShowMenu(false)}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-text-secondary hover:bg-dark-surface transition-colors"
+                    className="w-full flex items-center gap-3 px-4 py-3 text-stone-300 hover:bg-stone-600 transition-colors"
                   >
                     <Flag className="w-4 h-4" />
                     Report
@@ -112,7 +112,7 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
 
       {/* Content */}
       {post.content && (
-        <p className="px-4 py-3 text-text-primary whitespace-pre-wrap">{post.content}</p>
+        <p className="px-4 py-3 text-stone-50 whitespace-pre-wrap">{post.content}</p>
       )}
 
       {/* Media */}
@@ -136,7 +136,7 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
       )}
 
       {/* Stats */}
-      <div className="flex items-center gap-4 px-4 py-2 text-sm text-text-muted">
+      <div className="flex items-center gap-4 px-4 py-2 text-sm text-stone-400">
         {post.reactions_count > 0 && (
           <span>{post.reactions_count} {post.reactions_count === 1 ? 'like' : 'likes'}</span>
         )}
@@ -146,13 +146,13 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
       </div>
 
       {/* Actions */}
-      <div className="flex items-center border-t border-dark-border">
+      <div className="flex items-center border-t border-stone-700">
         <button
           onClick={handleReact}
           className={`flex-1 flex items-center justify-center gap-2 py-3 transition-colors ${
             isLiked
-              ? 'text-urgent-500'
-              : 'text-text-muted hover:text-urgent-500'
+              ? 'text-rose-500'
+              : 'text-stone-400 hover:text-rose-500'
           }`}
         >
           <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
@@ -161,13 +161,13 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
 
         <button
           onClick={() => setShowComments(!showComments)}
-          className="flex-1 flex items-center justify-center gap-2 py-3 text-text-muted hover:text-coral-500 transition-colors"
+          className="flex-1 flex items-center justify-center gap-2 py-3 text-stone-400 hover:text-amber-500 transition-colors"
         >
           <MessageCircle className="w-5 h-5" />
           <span className="text-sm font-medium">Comment</span>
         </button>
 
-        <button className="flex-1 flex items-center justify-center gap-2 py-3 text-text-muted hover:text-jade-500 transition-colors">
+        <button className="flex-1 flex items-center justify-center gap-2 py-3 text-stone-400 hover:text-sage-500 transition-colors">
           <Share2 className="w-5 h-5" />
           <span className="text-sm font-medium">Share</span>
         </button>
@@ -180,7 +180,7 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="border-t border-dark-border"
+            className="border-t border-stone-700"
           >
             {/* Existing comments */}
             {post.comments.length > 0 && (
@@ -200,11 +200,11 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
                         </span>
                       </div>
                     )}
-                    <div className="flex-1 bg-dark-surface rounded-xl px-3 py-2">
-                      <span className="font-semibold text-sm text-text-primary">
+                    <div className="flex-1 bg-stone-700 rounded-xl px-3 py-2">
+                      <span className="font-semibold text-sm text-stone-50">
                         {comment.user.name || 'Anonymous'}
                       </span>
-                      <p className="text-sm text-text-secondary">{comment.content}</p>
+                      <p className="text-sm text-stone-300">{comment.content}</p>
                     </div>
                   </div>
                 ))}
@@ -226,19 +226,19 @@ export function PostCard({ post, currentUser, onReact, onComment, onDelete }: Po
                   </span>
                 </div>
               )}
-              <div className="flex-1 flex items-center gap-2 bg-dark-surface rounded-full px-4 py-2">
+              <div className="flex-1 flex items-center gap-2 bg-stone-700 rounded-full px-4 py-2">
                 <input
                   type="text"
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleComment()}
                   placeholder="Write a comment..."
-                  className="flex-1 bg-transparent text-sm text-text-primary placeholder-text-muted outline-none"
+                  className="flex-1 bg-transparent text-sm text-stone-50 placeholder-stone-400 outline-none"
                 />
                 <button
                   onClick={handleComment}
                   disabled={!commentText.trim()}
-                  className="text-coral-500 disabled:text-text-muted disabled:cursor-not-allowed"
+                  className="text-amber-500 disabled:text-stone-400 disabled:cursor-not-allowed"
                 >
                   <span className="text-sm font-semibold">Post</span>
                 </button>

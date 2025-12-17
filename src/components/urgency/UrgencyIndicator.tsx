@@ -102,7 +102,7 @@ export function UrgencyIndicator({
       {/* Spots progress bar */}
       {spotsLeft !== undefined && maxSpots !== undefined && (
         <div className="flex items-center gap-2">
-          <div className="flex-1 h-1.5 rounded-full bg-dark-surface overflow-hidden">
+          <div className="flex-1 h-1.5 rounded-full bg-stone-700 overflow-hidden">
             <motion.div
               className="h-full rounded-full"
               style={{ background: config.color }}
@@ -111,7 +111,7 @@ export function UrgencyIndicator({
               transition={{ duration: 0.5 }}
             />
           </div>
-          <span className="text-xs text-text-muted">
+          <span className="text-xs text-stone-400">
             {maxSpots - spotsLeft}/{maxSpots}
           </span>
         </div>
@@ -119,7 +119,7 @@ export function UrgencyIndicator({
 
       {/* Live watchers indicator */}
       {watchersCount !== undefined && watchersCount > 0 && (
-        <div className="flex items-center gap-1 text-xs text-text-muted">
+        <div className="flex items-center gap-1 text-xs text-stone-400">
           <Zap className="w-3 h-3 text-gold-500" />
           <span>{watchersCount} people looking at this right now</span>
         </div>
@@ -202,14 +202,14 @@ export function HappyHourBanner({ endTime, multiplier, className = '' }: HappyHo
           </motion.div>
           <div>
             <h3 className="font-bold text-gold-500">HAPPY HOUR BONUS</h3>
-            <p className="text-sm text-text-muted">
+            <p className="text-sm text-stone-400">
               Complete any hangout for{' '}
               <span className="font-bold text-gold-500">{multiplier}x XP</span>
             </p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-xs text-text-muted">Ends in</p>
+          <p className="text-xs text-stone-400">Ends in</p>
           <p className="text-lg font-bold text-gold-500">{timeDisplay}</p>
         </div>
       </div>

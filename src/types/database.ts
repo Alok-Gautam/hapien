@@ -75,7 +75,6 @@ export type Database = {
         Row: {
           id: string
           name: string
-          type: 'society' | 'campus' | 'office'
           location: {
             address: string
             lat: number
@@ -93,7 +92,6 @@ export type Database = {
         Insert: {
           id?: string
           name: string
-          type: 'society' | 'campus' | 'office'
           location?: {
             address: string
             lat: number
@@ -111,7 +109,6 @@ export type Database = {
         Update: {
           id?: string
           name?: string
-          type?: 'society' | 'campus' | 'office'
           location?: {
             address: string
             lat: number
@@ -381,7 +378,6 @@ export type CommunityWithRelations = Community & {
 }
 
 export type HangoutCategory = Hangout['category']
-export type CommunityType = Community['type']
 export type PostVisibility = Post['visibility']
 export type HangoutVisibility = Hangout['visibility']
 

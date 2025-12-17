@@ -306,21 +306,21 @@ export default function ConnectsPage() {
   return (
     <AppShell>
 
-      <main className="min-h-screen pt-16 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-16 pb-24 bg-stone-900">
         <div className="max-w-2xl mx-auto px-4 py-6">
           {/* Header */}
           <div className="mb-6">
             <Link
               href="/profile"
-              className="flex items-center gap-2 text-neutral-400 hover:text-neutral-100 mb-4 transition-colors"
+              className="flex items-center gap-2 text-stone-400 hover:text-stone-50 mb-4 transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
               Back to Profile
             </Link>
-            <h1 className="text-2xl font-display font-bold text-neutral-100">
+            <h1 className="text-2xl font-display font-bold text-stone-50">
               Connects
             </h1>
-            <p className="text-neutral-400 mt-1">
+            <p className="text-stone-400 mt-1">
               Manage your connections
             </p>
           </div>
@@ -328,13 +328,13 @@ export default function ConnectsPage() {
           {/* Search */}
           <div className="mb-6">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
               <input
                 type="text"
                 placeholder="Search for connects..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-dark-card rounded-xl border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-stone-800 rounded-xl border border-stone-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
               />
             </div>
 
@@ -356,11 +356,11 @@ export default function ConnectsPage() {
                         size="md"
                       />
                       <div>
-                        <p className="font-medium text-neutral-100">
+                        <p className="font-medium text-stone-50">
                           {searchUser.name}
                         </p>
                         {searchUser.bio && (
-                          <p className="text-sm text-neutral-500 line-clamp-1">
+                          <p className="text-sm text-stone-500 line-clamp-1">
                             {searchUser.bio}
                           </p>
                         )}
@@ -382,7 +382,7 @@ export default function ConnectsPage() {
                       </span>
                     )}
                     {hasPendingRequest(searchUser.id) && (
-                      <span className="text-sm text-neutral-400 flex items-center gap-1">
+                      <span className="text-sm text-stone-400 flex items-center gap-1">
                         <Clock className="w-4 h-4" />
                         Pending
                       </span>
@@ -400,7 +400,7 @@ export default function ConnectsPage() {
                 <Users className="w-4 h-4 mr-1.5" />
                 Connects
                 {connects.length > 0 && (
-                  <span className="ml-1.5 text-xs bg-neutral-200 px-1.5 py-0.5 rounded-full">
+                  <span className="ml-1.5 text-xs bg-stone-700 px-1.5 py-0.5 rounded-full">
                     {connects.length}
                   </span>
                 )}
@@ -416,7 +416,7 @@ export default function ConnectsPage() {
               <TabsTrigger value="sent">
                 Sent
                 {pendingSent.length > 0 && (
-                  <span className="ml-1.5 text-xs bg-neutral-200 px-1.5 py-0.5 rounded-full">
+                  <span className="ml-1.5 text-xs bg-stone-700 px-1.5 py-0.5 rounded-full">
                     {pendingSent.length}
                   </span>
                 )}
@@ -465,11 +465,11 @@ export default function ConnectsPage() {
                               href={`/profile/${connectUser.id}`}
                               className="flex-1"
                             >
-                              <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
+                              <h3 className="font-semibold text-stone-50 hover:text-primary-400 transition-colors">
                                 {connectUser.name}
                               </h3>
                               {connectUser.bio && (
-                                <p className="text-sm text-neutral-500 line-clamp-1">
+                                <p className="text-sm text-stone-500 line-clamp-1">
                                   {connectUser.bio}
                                 </p>
                               )}
@@ -480,7 +480,7 @@ export default function ConnectsPage() {
                               onClick={() => handleRemoveConnect(friendship.id)}
                               disabled={actionLoading === friendship.id}
                             >
-                              <UserX className="w-4 h-4 text-neutral-400" />
+                              <UserX className="w-4 h-4 text-stone-400" />
                             </Button>
                           </div>
                         </Card>
@@ -529,11 +529,11 @@ export default function ConnectsPage() {
                               href={`/profile/${requestUser.id}`}
                               className="flex-1"
                             >
-                              <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
+                              <h3 className="font-semibold text-stone-50 hover:text-primary-400 transition-colors">
                                 {requestUser.name}
                               </h3>
                               {requestUser.bio && (
-                                <p className="text-sm text-neutral-500 line-clamp-1">
+                                <p className="text-sm text-stone-500 line-clamp-1">
                                   {requestUser.bio}
                                 </p>
                               )}
@@ -602,10 +602,10 @@ export default function ConnectsPage() {
                               href={`/profile/${targetUser.id}`}
                               className="flex-1"
                             >
-                              <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
+                              <h3 className="font-semibold text-stone-50 hover:text-primary-400 transition-colors">
                                 {targetUser.name}
                               </h3>
-                              <p className="text-sm text-neutral-400 flex items-center gap-1">
+                              <p className="text-sm text-stone-400 flex items-center gap-1">
                                 <Clock className="w-3 h-3" />
                                 Request pending
                               </p>
@@ -644,7 +644,7 @@ export default function ConnectsPage() {
                 />
               ) : (
                 <div>
-                  <p className="text-sm text-neutral-500 mb-4">
+                  <p className="text-sm text-stone-500 mb-4">
                     People from your communities
                   </p>
                   <AnimatePresence mode="popLayout">
@@ -670,11 +670,11 @@ export default function ConnectsPage() {
                                 href={`/profile/${suggestion.id}`}
                                 className="flex-1"
                               >
-                                <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
+                                <h3 className="font-semibold text-stone-50 hover:text-primary-400 transition-colors">
                                   {suggestion.name}
                                 </h3>
                                 {suggestion.bio && (
-                                  <p className="text-sm text-neutral-500 line-clamp-1">
+                                  <p className="text-sm text-stone-500 line-clamp-1">
                                     {suggestion.bio}
                                   </p>
                                 )}

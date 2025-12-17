@@ -38,7 +38,7 @@ export function Header({
         'sticky top-0 z-30 px-4 py-3',
         transparent
           ? 'bg-transparent'
-          : 'bg-white/90 backdrop-blur-lg border-b border-stone-200'
+          : 'bg-stone-800/90 backdrop-blur-lg border-b border-stone-700'
       )}
     >
       <div className="flex items-center justify-between max-w-4xl mx-auto">
@@ -55,12 +55,12 @@ export function Header({
                   className="w-full h-full object-contain"
                 />
               </div>
-              <span className="font-display text-xl font-bold text-stone-900 hidden sm:block">
+              <span className="font-display text-xl font-bold text-stone-50 hidden sm:block">
                 Hapien
               </span>
             </Link>
           ) : (
-            <h1 className="font-display text-xl font-semibold text-stone-900">
+            <h1 className="font-display text-xl font-semibold text-stone-50">
               {title || 'Hapien'}
             </h1>
           )}
@@ -71,7 +71,7 @@ export function Header({
           {showSearch && (
             <Link
               href="/search"
-              className="p-2.5 text-stone-500 hover:text-stone-700 hover:bg-stone-100 rounded-xl transition-colors duration-200"
+              className="p-2.5 text-stone-400 hover:text-stone-200 hover:bg-stone-700 rounded-xl transition-colors duration-200"
             >
               <Search className="w-5 h-5" />
             </Link>
@@ -80,12 +80,12 @@ export function Header({
           {showNotifications && (
             <Link
               href="/notifications"
-              className="relative p-2.5 text-stone-500 hover:text-stone-700 hover:bg-stone-100 rounded-xl transition-colors duration-200"
+              className="relative p-2.5 text-stone-400 hover:text-stone-200 hover:bg-stone-700 rounded-xl transition-colors duration-200"
             >
               <Bell className="w-5 h-5" />
               {/* Notification badge */}
               {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center bg-rose-500 text-white text-xs font-bold rounded-full px-1">
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center bg-rose-900/200 text-white text-xs font-bold rounded-full px-1">
                   {unreadCount > 9 ? '9+' : unreadCount}
                 </span>
               )}
@@ -133,8 +133,8 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
       className={cn(
         'px-4 py-2 text-sm font-medium rounded-xl transition-colors duration-200',
         isActive
-          ? 'text-amber-700 bg-amber-50'
-          : 'text-stone-500 hover:text-stone-900 hover:bg-stone-100'
+          ? 'text-amber-400 bg-stone-700'
+          : 'text-stone-400 hover:text-stone-50 hover:bg-stone-700'
       )}
     >
       {children}

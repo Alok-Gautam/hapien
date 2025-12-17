@@ -3,7 +3,26 @@
 @tailwind utilities;
 
 :root {
-  /* Light mode (default) - Warm Stone palette */
+  /* Dark mode (default) - Euphoria purple palette */
+  --color-bg-primary: #010040;
+  --color-bg-secondary: #1A1833;
+  --color-bg-elevated: #2D2A4D;
+  --color-border-subtle: #2D2A4D;
+  --color-border-default: #504D73;
+  --color-text-primary: #F8F7FF;
+  --color-text-secondary: #C4C1E0;
+  --color-text-muted: #9B97C0;
+
+  /* Accent colors - Euphoria */
+  --color-violet: #8B5CF6;
+  --color-magenta: #AA31AC;
+  --color-periwinkle: #727EF5;
+  --color-sage: #22C55E;
+  --color-rose: #F43F5E;
+}
+
+.light {
+  /* Light mode - Warm Stone palette */
   --color-bg-primary: #FAFAF9;
   --color-bg-secondary: #FFFFFF;
   --color-bg-elevated: #FFFFFF;
@@ -12,50 +31,34 @@
   --color-text-primary: #1C1917;
   --color-text-secondary: #57534E;
   --color-text-muted: #A8A29E;
-
-  /* Accent colors */
-  --color-amber: #F59E0B;
-  --color-sage: #22C55E;
-  --color-rose: #F43F5E;
-  --color-gold: #D4A574;
-}
-
-.dark {
-  /* Dark mode - Warm dark palette */
-  --color-bg-primary: #1C1917;
-  --color-bg-secondary: #292524;
-  --color-bg-elevated: #44403C;
-  --color-border-subtle: #44403C;
-  --color-border-default: #57534E;
-  --color-text-primary: #FAFAF9;
-  --color-text-secondary: #D6D3D1;
-  --color-text-muted: #A8A29E;
 }
 
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
+    background-color: #010040 !important;
   }
 
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: var(--color-text-primary);
     background-color: var(--color-bg-primary);
+    background-color: #010040 !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 
-  /* Light mode subtle mesh background */
+  /* Euphoria purple mesh background */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background-image:
-      radial-gradient(at 40% 20%, rgba(254, 243, 199, 0.4) 0px, transparent 50%),
-      radial-gradient(at 80% 0%, rgba(255, 228, 230, 0.3) 0px, transparent 50%),
-      radial-gradient(at 0% 50%, rgba(220, 252, 231, 0.2) 0px, transparent 50%);
+      radial-gradient(at 40% 20%, rgba(63, 21, 122, 0.3) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(110, 50, 162, 0.25) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, rgba(114, 126, 245, 0.2) 0px, transparent 50%);
     pointer-events: none;
     z-index: -1;
   }
@@ -95,25 +98,25 @@
 }
 
 @layer components {
-  /* Gradient text - warm amber */
+  /* Gradient text - violet/periwinkle */
   .gradient-text {
-    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    background: linear-gradient(135deg, #8B5CF6 0%, #727EF5 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* Gradient text - rose intimate */
+  /* Gradient text - magenta intimate */
   .gradient-text-intimate {
-    background: linear-gradient(135deg, #F43F5E 0%, #E11D48 100%);
+    background: linear-gradient(135deg, #AA31AC 0%, #E879F9 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* Focus ring - warm */
+  /* Focus ring - violet */
   .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:ring-offset-2;
+    @apply focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:ring-offset-2;
     --tw-ring-offset-color: var(--color-bg-primary);
   }
 
@@ -138,23 +141,23 @@
 
   /* Card variants */
   .card-surface {
-    @apply bg-white/80 backdrop-blur-sm border border-stone-200/50 rounded-2xl;
+    @apply bg-stone-800/80 backdrop-blur-sm border border-stone-700/50 rounded-2xl;
   }
 
   .card-elevated {
-    @apply bg-white shadow-soft-lg border border-stone-100 rounded-2xl;
+    @apply bg-stone-700 shadow-soft-lg border border-stone-600 rounded-2xl;
   }
 
   .card-intimate {
-    @apply bg-gradient-intimate border border-rose-200/50 shadow-intimate rounded-2xl;
+    @apply bg-gradient-intimate border border-rose-700/50 shadow-intimate rounded-2xl;
   }
 
   .card-safe {
-    @apply bg-gradient-safe border border-sage-200/50 shadow-safe rounded-2xl;
+    @apply bg-gradient-safe border border-sage-700/50 shadow-safe rounded-2xl;
   }
 
   .card-premium {
-    @apply bg-gradient-premium border border-stone-200/50 shadow-premium rounded-2xl overflow-hidden;
+    @apply bg-gradient-premium border border-stone-600/50 shadow-premium rounded-2xl overflow-hidden;
   }
 
   /* Card hover effect */
@@ -196,23 +199,23 @@
 
   /* Connection ring styles */
   .connection-ring-new {
-    @apply ring-2 ring-stone-300 ring-offset-2 ring-offset-white;
+    @apply ring-2 ring-stone-500 ring-offset-2 ring-offset-stone-900;
   }
 
   .connection-ring-growing {
-    @apply ring-2 ring-amber-300 ring-offset-2 ring-offset-white;
+    @apply ring-2 ring-amber-500 ring-offset-2 ring-offset-stone-900;
   }
 
   .connection-ring-strong {
-    @apply ring-2 ring-amber-500 ring-offset-2 ring-offset-white;
+    @apply ring-2 ring-amber-400 ring-offset-2 ring-offset-stone-900;
   }
 
   .connection-ring-deep {
-    @apply ring-2 ring-rose-500 ring-offset-2 ring-offset-white;
+    @apply ring-2 ring-rose-500 ring-offset-2 ring-offset-stone-900;
   }
 
   .connection-ring-kindred {
-    @apply ring-2 ring-rose-600 ring-offset-2 ring-offset-white animate-warm-glow;
+    @apply ring-2 ring-rose-600 ring-offset-2 ring-offset-stone-900 animate-warm-glow;
   }
 
   /* Premium gold accent */
@@ -230,7 +233,7 @@
   }
 
   .trust-dot-inactive {
-    @apply bg-stone-200;
+    @apply bg-stone-600;
   }
 }
 

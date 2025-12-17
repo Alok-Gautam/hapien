@@ -14,16 +14,16 @@ export function Badge({
   ...props
 }: BadgeProps) {
   const variants = {
-    default: 'bg-stone-100 text-stone-600',
-    primary: 'bg-amber-100 text-amber-700',
-    secondary: 'bg-stone-100 text-stone-600',
-    success: 'bg-sage-100 text-sage-700',
-    warning: 'bg-amber-100 text-amber-700',
-    danger: 'bg-rose-100 text-rose-700',
-    outline: 'border border-stone-200 text-stone-500 bg-transparent',
+    default: 'bg-stone-700 text-stone-600',
+    primary: 'bg-amber-900/30 text-amber-300',
+    secondary: 'bg-stone-700 text-stone-600',
+    success: 'bg-sage-900/30 text-sage-700',
+    warning: 'bg-amber-900/30 text-amber-300',
+    danger: 'bg-rose-900/30 text-rose-300',
+    outline: 'border border-stone-700 text-stone-500 bg-transparent',
     // New warm variants
-    intimate: 'bg-rose-50 text-rose-600 border border-rose-100',
-    safe: 'bg-sage-50 text-sage-600 border border-sage-100',
+    intimate: 'bg-rose-900/20 text-rose-400 border border-rose-100',
+    safe: 'bg-sage-900/20 text-sage-400 border border-sage-100',
     premium: 'bg-gradient-to-r from-stone-800 to-stone-700 text-white',
   }
 
@@ -58,14 +58,14 @@ export interface CategoryBadgeProps {
 
 // Updated category styles with warm palette
 const categoryStyles = {
-  sports: 'bg-amber-100 text-amber-700',
-  food: 'bg-rose-100 text-rose-700',
+  sports: 'bg-amber-900/30 text-amber-300',
+  food: 'bg-rose-900/30 text-rose-300',
   shopping: 'bg-gold-light text-amber-800',
-  learning: 'bg-sage-100 text-sage-700',
-  chill: 'bg-amber-50 text-amber-600',
-  coffee: 'bg-amber-100 text-amber-800',
-  walk: 'bg-sage-50 text-sage-600',
-  hobby: 'bg-rose-50 text-rose-600',
+  learning: 'bg-sage-900/30 text-sage-700',
+  chill: 'bg-amber-900/20 text-amber-400',
+  coffee: 'bg-amber-900/30 text-amber-800',
+  walk: 'bg-sage-900/20 text-sage-400',
+  hobby: 'bg-rose-900/20 text-rose-400',
 }
 
 const categoryEmojis = {
@@ -123,14 +123,14 @@ interface ConnectionStageBadgeProps {
 }
 
 const stageStyles: Record<ConnectionStage, { bg: string; label: string; icon: string }> = {
-  stranger: { bg: 'bg-stone-100 text-stone-500', label: '', icon: '' },
-  noticed: { bg: 'bg-stone-100 text-stone-600', label: 'Noticed you', icon: '👀' },
-  mutual: { bg: 'bg-amber-50 text-amber-600', label: 'Mutual interest', icon: '✨' },
-  acquaintance: { bg: 'bg-amber-100 text-amber-700', label: 'Connected', icon: '👋' },
-  connecting: { bg: 'bg-amber-100 text-amber-700', label: 'Getting to know', icon: '🌱' },
-  friend: { bg: 'bg-rose-50 text-rose-600', label: 'Friends', icon: '💛' },
-  close: { bg: 'bg-rose-100 text-rose-700', label: 'Close friend', icon: '💖' },
-  kindred: { bg: 'bg-rose-100 text-rose-700', label: 'Kindred spirit', icon: '💎' },
+  stranger: { bg: 'bg-stone-700 text-stone-500', label: '', icon: '' },
+  noticed: { bg: 'bg-stone-700 text-stone-600', label: 'Noticed you', icon: '👀' },
+  mutual: { bg: 'bg-amber-900/20 text-amber-400', label: 'Mutual interest', icon: '✨' },
+  acquaintance: { bg: 'bg-amber-900/30 text-amber-300', label: 'Connected', icon: '👋' },
+  connecting: { bg: 'bg-amber-900/30 text-amber-300', label: 'Getting to know', icon: '🌱' },
+  friend: { bg: 'bg-rose-900/20 text-rose-400', label: 'Friends', icon: '💛' },
+  close: { bg: 'bg-rose-900/30 text-rose-300', label: 'Close friend', icon: '💖' },
+  kindred: { bg: 'bg-rose-900/30 text-rose-300', label: 'Kindred spirit', icon: '💎' },
 }
 
 export function ConnectionStageBadge({ stage, size = 'md', className }: ConnectionStageBadgeProps) {
@@ -166,9 +166,9 @@ interface VerifiedBadgeProps {
 
 export function VerifiedBadge({ type, size = 'sm', className }: VerifiedBadgeProps) {
   const configs = {
-    resident: { bg: 'bg-sage-50 text-sage-600 border border-sage-200', label: 'Verified Resident', icon: '✓' },
-    community: { bg: 'bg-amber-50 text-amber-600 border border-amber-200', label: 'Verified Community', icon: '🏠' },
-    trusted: { bg: 'bg-rose-50 text-rose-600 border border-rose-200', label: 'Trusted', icon: '💫' },
+    resident: { bg: 'bg-sage-900/20 text-sage-400 border border-sage-700', label: 'Verified Resident', icon: '✓' },
+    community: { bg: 'bg-amber-900/20 text-amber-400 border border-amber-700', label: 'Verified Community', icon: '🏠' },
+    trusted: { bg: 'bg-rose-900/20 text-rose-400 border border-rose-700', label: 'Trusted', icon: '💫' },
   }
 
   const config = configs[type]

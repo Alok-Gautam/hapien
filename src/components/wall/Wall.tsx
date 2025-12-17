@@ -39,7 +39,7 @@ export function Wall({
           <button
             onClick={onRefresh}
             disabled={isLoading}
-            className="flex items-center gap-2 px-4 py-2 text-sm text-text-muted hover:text-text-primary transition-colors"
+            className="flex items-center gap-2 px-4 py-2 text-sm text-stone-400 hover:text-stone-50 transition-colors"
           >
             <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
             {isLoading ? 'Refreshing...' : 'Refresh feed'}
@@ -79,13 +79,13 @@ function EmptyState() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="card-dark p-8 text-center"
+      className="bg-stone-800 border border-stone-700 rounded-xl p-8 text-center"
     >
       <div className="text-5xl mb-4">📝</div>
-      <h3 className="text-lg font-semibold text-text-primary mb-2">
+      <h3 className="text-lg font-semibold text-stone-50 mb-2">
         No posts yet
       </h3>
-      <p className="text-text-secondary">
+      <p className="text-stone-300">
         Share your first moment with your tribe! Your connections will see it in their feed.
       </p>
     </motion.div>

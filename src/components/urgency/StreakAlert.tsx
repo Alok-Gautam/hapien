@@ -48,16 +48,16 @@ export function StreakAtRiskAlert({
             <Flame className="w-6 h-6 text-coral-500" />
           </motion.div>
           <div>
-            <h3 className="font-bold text-text-primary">Your streak is at risk!</h3>
-            <p className="text-sm text-text-muted">{currentStreak} day streak</p>
+            <h3 className="font-bold text-stone-50">Your streak is at risk!</h3>
+            <p className="text-sm text-stone-400">{currentStreak} day streak</p>
           </div>
         </div>
         {onDismiss && (
           <button
             onClick={onDismiss}
-            className="p-1 rounded-lg hover:bg-dark-surface transition-colors"
+            className="p-1 rounded-lg hover:bg-stone-700 transition-colors"
           >
-            <X className="w-5 h-5 text-text-muted" />
+            <X className="w-5 h-5 text-stone-400" />
           </button>
         )}
       </div>
@@ -68,18 +68,18 @@ export function StreakAtRiskAlert({
         <span className="font-mono font-bold text-lg">
           {hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`}
         </span>
-        <span className="text-sm text-text-muted">until midnight</span>
+        <span className="text-sm text-stone-400">until midnight</span>
       </div>
 
       {/* Quick options */}
       <div className="mb-4">
-        <p className="text-sm text-text-muted mb-2">Quick options:</p>
+        <p className="text-sm text-stone-400 mb-2">Quick options:</p>
         <div className="flex gap-2">
-          <button className="flex items-center gap-2 px-3 py-2 rounded-lg bg-dark-surface text-text-secondary text-sm hover:bg-dark-elevated transition-colors">
+          <button className="flex items-center gap-2 px-3 py-2 rounded-lg bg-stone-700 text-stone-300 text-sm hover:bg-stone-700 transition-colors">
             <Coffee className="w-4 h-4" />
             Coffee run
           </button>
-          <button className="flex items-center gap-2 px-3 py-2 rounded-lg bg-dark-surface text-text-secondary text-sm hover:bg-dark-elevated transition-colors">
+          <button className="flex items-center gap-2 px-3 py-2 rounded-lg bg-stone-700 text-stone-300 text-sm hover:bg-stone-700 transition-colors">
             <PersonStanding className="w-4 h-4" />
             Quick walk
           </button>
@@ -192,7 +192,7 @@ export function MissedActivityAlert({
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className={`card-dark p-4 ${className}`}
+      className={`bg-stone-800 border border-stone-700 rounded-xl p-4 ${className}`}
       style={{
         borderLeft: '3px solid #FF6B35',
       }}
@@ -200,24 +200,24 @@ export function MissedActivityAlert({
       <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-2">
           <span className="text-2xl">{activityEmoji}</span>
-          <span className="font-semibold text-text-primary">You missed out</span>
+          <span className="font-semibold text-stone-50">You missed out</span>
         </div>
         {onDismiss && (
-          <button onClick={onDismiss} className="text-text-muted hover:text-text-primary">
+          <button onClick={onDismiss} className="text-stone-400 hover:text-stone-50">
             <X className="w-4 h-4" />
           </button>
         )}
       </div>
 
-      <p className="text-sm text-text-secondary mb-3">
+      <p className="text-sm text-stone-300 mb-3">
         {participantText} had {activityType} {when}.
       </p>
 
-      <p className="text-sm text-text-muted mb-3">Don't miss the next one!</p>
+      <p className="text-sm text-stone-400 mb-3">Don't miss the next one!</p>
 
       <button
         onClick={onSetAlert}
-        className="w-full py-2 rounded-lg text-sm font-medium bg-dark-surface text-coral-500 hover:bg-dark-elevated transition-colors"
+        className="w-full py-2 rounded-lg text-sm font-medium bg-stone-700 text-coral-500 hover:bg-stone-700 transition-colors"
       >
         Set alert for {activityType}
       </button>
@@ -258,7 +258,7 @@ export function FriendshipCoolingAlert({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`card-dark p-4 ${className}`}
+      className={`bg-stone-800 border border-stone-700 rounded-xl p-4 ${className}`}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2 text-gold-500">
@@ -266,24 +266,24 @@ export function FriendshipCoolingAlert({
           <span className="font-semibold">Friendship cooling</span>
         </div>
         {onDismiss && (
-          <button onClick={onDismiss} className="text-text-muted hover:text-text-primary">
+          <button onClick={onDismiss} className="text-stone-400 hover:text-stone-50">
             <X className="w-4 h-4" />
           </button>
         )}
       </div>
 
-      <p className="text-sm text-text-secondary mb-3">
-        You haven't met <span className="text-text-primary font-medium">{friendName}</span> in{' '}
+      <p className="text-sm text-stone-300 mb-3">
+        You haven't met <span className="text-stone-50 font-medium">{friendName}</span> in{' '}
         <span className="text-gold-500 font-medium">{daysSinceLastMeetup} days</span>!
       </p>
 
       {/* Connection strength bar */}
       <div className="mb-4">
         <div className="flex justify-between text-xs mb-1">
-          <span className="text-text-muted">Connection strength</span>
+          <span className="text-stone-400">Connection strength</span>
           <span style={{ color: strengthColor }}>{statusText}</span>
         </div>
-        <div className="w-full h-2 rounded-full bg-dark-surface overflow-hidden">
+        <div className="w-full h-2 rounded-full bg-stone-700 overflow-hidden">
           <motion.div
             className="h-full rounded-full"
             style={{ background: strengthColor }}
@@ -296,7 +296,7 @@ export function FriendshipCoolingAlert({
 
       <button
         onClick={onPlanHangout}
-        className="w-full py-2 rounded-lg text-sm font-medium bg-dark-surface text-jade-500 hover:bg-dark-elevated transition-colors"
+        className="w-full py-2 rounded-lg text-sm font-medium bg-stone-700 text-jade-500 hover:bg-stone-700 transition-colors"
       >
         Plan with {friendName}
       </button>

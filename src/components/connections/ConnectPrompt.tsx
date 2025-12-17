@@ -57,11 +57,11 @@ export function ConnectPrompt({
             transition={{ type: 'spring', duration: 0.5 }}
             className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-50 max-w-md mx-auto"
           >
-            <div className="card-dark-elevated p-6 rounded-2xl">
+            <div className="bg-stone-700 border border-stone-600 rounded-xl p-6 rounded-2xl">
               {/* Close button */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-2 text-text-muted hover:text-text-primary transition-colors"
+                className="absolute top-4 right-4 p-2 text-stone-400 hover:text-stone-50 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -79,12 +79,12 @@ export function ConnectPrompt({
                 </motion.div>
 
                 {/* Title */}
-                <h2 className="text-xl font-bold text-text-primary mb-2">
+                <h2 className="text-xl font-bold text-stone-50 mb-2">
                   Great hangout with {otherUser.name || 'your new friend'}!
                 </h2>
 
                 {/* Subtitle */}
-                <p className="text-text-secondary mb-6">
+                <p className="text-stone-300 mb-6">
                   {hangoutTitle}
                 </p>
 
@@ -95,10 +95,10 @@ export function ConnectPrompt({
                       <img
                         src={otherUser.avatar_url}
                         alt={otherUser.name || 'User'}
-                        className="w-20 h-20 rounded-full object-cover border-4 border-dark-elevated"
+                        className="w-20 h-20 rounded-full object-cover border-4 border-stone-700"
                       />
                     ) : (
-                      <div className="w-20 h-20 rounded-full bg-coral-500/20 flex items-center justify-center border-4 border-dark-elevated">
+                      <div className="w-20 h-20 rounded-full bg-coral-500/20 flex items-center justify-center border-4 border-stone-700">
                         <span className="text-2xl font-bold text-coral-500">
                           {(otherUser.name || 'U')[0].toUpperCase()}
                         </span>
@@ -116,7 +116,7 @@ export function ConnectPrompt({
                 </div>
 
                 {/* Question */}
-                <p className="text-text-primary font-medium mb-6">
+                <p className="text-stone-50 font-medium mb-6">
                   Stay connected to see each other's updates?
                 </p>
 
@@ -125,7 +125,7 @@ export function ConnectPrompt({
                   <button
                     onClick={handleDecline}
                     disabled={isLoading}
-                    className="flex-1 py-3 px-4 rounded-xl border border-dark-border text-text-secondary hover:bg-dark-surface transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 py-3 px-4 rounded-xl border border-stone-700 text-stone-300 hover:bg-stone-700 transition-colors flex items-center justify-center gap-2"
                   >
                     <Clock className="w-4 h-4" />
                     Maybe later
@@ -141,7 +141,7 @@ export function ConnectPrompt({
                 </div>
 
                 {/* Note */}
-                <p className="text-xs text-text-muted mt-4">
+                <p className="text-xs text-stone-400 mt-4">
                   Both of you need to accept to become connected
                 </p>
               </div>

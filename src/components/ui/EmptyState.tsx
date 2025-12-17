@@ -99,9 +99,9 @@ export function EmptyState({
           {renderIcon()}
         </div>
       )}
-      <h3 className="text-lg font-semibold text-neutral-100 mb-2">{title}</h3>
+      <h3 className="text-lg font-semibold text-stone-50 mb-2">{title}</h3>
       {description && (
-        <p className="text-neutral-500 max-w-sm mb-6">{description}</p>
+        <p className="text-stone-500 max-w-sm mb-6">{description}</p>
       )}
       {renderAction()}
     </div>

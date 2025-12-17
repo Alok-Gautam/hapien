@@ -8,8 +8,6 @@ import {
   MapPin,
   Users,
   Home,
-  GraduationCap,
-  Building2,
   Filter,
   Plus,
   Check,
@@ -17,28 +15,18 @@ import {
 } from 'lucide-react'
 import { BottomNav } from '@/components/layout'
 import { Button, Card, Badge, Input } from '@/components/ui'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { LoadingScreen, LoadingCard } from '@/components/ui/Loading'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { createClient } from '@/lib/supabase/client'
 import { useAuth } from '@/hooks/useAuth'
 import { Community, CommunityMembership } from '@/types/database'
-import { cn, pluralize, communityTypeConfig } from '@/utils/helpers'
+import { cn, pluralize } from '@/utils/helpers'
 import toast from 'react-hot-toast'
-
-type CommunityType = 'all' | 'society' | 'campus' | 'office'
-
-const typeIcons = {
-  society: Home,
-  campus: GraduationCap,
-  office: Building2,
-}
 
 export default function CommunitiesPage() {
   const { user, isLoading: authLoading } = useAuth()
   const supabase = createClient()
 
-  const [typeFilter, setTypeFilter] = useState<CommunityType>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [communities, setCommunities] = useState<Community[]>([])
   const [memberships, setMemberships] = useState<Record<string, CommunityMembership>>({})
@@ -69,10 +57,6 @@ export default function CommunitiesPage() {
         .select('*')
         .order('member_count', { ascending: false })
 
-      if (typeFilter !== 'all') {
-        query = query.eq('type', typeFilter)
-      }
-
       if (searchQuery.trim()) {
         query = query.ilike('name', `%${searchQuery}%`)
       }
@@ -87,7 +71,7 @@ export default function CommunitiesPage() {
     } finally {
       setIsLoading(false)
     }
-  }, [user, typeFilter, searchQuery, supabase])
+  }, [user, searchQuery, supabase])
 
   useEffect(() => {
     fetchCommunities()
@@ -167,16 +151,16 @@ export default function CommunitiesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-bg">
-      <div className="min-h-screen pt-16 pb-24 bg-dark-bg">
+    <div className="min-h-screen bg-stone-900">
+      <div className="min-h-screen pt-16 pb-24 bg-stone-900">
         <div className="max-w-4xl mx-auto px-4 py-6">
           {/* Header */}
           <div className="flex items-start justify-between mb-6">
             <div>
-              <h1 className="text-2xl font-display font-bold text-neutral-100">
+              <h1 className="text-2xl font-display font-bold text-stone-50">
                 Communities
               </h1>
-              <p className="text-neutral-400 mt-1">
+              <p className="text-stone-400 mt-1">
                 Find and join communities in your area
               </p>
             </div>
@@ -191,36 +175,15 @@ export default function CommunitiesPage() {
           {/* Search */}
           <div className="mb-6">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
               <input
                 type="text"
                 placeholder="Search communities..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-dark-card rounded-xl border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-stone-800 rounded-xl border border-stone-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
               />
             </div>
-          </div>
-
-          {/* Type Filter */}
-          <div className="mb-6">
-            <Tabs value={typeFilter} onValueChange={(v) => setTypeFilter(v as CommunityType)}>
-              <TabsList>
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="society">
-                  <Home className="w-4 h-4 mr-1.5" />
-                  Society
-                </TabsTrigger>
-                <TabsTrigger value="campus">
-                  <GraduationCap className="w-4 h-4 mr-1.5" />
-                  Campus
-                </TabsTrigger>
-                <TabsTrigger value="office">
-                  <Building2 className="w-4 h-4 mr-1.5" />
-                  Office
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
           </div>
 
           {/* Communities List */}
@@ -245,8 +208,6 @@ export default function CommunitiesPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 {communities.map((community, index) => {
                   const membership = memberships[community.id]
-                  const TypeIcon = typeIcons[community.type]
-                  const typeConfig = communityTypeConfig[community.type]
 
                   return (
                     <motion.div
@@ -258,12 +219,7 @@ export default function CommunitiesPage() {
                     >
                       <Card className="overflow-hidden hover:shadow-soft-lg transition-shadow">
                         {/* Cover Image or Gradient */}
-                        <div className={cn(
-                          'h-24 bg-gradient-to-br',
-                          community.type === 'society' && 'from-tertiary-400 to-tertiary-600',
-                          community.type === 'campus' && 'from-primary-400 to-primary-600',
-                          community.type === 'office' && 'from-secondary-400 to-secondary-600',
-                        )}>
+                        <div className="h-24 bg-gradient-to-br from-violet-500 to-magenta-600">
                           {community.cover_image_url && (
                             <img
                               src={community.cover_image_url}
@@ -274,12 +230,8 @@ export default function CommunitiesPage() {
                         </div>
 
                         <div className="p-4">
-                          {/* Type Badge */}
+                          {/* Membership Status */}
                           <div className="flex items-center gap-2 mb-2">
-                            <Badge variant="default" size="sm">
-                              <TypeIcon className="w-3 h-3 mr-1" />
-                              {typeConfig.label}
-                            </Badge>
                             {membership?.status === 'approved' && (
                               <Badge variant="success" size="sm">
                                 <Check className="w-3 h-3 mr-1" />
@@ -296,18 +248,18 @@ export default function CommunitiesPage() {
 
                           {/* Name & Description */}
                           <Link href={`/communities/${community.id}`}>
-                            <h3 className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
+                            <h3 className="font-semibold text-stone-50 hover:text-primary-400 transition-colors">
                               {community.name}
                             </h3>
                           </Link>
                           {community.description && (
-                            <p className="text-sm text-neutral-400 mt-1 line-clamp-2">
+                            <p className="text-sm text-stone-400 mt-1 line-clamp-2">
                               {community.description}
                             </p>
                           )}
 
                           {/* Location & Members */}
-                          <div className="flex items-center gap-4 mt-3 text-sm text-neutral-400">
+                          <div className="flex items-center gap-4 mt-3 text-sm text-stone-400">
                             {community.location && (
                               <span className="flex items-center gap-1">
                                 <MapPin className="w-3.5 h-3.5" />

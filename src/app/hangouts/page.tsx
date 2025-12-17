@@ -141,15 +141,15 @@ export default function HangoutsPage() {
   return (
     <AppShell>
 
-      <main className="min-h-screen pt-16 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-16 pb-24 bg-stone-900">
         <div className="max-w-4xl mx-auto px-4 py-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-2xl font-display font-bold text-neutral-100">
+              <h1 className="text-2xl font-display font-bold text-stone-50">
                 Hangouts
               </h1>
-              <p className="text-neutral-400 mt-1">
+              <p className="text-stone-400 mt-1">
                 Discover what&apos;s happening in your communities
               </p>
             </div>
@@ -180,7 +180,7 @@ export default function HangoutsPage() {
                   'px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors',
                   categoryFilter === 'all'
                     ? 'bg-neutral-900 text-white'
-                    : 'bg-dark-elevated text-neutral-400 hover:bg-dark-hover'
+                    : 'bg-stone-700 text-stone-400 hover:bg-stone-700'
                 )}
               >
                 All
@@ -193,7 +193,7 @@ export default function HangoutsPage() {
                     'flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors',
                     categoryFilter === key
                       ? `bg-${config.color}-500 text-white`
-                      : 'bg-dark-elevated text-neutral-400 hover:bg-dark-hover'
+                      : 'bg-stone-700 text-stone-400 hover:bg-stone-700'
                   )}
                 >
                   <span>{config.emoji}</span>
@@ -208,7 +208,7 @@ export default function HangoutsPage() {
                 onClick={() => setViewMode('grid')}
                 className={cn(
                   'p-2 rounded-lg transition-colors',
-                  viewMode === 'grid' ? 'bg-primary-100 text-primary-400' : 'text-neutral-400 hover:bg-dark-elevated'
+                  viewMode === 'grid' ? 'bg-primary-900/20 text-primary-400' : 'text-stone-400 hover:bg-stone-700'
                 )}
               >
                 <Grid3X3 className="w-5 h-5" />
@@ -217,7 +217,7 @@ export default function HangoutsPage() {
                 onClick={() => setViewMode('list')}
                 className={cn(
                   'p-2 rounded-lg transition-colors',
-                  viewMode === 'list' ? 'bg-primary-100 text-primary-400' : 'text-neutral-400 hover:bg-dark-elevated'
+                  viewMode === 'list' ? 'bg-primary-900/20 text-primary-400' : 'text-stone-400 hover:bg-stone-700'
                 )}
               >
                 <List className="w-5 h-5" />
@@ -226,7 +226,7 @@ export default function HangoutsPage() {
                 onClick={() => setViewMode('calendar')}
                 className={cn(
                   'p-2 rounded-lg transition-colors',
-                  viewMode === 'calendar' ? 'bg-primary-100 text-primary-400' : 'text-neutral-400 hover:bg-dark-elevated'
+                  viewMode === 'calendar' ? 'bg-primary-900/20 text-primary-400' : 'text-stone-400 hover:bg-stone-700'
                 )}
               >
                 <Calendar className="w-5 h-5" />
@@ -270,8 +270,8 @@ export default function HangoutsPage() {
                 return (
                   <div key={dateKey}>
                     <h3 className={cn(
-                      'text-lg font-semibold mb-3 sticky top-20 bg-dark-card/80 backdrop-blur-sm py-2 z-10',
-                      isToday ? 'text-secondary-600' : 'text-neutral-100'
+                      'text-lg font-semibold mb-3 sticky top-20 bg-stone-800/80 backdrop-blur-sm py-2 z-10',
+                      isToday ? 'text-secondary-600' : 'text-stone-50'
                     )}>
                       {isToday ? 'Today' : isTomorrow ? 'Tomorrow' : date.toLocaleDateString('en-IN', {
                         weekday: 'long',

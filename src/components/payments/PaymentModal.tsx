@@ -63,12 +63,12 @@ export function PaymentModal({
             transition={{ type: 'spring', duration: 0.5 }}
             className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-50 max-w-md mx-auto"
           >
-            <div className="card-dark-elevated p-6 rounded-2xl">
+            <div className="bg-stone-700 border border-stone-600 rounded-xl p-6 rounded-2xl">
               {/* Close button */}
               {!isProcessing && !paymentComplete && (
                 <button
                   onClick={onClose}
-                  className="absolute top-4 right-4 p-2 text-text-muted hover:text-text-primary transition-colors"
+                  className="absolute top-4 right-4 p-2 text-stone-400 hover:text-stone-50 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -89,8 +89,8 @@ export function PaymentModal({
                   >
                     <Check className="w-8 h-8 text-white" />
                   </motion.div>
-                  <h3 className="text-xl font-bold text-text-primary mb-2">Payment Successful!</h3>
-                  <p className="text-text-secondary">Creating your hangout...</p>
+                  <h3 className="text-xl font-bold text-stone-50 mb-2">Payment Successful!</h3>
+                  <p className="text-stone-300">Creating your hangout...</p>
                 </motion.div>
               ) : (
                 // Payment form
@@ -100,17 +100,17 @@ export function PaymentModal({
                     <div className="w-12 h-12 bg-pink-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
                       <CreditCard className="w-6 h-6 text-pink-500" />
                     </div>
-                    <h2 className="text-xl font-bold text-text-primary mb-1">Complete Payment</h2>
-                    <p className="text-sm text-text-muted">Secure payment powered by Razorpay</p>
+                    <h2 className="text-xl font-bold text-stone-50 mb-1">Complete Payment</h2>
+                    <p className="text-sm text-stone-400">Secure payment powered by Razorpay</p>
                   </div>
 
                   {/* Item details */}
-                  <div className="bg-dark-surface rounded-xl p-4 mb-6">
+                  <div className="bg-stone-700 rounded-xl p-4 mb-6">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="font-medium text-text-primary">{itemName}</p>
+                        <p className="font-medium text-stone-50">{itemName}</p>
                         {itemDescription && (
-                          <p className="text-sm text-text-muted">{itemDescription}</p>
+                          <p className="text-sm text-stone-400">{itemDescription}</p>
                         )}
                       </div>
                       <p className="text-xl font-bold text-pink-500">{formatPriceINR(amount)}</p>
@@ -118,7 +118,7 @@ export function PaymentModal({
                   </div>
 
                   {/* Security notice */}
-                  <div className="flex items-center gap-2 text-xs text-text-muted mb-6 justify-center">
+                  <div className="flex items-center gap-2 text-xs text-stone-400 mb-6 justify-center">
                     <Lock className="w-3 h-3" />
                     <span>Your payment is secure and encrypted</span>
                   </div>
@@ -145,7 +145,7 @@ export function PaymentModal({
                   {!isProcessing && (
                     <button
                       onClick={onClose}
-                      className="w-full mt-3 py-2 text-text-muted hover:text-text-primary transition-colors text-sm"
+                      className="w-full mt-3 py-2 text-stone-400 hover:text-stone-50 transition-colors text-sm"
                     >
                       Cancel
                     </button>

@@ -46,15 +46,15 @@ export function DatingPreferences({ initialPreferences, onSave }: DatingPreferen
   }
 
   return (
-    <div className="card-dark p-6">
+    <div className="bg-stone-800 border border-stone-700 rounded-xl p-6">
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-xl bg-pink-500/20 flex items-center justify-center">
           <Heart className="w-5 h-5 text-pink-500" />
         </div>
         <div>
-          <h3 className="font-semibold text-text-primary">Dating Preferences</h3>
-          <p className="text-sm text-text-muted flex items-center gap-1">
+          <h3 className="font-semibold text-stone-50">Dating Preferences</h3>
+          <p className="text-sm text-stone-400 flex items-center gap-1">
             <Lock className="w-3 h-3" />
             Only visible to you
           </p>
@@ -62,16 +62,16 @@ export function DatingPreferences({ initialPreferences, onSave }: DatingPreferen
       </div>
 
       {/* Privacy notice */}
-      <div className="bg-dark-surface rounded-xl p-4 mb-6 border border-dark-border">
-        <p className="text-sm text-text-secondary">
-          Your dating preferences are <strong className="text-text-primary">completely private</strong>.
+      <div className="bg-stone-700 rounded-xl p-4 mb-6 border border-stone-700">
+        <p className="text-sm text-stone-300">
+          Your dating preferences are <strong className="text-stone-50">completely private</strong>.
           Other users cannot see whether you're open to dating or what types of dates you prefer.
         </p>
       </div>
 
       {/* Open to dating toggle */}
       <div className="mb-6">
-        <p className="text-sm text-text-secondary mb-3">Are you open to dating on Hapien?</p>
+        <p className="text-sm text-stone-300 mb-3">Are you open to dating on Hapien?</p>
         <div className="flex gap-3">
           <button
             onClick={() => {
@@ -81,7 +81,7 @@ export function DatingPreferences({ initialPreferences, onSave }: DatingPreferen
             className={`flex-1 py-3 px-4 rounded-xl border transition-all ${
               openToDating
                 ? 'border-pink-500 bg-pink-500/10 text-pink-500'
-                : 'border-dark-border text-text-muted hover:border-text-muted'
+                : 'border-stone-700 text-stone-400 hover:border-text-muted'
             }`}
           >
             <div className="flex items-center justify-center gap-2">
@@ -96,8 +96,8 @@ export function DatingPreferences({ initialPreferences, onSave }: DatingPreferen
             }}
             className={`flex-1 py-3 px-4 rounded-xl border transition-all ${
               !openToDating
-                ? 'border-text-muted bg-dark-surface text-text-primary'
-                : 'border-dark-border text-text-muted hover:border-text-muted'
+                ? 'border-text-muted bg-stone-700 text-stone-50'
+                : 'border-stone-700 text-stone-400 hover:border-text-muted'
             }`}
           >
             <div className="flex items-center justify-center gap-2">
@@ -119,7 +119,7 @@ export function DatingPreferences({ initialPreferences, onSave }: DatingPreferen
         className="overflow-hidden"
       >
         <div className="mb-6">
-          <p className="text-sm text-text-secondary mb-3">What types of dates are you open to?</p>
+          <p className="text-sm text-stone-300 mb-3">What types of dates are you open to?</p>
           <div className="grid grid-cols-1 gap-3">
             {dateTypeOptions.map(option => (
               <button
@@ -128,19 +128,19 @@ export function DatingPreferences({ initialPreferences, onSave }: DatingPreferen
                 className={`flex items-center gap-3 p-4 rounded-xl border transition-all ${
                   selectedTypes.includes(option.type)
                     ? 'border-pink-500 bg-pink-500/10'
-                    : 'border-dark-border hover:border-text-muted'
+                    : 'border-stone-700 hover:border-text-muted'
                 }`}
               >
                 <span className="text-2xl">{option.emoji}</span>
                 <span className={`flex-1 text-left font-medium ${
-                  selectedTypes.includes(option.type) ? 'text-pink-500' : 'text-text-primary'
+                  selectedTypes.includes(option.type) ? 'text-pink-500' : 'text-stone-50'
                 }`}>
                   {option.label}
                 </span>
                 <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
                   selectedTypes.includes(option.type)
                     ? 'border-pink-500 bg-pink-500'
-                    : 'border-dark-border'
+                    : 'border-stone-700'
                 }`}>
                   {selectedTypes.includes(option.type) && (
                     <Check className="w-4 h-4 text-white" />

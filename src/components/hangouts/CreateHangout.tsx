@@ -160,7 +160,7 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
           Cover Image (optional)
         </label>
         {coverPreview ? (
-          <div className="relative aspect-video rounded-xl overflow-hidden bg-dark-elevated">
+          <div className="relative aspect-video rounded-xl overflow-hidden bg-stone-700">
             <img
               src={coverPreview}
               alt="Cover preview"
@@ -178,7 +178,7 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="w-full aspect-video rounded-xl border-2 border-dashed border-neutral-300 flex flex-col items-center justify-center gap-2 text-neutral-500 hover:border-primary-400 hover:text-primary-400 transition-colors"
+            className="w-full aspect-video rounded-xl border-2 border-dashed border-neutral-300 flex flex-col items-center justify-center gap-2 text-stone-500 hover:border-primary-400 hover:text-primary-400 transition-colors"
           >
             <ImageIcon className="w-8 h-8" />
             <span className="text-sm">Add a cover image</span>
@@ -215,14 +215,14 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
               className={cn(
                 'flex flex-col items-center gap-1 p-3 rounded-xl border-2 transition-all',
                 selectedCategory === key
-                  ? `border-${config.color}-500 bg-${config.color}-50 shadow-soft border border-dark-border`
-                  : 'border-transparent bg-dark-bg hover:bg-dark-elevated'
+                  ? `border-${config.color}-500 bg-${config.color}-50 shadow-soft border border-stone-700`
+                  : 'border-transparent bg-stone-900 hover:bg-stone-700'
               )}
             >
               <span className="text-2xl">{config.emoji}</span>
               <span className={cn(
                 'text-xs font-medium',
-                selectedCategory === key ? `text-${config.color}-700` : 'text-neutral-400'
+                selectedCategory === key ? `text-${config.color}-700` : 'text-stone-400'
               )}>
                 {config.label}
               </span>
@@ -247,8 +247,8 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
         <select
           {...register('community_id')}
           className={cn(
-            'w-full px-4 py-3 rounded-xl border bg-dark-card',
-            errors.community_id ? 'border-red-300' : 'border-dark-border',
+            'w-full px-4 py-3 rounded-xl border bg-stone-800',
+            errors.community_id ? 'border-red-300' : 'border-stone-700',
             'focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400'
           )}
         >
@@ -318,7 +318,7 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
                 'flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all',
                 watch('visibility') === option.value
                   ? 'border-primary-500 bg-primary-900/30'
-                  : 'border-transparent bg-dark-bg hover:bg-dark-elevated'
+                  : 'border-transparent bg-stone-900 hover:bg-stone-700'
               )}
             >
               <input
@@ -328,8 +328,8 @@ export function CreateHangout({ communities, onSuccess }: CreateHangoutProps) {
                 className="mt-1"
               />
               <div>
-                <p className="font-medium text-neutral-100">{option.label}</p>
-                <p className="text-sm text-neutral-500">{option.desc}</p>
+                <p className="font-medium text-stone-50">{option.label}</p>
+                <p className="text-sm text-stone-500">{option.desc}</p>
               </div>
             </label>
           ))}

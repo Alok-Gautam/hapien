@@ -269,3 +269,55 @@ export async function getConnectionsCount(): Promise<number> {
 
   return count || 0
 }
+
+// Get upcoming hangouts from connections
+export async function getFeedHangouts() {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
+
+  // Get user's friend IDs from friendships table
+  const { data: friendships } = await supabase
+    .from('friendships')
+    .select('requester_id, addressee_id')
+    .or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`)
+    .eq('status', 'accepted')
+
+  const friendIds = new Set<string>()
+  friendIds.add(user.id) // Include own hangouts
+
+  friendships?.forEach(friendship => {
+    if (friendship.requester_id === user.id) {
+      friendIds.add(friendship.addressee_id)
+    } else {
+      friendIds.add(friendship.requester_id)
+    }
+  })
+
+  // Get upcoming hangouts from friends
+  const now = new Date().toISOString()
+  const { data: hangouts, error } = await supabase
+    .from('hangouts')
+    .select(`
+      *,
+      host:users!host_id(*),
+      community:communities(*),
+      rsvps:hangout_rsvps(*, user:users(*))
+    `)
+    .in('host_id', Array.from(friendIds))
+    .eq('status', 'upcoming')
+    .gte('date_time', now)
+    .order('date_time', { ascending: true })
+    .limit(20)
+
+  if (error) throw error
+
+  // Transform hangouts with counts
+  return hangouts?.map(hangout => ({
+    ...hangout,
+    going_count: hangout.rsvps?.filter((r: any) => r.status === 'going').length || 0,
+    interested_count: hangout.rsvps?.filter((r: any) => r.status === 'interested').length || 0,
+    comments: [],
+  })) || []
+}

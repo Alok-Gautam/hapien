@@ -208,21 +208,21 @@ export default function PostPage({ params }: PostPageProps) {
   return (
     <AppShell>
       {/* Custom Header */}
-      <header className="sticky top-0 z-30 bg-dark-card/90 backdrop-blur-lg border-b border-dark-border px-4 py-3">
+      <header className="sticky top-0 z-30 bg-stone-800/90 backdrop-blur-lg border-b border-stone-700 px-4 py-3">
         <div className="flex items-center justify-between max-w-2xl mx-auto">
           <div className="flex items-center gap-3">
             <button
               onClick={() => router.back()}
-              className="p-2 text-neutral-500 hover:text-neutral-300 hover:bg-dark-elevated rounded-xl transition-colors"
+              className="p-2 text-stone-500 hover:text-neutral-300 hover:bg-stone-700 rounded-xl transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
-            <h1 className="font-display text-xl font-semibold text-neutral-100">Post</h1>
+            <h1 className="font-display text-xl font-semibold text-stone-50">Post</h1>
           </div>
           {post && user?.id === post.user_id && (
             <Link
               href={`/post/${id}/edit`}
-              className="p-2 text-neutral-500 hover:text-neutral-300 hover:bg-dark-elevated rounded-xl transition-colors"
+              className="p-2 text-stone-500 hover:text-neutral-300 hover:bg-stone-700 rounded-xl transition-colors"
             >
               <Edit2 className="w-5 h-5" />
             </Link>
@@ -230,7 +230,7 @@ export default function PostPage({ params }: PostPageProps) {
         </div>
       </header>
 
-      <main className="min-h-screen pt-0 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-0 pb-24 bg-stone-900">
         <div className="max-w-2xl mx-auto px-4 py-6">
           {/* Post Card */}
           <Card variant="elevated" padding="none" className="overflow-hidden">
@@ -245,11 +245,11 @@ export default function PostPage({ params }: PostPageProps) {
               </Link>
               <div className="flex-1">
                 <Link href={`/profile/${post.user_id}`}>
-                  <p className="font-semibold text-neutral-100 hover:text-primary-400 transition-colors">
+                  <p className="font-semibold text-stone-50 hover:text-primary-400 transition-colors">
                     {post.user.name}
                   </p>
                 </Link>
-                <div className="flex items-center gap-2 text-sm text-neutral-500">
+                <div className="flex items-center gap-2 text-sm text-stone-500">
                   <span>{timeAgo}</span>
                   {post.community && (
                     <>
@@ -269,7 +269,7 @@ export default function PostPage({ params }: PostPageProps) {
             {/* Content */}
             {post.content && (
               <div className="px-4 pb-3">
-                <p className="text-neutral-200 whitespace-pre-wrap text-lg">{post.content}</p>
+                <p className="text-stone-300 whitespace-pre-wrap text-lg">{post.content}</p>
               </div>
             )}
 
@@ -285,7 +285,7 @@ export default function PostPage({ params }: PostPageProps) {
                   <div
                     key={url}
                     className={cn(
-                      'relative bg-dark-elevated',
+                      'relative bg-stone-700',
                       post.media_urls!.length === 1 ? 'aspect-[4/3]' : 'aspect-square',
                     )}
                   >
@@ -302,7 +302,7 @@ export default function PostPage({ params }: PostPageProps) {
 
             {/* Reactions summary */}
             {post.reactions.length > 0 && (
-              <div className="px-4 py-3 flex items-center gap-2 text-sm text-neutral-500">
+              <div className="px-4 py-3 flex items-center gap-2 text-sm text-stone-500">
                 <div className="flex -space-x-1">
                   {['like', 'love', 'celebrate'].map((type) => {
                     const count = post.reactions.filter(r => r.type === type).length
@@ -313,7 +313,7 @@ export default function PostPage({ params }: PostPageProps) {
                       <div
                         key={type}
                         className={cn(
-                          'w-6 h-6 rounded-full bg-dark-card flex items-center justify-center shadow-sm',
+                          'w-6 h-6 rounded-full bg-stone-800 flex items-center justify-center shadow-sm',
                           config?.activeColor
                         )}
                       >
@@ -327,7 +327,7 @@ export default function PostPage({ params }: PostPageProps) {
             )}
 
             {/* Actions */}
-            <div className="flex items-center border-t border-dark-border">
+            <div className="flex items-center border-t border-stone-700">
               <div className="relative flex-1">
                 <button
                   onMouseEnter={() => setShowReactions(true)}
@@ -337,7 +337,7 @@ export default function PostPage({ params }: PostPageProps) {
                     'w-full flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors',
                     userReaction
                       ? REACTION_TYPES.find(r => r.type === userReaction.type)?.activeColor
-                      : 'text-neutral-400 hover:text-neutral-100 hover:bg-dark-bg'
+                      : 'text-stone-400 hover:text-stone-50 hover:bg-stone-900'
                   )}
                 >
                   {userReaction ? (
@@ -361,14 +361,14 @@ export default function PostPage({ params }: PostPageProps) {
                   <div
                     onMouseEnter={() => setShowReactions(true)}
                     onMouseLeave={() => setShowReactions(false)}
-                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 p-2 bg-dark-card rounded-full shadow-soft-lg flex gap-1 z-10"
+                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 p-2 bg-stone-800 rounded-full shadow-soft-lg flex gap-1 z-10"
                   >
                     {REACTION_TYPES.map(({ type, icon: Icon, label, activeColor }) => (
                       <button
                         key={type}
                         onClick={() => handleReaction(type)}
                         className={cn(
-                          'p-2 rounded-full hover:bg-dark-elevated transition-all hover:scale-125',
+                          'p-2 rounded-full hover:bg-stone-700 transition-all hover:scale-125',
                           userReaction?.type === type && activeColor
                         )}
                         title={label}
@@ -384,7 +384,7 @@ export default function PostPage({ params }: PostPageProps) {
 
           {/* Comments Section */}
           <div className="mt-6">
-            <h2 className="font-semibold text-neutral-100 mb-4">
+            <h2 className="font-semibold text-stone-50 mb-4">
               Comments ({comments.length})
             </h2>
 
@@ -402,7 +402,7 @@ export default function PostPage({ params }: PostPageProps) {
                   onChange={(e) => setNewComment(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSubmitComment()}
                   placeholder="Write a comment..."
-                  className="flex-1 px-4 py-2.5 bg-dark-card rounded-xl border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
+                  className="flex-1 px-4 py-2.5 bg-stone-800 rounded-xl border border-stone-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
                 />
                 <Button
                   onClick={handleSubmitComment}
@@ -434,16 +434,16 @@ export default function PostPage({ params }: PostPageProps) {
                       />
                     </Link>
                     <div className="flex-1">
-                      <div className="bg-dark-bg rounded-xl px-4 py-2.5">
+                      <div className="bg-stone-900 rounded-xl px-4 py-2.5">
                         <Link href={`/profile/${comment.user_id}`}>
-                          <p className="font-semibold text-sm text-neutral-100 hover:text-primary-400 transition-colors">
+                          <p className="font-semibold text-sm text-stone-50 hover:text-primary-400 transition-colors">
                             {comment.user.name}
                           </p>
                         </Link>
                         <p className="text-neutral-300 mt-0.5">{comment.content}</p>
                       </div>
                       <div className="flex items-center gap-4 mt-1 px-2">
-                        <span className="text-xs text-neutral-400">
+                        <span className="text-xs text-stone-400">
                           {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
                         </span>
                         {comment.user_id === user.id && (
@@ -462,7 +462,7 @@ export default function PostPage({ params }: PostPageProps) {
             </AnimatePresence>
 
             {comments.length === 0 && (
-              <div className="text-center py-8 text-neutral-500">
+              <div className="text-center py-8 text-stone-500">
                 <p>No comments yet. Be the first to comment!</p>
               </div>
             )}

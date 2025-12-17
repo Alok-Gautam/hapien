@@ -37,7 +37,7 @@ export function AINotification({ notification, onAction, onDismiss }: AINotifica
           transition={{ type: 'spring', duration: 0.5 }}
           className="fixed bottom-24 left-4 right-4 z-50 max-w-md mx-auto"
         >
-          <div className="card-dark-elevated rounded-2xl p-4 shadow-2xl border border-coral-500/20">
+          <div className="bg-stone-700 border border-stone-600 rounded-xl rounded-2xl p-4 shadow-2xl border border-coral-500/20">
             {/* Header */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-3">
@@ -46,15 +46,15 @@ export function AINotification({ notification, onAction, onDismiss }: AINotifica
                   <Sparkles className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-text-primary text-sm">{HAPIEN_AI.name}</h4>
-                  <p className="text-xs text-text-muted">Just now</p>
+                  <h4 className="font-semibold text-stone-50 text-sm">{HAPIEN_AI.name}</h4>
+                  <p className="text-xs text-stone-400">Just now</p>
                 </div>
               </div>
 
               {/* Close button */}
               <button
                 onClick={handleDismiss}
-                className="p-1 text-text-muted hover:text-text-primary transition-colors"
+                className="p-1 text-stone-400 hover:text-stone-50 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -62,7 +62,7 @@ export function AINotification({ notification, onAction, onDismiss }: AINotifica
 
             {/* Context user avatar (if present) */}
             {notification.context_user && (
-              <div className="flex items-center gap-2 mb-3 p-2 bg-dark-surface rounded-lg">
+              <div className="flex items-center gap-2 mb-3 p-2 bg-stone-700 rounded-lg">
                 {notification.context_user.avatar_url ? (
                   <img
                     src={notification.context_user.avatar_url}
@@ -76,14 +76,14 @@ export function AINotification({ notification, onAction, onDismiss }: AINotifica
                     </span>
                   </div>
                 )}
-                <span className="text-sm font-medium text-text-primary">
+                <span className="text-sm font-medium text-stone-50">
                   {notification.context_user.name}
                 </span>
               </div>
             )}
 
             {/* Message */}
-            <p className="text-text-primary text-sm leading-relaxed mb-4 whitespace-pre-wrap">
+            <p className="text-stone-50 text-sm leading-relaxed mb-4 whitespace-pre-wrap">
               {notification.message}
             </p>
 
@@ -97,7 +97,7 @@ export function AINotification({ notification, onAction, onDismiss }: AINotifica
                     className={`flex-1 py-2.5 px-4 rounded-xl font-medium text-sm transition-all ${
                       button.variant === 'primary'
                         ? 'bg-gradient-to-r from-coral-500 to-urgent-500 text-white hover:opacity-90'
-                        : 'bg-dark-surface text-text-secondary hover:bg-dark-elevated hover:text-text-primary'
+                        : 'bg-stone-700 text-stone-300 hover:bg-stone-700 hover:text-stone-50'
                     }`}
                   >
                     {button.label}

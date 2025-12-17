@@ -46,13 +46,13 @@ const notificationIcons = {
 }
 
 const notificationColors = {
-  friend_request: 'bg-primary-100 text-primary-400',
+  friend_request: 'bg-primary-900/20 text-primary-400',
   friend_accepted: 'bg-primary-900/50 text-primary-400',
-  hangout_invite: 'bg-secondary-100 text-secondary-600',
-  hangout_rsvp: 'bg-secondary-100 text-secondary-600',
-  community_approved: 'bg-tertiary-100 text-tertiary-600',
+  hangout_invite: 'bg-secondary-900/20 text-secondary-600',
+  hangout_rsvp: 'bg-secondary-900/20 text-secondary-600',
+  community_approved: 'bg-tertiary-900/20 text-tertiary-600',
   comment: 'bg-blue-100 text-blue-600',
-  reaction: 'bg-rose-100 text-rose-600',
+  reaction: 'bg-rose-900/30 text-rose-400',
 }
 
 export default function NotificationsPage() {
@@ -171,7 +171,7 @@ export default function NotificationsPage() {
   return (
     <AppShell>
 
-      <main className="min-h-screen pt-16 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-16 pb-24 bg-stone-900">
         <div className="max-w-2xl mx-auto px-4 py-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
@@ -179,11 +179,11 @@ export default function NotificationsPage() {
               <div className="flex items-center gap-2">
                 <Link
                   href="/feed"
-                  className="p-2 -ml-2 text-neutral-400 hover:text-neutral-400 transition-colors"
+                  className="p-2 -ml-2 text-stone-400 hover:text-stone-400 transition-colors"
                 >
                   <ArrowLeft className="w-5 h-5" />
                 </Link>
-                <h1 className="text-2xl font-display font-bold text-neutral-100">
+                <h1 className="text-2xl font-display font-bold text-stone-50">
                   Notifications
                 </h1>
                 {unreadCount > 0 && (
@@ -223,7 +223,7 @@ export default function NotificationsPage() {
               <div className="space-y-2">
                 {notifications.map((notification, index) => {
                   const Icon = notificationIcons[notification.type] || Bell
-                  const colorClass = notificationColors[notification.type] || 'bg-dark-elevated text-neutral-400'
+                  const colorClass = notificationColors[notification.type] || 'bg-stone-700 text-stone-400'
                   const link = getNotificationLink(notification)
 
                   return (
@@ -251,17 +251,17 @@ export default function NotificationsPage() {
                             
                             <div className="flex-1 min-w-0">
                               <p className={cn(
-                                'text-neutral-100',
+                                'text-stone-50',
                                 !notification.read && 'font-medium'
                               )}>
                                 {notification.title}
                               </p>
                               {notification.body && (
-                                <p className="text-sm text-neutral-500 mt-0.5 line-clamp-2">
+                                <p className="text-sm text-stone-500 mt-0.5 line-clamp-2">
                                   {notification.body}
                                 </p>
                               )}
-                              <p className="text-xs text-neutral-400 mt-1">
+                              <p className="text-xs text-stone-400 mt-1">
                                 {formatTime(notification.created_at)}
                               </p>
                             </div>

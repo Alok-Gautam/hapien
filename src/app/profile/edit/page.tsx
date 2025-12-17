@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Camera, Upload, X, Check, Loader2 } from 'lucide-react'
+import { ArrowLeft, Camera, X, Check, Loader2 } from 'lucide-react'
 import { AppShell } from '@/components/layout'
 import { Avatar, Button, Card, Input } from '@/components/ui'
 import { LoadingScreen } from '@/components/ui/Loading'
@@ -160,12 +160,12 @@ export default function EditProfilePage() {
   return (
     <AppShell>
 
-      <main className="min-h-screen pt-16 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-16 pb-24 bg-stone-900">
         <div className="max-w-2xl mx-auto px-4 py-6">
           {/* Back Button */}
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 text-neutral-400 hover:text-neutral-100 mb-6 transition-colors"
+            className="flex items-center gap-2 text-stone-400 hover:text-stone-50 mb-6 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
             Back
@@ -173,10 +173,10 @@ export default function EditProfilePage() {
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-display font-bold text-neutral-100">
+            <h1 className="text-2xl font-display font-bold text-stone-50">
               Edit Profile
             </h1>
-            <p className="text-neutral-400 mt-1">
+            <p className="text-stone-400 mt-1">
               Update your profile information
             </p>
           </div>
@@ -184,7 +184,7 @@ export default function EditProfilePage() {
           <div className="space-y-6">
             {/* Avatar Section */}
             <Card variant="elevated" padding="lg">
-              <h2 className="text-lg font-semibold text-neutral-100 mb-4">
+              <h2 className="text-lg font-semibold text-stone-50 mb-4">
                 Profile Photo
               </h2>
               
@@ -194,33 +194,30 @@ export default function EditProfilePage() {
                     src={avatarPreview || avatarUrl}
                     name={name || 'User'}
                     size="xl"
+                    key={avatarPreview || avatarUrl}
                   />
                   <button
                     onClick={() => fileInputRef.current?.click()}
-                    className="absolute bottom-0 right-0 p-2 bg-primary-900/300 rounded-full text-white hover:bg-primary-600 transition-colors shadow-lg"
+                    className="absolute bottom-0 right-0 p-2.5 bg-violet-600 rounded-full text-white hover:bg-violet-500 transition-colors shadow-lg border-2 border-stone-800"
+                    title="Change profile photo"
                   >
-                    <Camera className="w-4 h-4" />
+                    <Camera className="w-5 h-5" />
                   </button>
                 </div>
 
                 <div className="flex-1">
-                  <p className="text-sm text-neutral-400 mb-3">
-                    Upload a new profile photo. Images should be square and less than 5MB.
+                  <p className="text-stone-300 font-medium mb-1">
+                    Profile Photo
                   </p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <Upload className="w-4 h-4 mr-2" />
-                    Choose File
-                  </Button>
+                  <p className="text-sm text-stone-400">
+                    Click the camera icon to upload a new photo. Images should be square and less than 5MB.
+                  </p>
                 </div>
 
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg,image/png,image/gif,image/webp"
                   onChange={handleAvatarSelect}
                   className="hidden"
                 />
@@ -230,7 +227,7 @@ export default function EditProfilePage() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 flex items-center gap-2 text-sm text-primary-400"
+                  className="mt-4 flex items-center gap-2 text-sm text-violet-400"
                 >
                   <Check className="w-4 h-4" />
                   New photo selected
@@ -239,7 +236,7 @@ export default function EditProfilePage() {
                       setAvatarFile(null)
                       setAvatarPreview(null)
                     }}
-                    className="text-neutral-400 hover:text-neutral-400 ml-2"
+                    className="text-stone-400 hover:text-stone-300 ml-2"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -249,7 +246,7 @@ export default function EditProfilePage() {
 
             {/* Basic Info */}
             <Card variant="elevated" padding="lg">
-              <h2 className="text-lg font-semibold text-neutral-100 mb-4">
+              <h2 className="text-lg font-semibold text-stone-50 mb-4">
                 Basic Information
               </h2>
 
@@ -272,9 +269,9 @@ export default function EditProfilePage() {
                     placeholder="Tell us a bit about yourself..."
                     rows={3}
                     maxLength={200}
-                    className="w-full px-4 py-3 bg-dark-card rounded-xl border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 bg-stone-800 rounded-xl border border-stone-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all resize-none"
                   />
-                  <p className="text-xs text-neutral-400 mt-1 text-right">
+                  <p className="text-xs text-stone-400 mt-1 text-right">
                     {bio.length}/200
                   </p>
                 </div>

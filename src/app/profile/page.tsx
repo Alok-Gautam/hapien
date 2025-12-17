@@ -172,15 +172,15 @@ export default function ProfilePage() {
   // Show message if not logged in
   if (!authUser) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
+      <div className="min-h-screen bg-stone-900 flex items-center justify-center p-4">
         <Card className="max-w-md w-full p-8 text-center">
           <div className="w-16 h-16 bg-primary-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <UserPlus className="w-8 h-8 text-primary-400" />
           </div>
-          <h2 className="text-xl font-bold text-neutral-100 mb-2">
+          <h2 className="text-xl font-bold text-stone-50 mb-2">
             Login Required
           </h2>
-          <p className="text-neutral-400 mb-6">
+          <p className="text-stone-400 mb-6">
             You need to be logged in to view your profile. Please log in or explore our communities.
           </p>
           <div className="flex gap-3">
@@ -203,15 +203,15 @@ export default function ProfilePage() {
   // Show message if profile incomplete
   if (!user?.name) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
+      <div className="min-h-screen bg-stone-900 flex items-center justify-center p-4">
         <Card className="max-w-md w-full p-8 text-center">
           <div className="w-16 h-16 bg-primary-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <Edit2 className="w-8 h-8 text-primary-400" />
           </div>
-          <h2 className="text-xl font-bold text-neutral-100 mb-2">
+          <h2 className="text-xl font-bold text-stone-50 mb-2">
             Complete Your Profile
           </h2>
-          <p className="text-neutral-400 mb-6">
+          <p className="text-stone-400 mb-6">
             Before you can view your profile, please complete your profile setup. This will only take a moment!
           </p>
           <div className="flex gap-3">
@@ -237,9 +237,9 @@ export default function ProfilePage() {
 
   return (
     <AppShell>
-      <main className="min-h-screen pt-16 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-16 pb-24 bg-stone-900">
         {/* Profile Header */}
-        <div className="bg-gradient-to-br from-primary-500 to-primary-700 pt-8 pb-20 px-4">
+        <div className="bg-gradient-to-br from-violet-600 to-magenta-700 pt-8 pb-20 px-4">
           <div className="max-w-2xl mx-auto">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-4">
@@ -281,18 +281,18 @@ export default function ProfilePage() {
           <Card variant="elevated" className="p-6">
             <div className="flex items-center justify-around">
               <Link href="/friends" className="text-center hover:opacity-80 transition-opacity">
-                <p className="text-2xl font-bold text-neutral-100">{connectsCount}</p>
-                <p className="text-sm text-neutral-500">{pluralize(connectsCount, 'Connect')}</p>
+                <p className="text-2xl font-bold text-stone-50">{connectsCount}</p>
+                <p className="text-sm text-stone-500">{pluralize(connectsCount, 'Connect')}</p>
               </Link>
-              <div className="h-10 w-px bg-neutral-200" />
+              <div className="h-10 w-px bg-stone-700" />
               <div className="text-center">
-                <p className="text-2xl font-bold text-neutral-100">{communities.length}</p>
-                <p className="text-sm text-neutral-500">{pluralize(communities.length, 'Community', 'Communities')}</p>
+                <p className="text-2xl font-bold text-stone-50">{communities.length}</p>
+                <p className="text-sm text-stone-500">{pluralize(communities.length, 'Community', 'Communities')}</p>
               </div>
-              <div className="h-10 w-px bg-neutral-200" />
+              <div className="h-10 w-px bg-stone-700" />
               <div className="text-center">
-                <p className="text-2xl font-bold text-neutral-100">{posts.length}</p>
-                <p className="text-sm text-neutral-500">{pluralize(posts.length, 'Post')}</p>
+                <p className="text-2xl font-bold text-stone-50">{posts.length}</p>
+                <p className="text-sm text-stone-500">{pluralize(posts.length, 'Post')}</p>
               </div>
             </div>
 
@@ -407,18 +407,18 @@ export default function ProfilePage() {
                       <Link href={`/communities/${community.id}`}>
                         <Card className="p-4 hover:shadow-soft-lg transition-shadow">
                           <div className="flex items-center gap-4">
-                            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary-900/20 to-primary-800/20 flex items-center justify-center">
                               <Home className="w-8 h-8 text-primary-400" />
                             </div>
                             <div className="flex-1">
-                              <h3 className="font-semibold text-neutral-100">{community.name}</h3>
+                              <h3 className="font-semibold text-stone-50">{community.name}</h3>
                               {community.location && (
-                                <p className="text-sm text-neutral-500 flex items-center gap-1 mt-1">
+                                <p className="text-sm text-stone-500 flex items-center gap-1 mt-1">
                                   <MapPin className="w-3 h-3" />
                                   {community.location.address}
                                 </p>
                               )}
-                              <p className="text-sm text-neutral-400 mt-1">
+                              <p className="text-sm text-stone-400 mt-1">
                                 {community.member_count} {pluralize(community.member_count, 'member')}
                               </p>
                             </div>

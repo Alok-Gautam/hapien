@@ -21,31 +21,31 @@ const safeSpaceConfig: Record<SafeSpaceType, {
 }> = {
   private: {
     icon: Shield,
-    color: 'bg-sage-50 text-sage-600 border-sage-200',
+    color: 'bg-sage-900/20 text-sage-400 border-sage-700',
     label: 'Private',
     tooltip: 'Only you and invited members can see this',
   },
   trusted: {
     icon: Heart,
-    color: 'bg-rose-50 text-rose-600 border-rose-200',
+    color: 'bg-rose-900/20 text-rose-400 border-rose-700',
     label: 'Trusted Circle',
     tooltip: 'Shared only with close connections',
   },
   anonymous: {
     icon: EyeOff,
-    color: 'bg-stone-100 text-stone-500 border-stone-200',
+    color: 'bg-stone-700 text-stone-500 border-stone-700',
     label: 'Anonymous',
     tooltip: 'Your identity is hidden',
   },
   vulnerable: {
     icon: Feather,
-    color: 'bg-amber-50 text-amber-600 border-amber-200',
+    color: 'bg-amber-900/20 text-amber-400 border-amber-700',
     label: 'Safe to Share',
     tooltip: 'A space for authentic expression',
   },
   protected: {
     icon: Lock,
-    color: 'bg-sage-50 text-sage-600 border-sage-200',
+    color: 'bg-sage-900/20 text-sage-400 border-sage-700',
     label: 'Protected',
     tooltip: 'Your data is encrypted and secure',
   },
@@ -115,7 +115,7 @@ export function TrustLevel({
             className={cn(
               'rounded-full transition-colors duration-300',
               sizes[size].dot,
-              level <= current ? 'bg-amber-500' : 'bg-stone-200'
+              level <= current ? 'bg-amber-500' : 'bg-stone-600'
             )}
           />
         ))}
@@ -137,11 +137,11 @@ interface PrivacyIndicatorProps {
 }
 
 const visibilityConfig: Record<string, { icon: typeof Eye; label: string; color: string }> = {
-  'only-me': { icon: Lock, label: 'Only visible to you', color: 'text-sage-600 bg-sage-50' },
-  friends: { icon: UserCheck, label: 'Friends only', color: 'text-amber-600 bg-amber-50' },
-  trusted: { icon: Heart, label: 'Trusted circle', color: 'text-rose-600 bg-rose-50' },
-  community: { icon: Shield, label: 'Community members', color: 'text-amber-600 bg-amber-50' },
-  public: { icon: Eye, label: 'Everyone', color: 'text-stone-500 bg-stone-100' },
+  'only-me': { icon: Lock, label: 'Only visible to you', color: 'text-sage-400 bg-sage-900/20' },
+  friends: { icon: UserCheck, label: 'Friends only', color: 'text-amber-400 bg-amber-900/20' },
+  trusted: { icon: Heart, label: 'Trusted circle', color: 'text-rose-400 bg-rose-900/20' },
+  community: { icon: Shield, label: 'Community members', color: 'text-amber-400 bg-amber-900/20' },
+  public: { icon: Eye, label: 'Everyone', color: 'text-stone-500 bg-stone-700' },
 }
 
 export function PrivacyIndicator({
@@ -198,9 +198,9 @@ export function GradualReveal({
     <div className={cn('space-y-2', className)}>
       <div className="flex justify-between items-center">
         <span className="text-sm text-stone-500">Profile visibility</span>
-        <span className="text-sm font-medium text-stone-700">{currentLabel}</span>
+        <span className="text-sm font-medium text-stone-300">{currentLabel}</span>
       </div>
-      <div className="relative h-2 bg-stone-100 rounded-full overflow-hidden">
+      <div className="relative h-2 bg-stone-700 rounded-full overflow-hidden">
         <div
           className="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-400 to-rose-400 rounded-full transition-all duration-500"
           style={{ width: `${(level / maxLevel) * 100}%` }}
@@ -212,7 +212,7 @@ export function GradualReveal({
             key={r.level}
             className={cn(
               'w-2 h-2 rounded-full',
-              r.level <= level ? 'bg-amber-500' : 'bg-stone-200'
+              r.level <= level ? 'bg-amber-500' : 'bg-stone-600'
             )}
           />
         ))}
@@ -233,11 +233,11 @@ export function SafeSpaceCard({ type, children, className }: SafeSpaceCardProps)
     <div
       className={cn(
         'rounded-2xl p-4 border',
-        type === 'private' && 'bg-sage-50/50 border-sage-200',
-        type === 'trusted' && 'bg-rose-50/50 border-rose-200',
-        type === 'vulnerable' && 'bg-amber-50/50 border-amber-200',
-        type === 'anonymous' && 'bg-stone-50 border-stone-200',
-        type === 'protected' && 'bg-sage-50/50 border-sage-200',
+        type === 'private' && 'bg-sage-900/20/50 border-sage-700',
+        type === 'trusted' && 'bg-rose-900/20/50 border-rose-700',
+        type === 'vulnerable' && 'bg-amber-900/20/50 border-amber-700',
+        type === 'anonymous' && 'bg-stone-800 border-stone-700',
+        type === 'protected' && 'bg-sage-900/20/50 border-sage-700',
         className
       )}
     >

@@ -146,12 +146,12 @@ export default function SettingsPage() {
 
   return (
     <AppShell>
-      <main className="min-h-screen pt-16 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-16 pb-24 bg-stone-900">
         <div className="max-w-2xl mx-auto px-4 py-6">
           {/* Back button */}
           <Link
             href="/profile"
-            className="inline-flex items-center gap-2 text-neutral-400 hover:text-neutral-100 mb-6"
+            className="inline-flex items-center gap-2 text-stone-400 hover:text-stone-50 mb-6"
           >
             <ArrowLeft className="w-5 h-5" />
             Back to Profile
@@ -159,10 +159,10 @@ export default function SettingsPage() {
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-display font-bold text-neutral-100">
+            <h1 className="text-2xl font-display font-bold text-stone-50">
               Settings
             </h1>
-            <p className="text-neutral-400 mt-1">
+            <p className="text-stone-400 mt-1">
               Manage your account and preferences
             </p>
           </div>
@@ -171,7 +171,7 @@ export default function SettingsPage() {
           <div className="space-y-8">
             {settingsSections.map((section) => (
               <div key={section.title}>
-                <h2 className="text-sm font-semibold text-neutral-500 uppercase tracking-wide mb-3">
+                <h2 className="text-sm font-semibold text-stone-500 uppercase tracking-wide mb-3">
                   {section.title}
                 </h2>
                 <Card className="divide-y divide-neutral-100">
@@ -182,14 +182,14 @@ export default function SettingsPage() {
                         <div className={cn(
                           'w-10 h-10 rounded-xl flex items-center justify-center',
                           item.variant === 'danger'
-                            ? 'bg-red-100'
-                            : 'bg-dark-elevated'
+                            ? 'bg-red-900/20'
+                            : 'bg-stone-700'
                         )}>
                           <Icon className={cn(
                             'w-5 h-5',
                             item.variant === 'danger'
                               ? 'text-tertiary-300'
-                              : 'text-neutral-400'
+                              : 'text-stone-400'
                           )} />
                         </div>
                         <div className="flex-1">
@@ -197,18 +197,18 @@ export default function SettingsPage() {
                             'font-medium',
                             item.variant === 'danger'
                               ? 'text-tertiary-300'
-                              : 'text-neutral-100'
+                              : 'text-stone-50'
                           )}>
                             {item.label}
                           </p>
                           {item.description && (
-                            <p className="text-sm text-neutral-500 mt-0.5">
+                            <p className="text-sm text-stone-500 mt-0.5">
                               {item.description}
                             </p>
                           )}
                         </div>
                         {item.rightContent || (
-                          <ChevronRight className="w-5 h-5 text-neutral-400" />
+                          <ChevronRight className="w-5 h-5 text-stone-400" />
                         )}
                       </div>
                     )
@@ -218,7 +218,7 @@ export default function SettingsPage() {
                         <Link
                           key={item.label}
                           href={item.href}
-                          className="block hover:bg-dark-bg transition-colors"
+                          className="block hover:bg-stone-900 transition-colors"
                         >
                           {content}
                         </Link>
@@ -230,7 +230,7 @@ export default function SettingsPage() {
                         <button
                           key={item.label}
                           onClick={item.action}
-                          className="w-full text-left hover:bg-dark-bg transition-colors"
+                          className="w-full text-left hover:bg-stone-900 transition-colors"
                         >
                           {content}
                         </button>
@@ -249,7 +249,7 @@ export default function SettingsPage() {
           </div>
 
           {/* App Version */}
-          <div className="mt-12 text-center text-sm text-neutral-400">
+          <div className="mt-12 text-center text-sm text-stone-400">
             <p>Hapien v1.0.0</p>
             <p className="mt-1">Made with ❤️ for happy sapiens</p>
           </div>
@@ -262,7 +262,7 @@ export default function SettingsPage() {
         onClose={() => setShowLogoutModal(false)}
         title="Log Out"
       >
-        <p className="text-neutral-400 mb-6">
+        <p className="text-stone-400 mb-6">
           Are you sure you want to log out of your account?
         </p>
         <div className="flex gap-3">

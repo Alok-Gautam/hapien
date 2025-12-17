@@ -22,19 +22,19 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     ref
   ) => {
     const variants = {
-      // Legacy dark mode variant (for backwards compatibility)
-      default: 'bg-white border border-stone-200 shadow-soft-sm',
-      // New warm variants
-      surface: 'bg-white/80 backdrop-blur-sm border border-stone-200/50',
-      elevated: 'bg-white shadow-soft-lg border border-stone-100',
-      outlined: 'bg-white border-2 border-stone-200',
-      glass: 'bg-white/70 backdrop-blur-lg border border-stone-200/30',
-      // Intimate connection variant (rose tint)
-      intimate: 'bg-gradient-to-br from-rose-50 to-white border border-rose-200/50 shadow-intimate',
-      // Safe space variant (sage tint)
-      safe: 'bg-gradient-to-br from-sage-50 to-white border border-sage-200/50 shadow-safe',
-      // Premium variant (subtle luxury)
-      premium: 'bg-gradient-to-br from-stone-50 to-white border border-stone-200/50 shadow-premium overflow-hidden',
+      // Dark mode variants
+      default: 'bg-stone-800 border border-stone-700 shadow-soft-sm',
+      // New dark variants
+      surface: 'bg-stone-800/80 backdrop-blur-sm border border-stone-700/50',
+      elevated: 'bg-stone-700 shadow-soft-lg border border-stone-600',
+      outlined: 'bg-stone-800 border-2 border-stone-700',
+      glass: 'bg-stone-800/70 backdrop-blur-lg border border-stone-700/30',
+      // Intimate connection variant (rose tint for dark)
+      intimate: 'bg-gradient-to-br from-stone-800 to-stone-700 border border-rose-600/30 shadow-intimate',
+      // Safe space variant (sage tint for dark)
+      safe: 'bg-gradient-to-br from-stone-800 to-stone-700 border border-sage-600/30 shadow-safe',
+      // Premium variant (dark luxury)
+      premium: 'bg-gradient-to-br from-stone-700 to-stone-800 border border-stone-600/50 shadow-premium overflow-hidden',
     }
 
     const paddings = {
@@ -83,7 +83,7 @@ const CardTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingEleme
   ({ className, ...props }, ref) => (
     <h3
       ref={ref}
-      className={cn('text-lg font-semibold text-stone-900', className)}
+      className={cn('text-lg font-semibold text-stone-50', className)}
       {...props}
     />
   )
@@ -97,7 +97,7 @@ const CardDescription = forwardRef<HTMLParagraphElement, CardDescriptionProps>(
   ({ className, ...props }, ref) => (
     <p
       ref={ref}
-      className={cn('text-sm text-stone-500 mt-1', className)}
+      className={cn('text-sm text-stone-400 mt-1', className)}
       {...props}
     />
   )
@@ -117,7 +117,7 @@ const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex items-center mt-4 pt-4 border-t border-stone-100', className)}
+      className={cn('flex items-center mt-4 pt-4 border-t border-stone-700', className)}
       {...props}
     />
   )

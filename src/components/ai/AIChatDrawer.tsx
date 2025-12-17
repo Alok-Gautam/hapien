@@ -94,22 +94,22 @@ export function AIChatDrawer({ isOpen, onClose }: AIChatDrawerProps) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-dark-bg z-50 flex flex-col"
+            className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-stone-900 z-50 flex flex-col"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-dark-border">
+            <div className="flex items-center justify-between p-4 border-b border-stone-700">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-coral-500 to-urgent-500 flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h2 className="font-semibold text-text-primary">{HAPIEN_AI.name}</h2>
-                  <p className="text-xs text-text-muted">{HAPIEN_AI.tagline}</p>
+                  <h2 className="font-semibold text-stone-50">{HAPIEN_AI.name}</h2>
+                  <p className="text-xs text-stone-400">{HAPIEN_AI.tagline}</p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="p-2 text-text-muted hover:text-text-primary transition-colors"
+                className="p-2 text-stone-400 hover:text-stone-50 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -128,7 +128,7 @@ export function AIChatDrawer({ isOpen, onClose }: AIChatDrawerProps) {
                     className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                       message.direction === 'from_user'
                         ? 'bg-coral-500 text-white rounded-br-md'
-                        : 'bg-dark-surface text-text-primary rounded-bl-md'
+                        : 'bg-stone-700 text-stone-50 rounded-bl-md'
                     }`}
                   >
                     <p className="text-sm whitespace-pre-wrap">{message.content}</p>
@@ -143,7 +143,7 @@ export function AIChatDrawer({ isOpen, onClose }: AIChatDrawerProps) {
                   animate={{ opacity: 1 }}
                   className="flex justify-start"
                 >
-                  <div className="bg-dark-surface rounded-2xl rounded-bl-md px-4 py-3">
+                  <div className="bg-stone-700 rounded-2xl rounded-bl-md px-4 py-3">
                     <div className="flex gap-1">
                       <motion.div
                         animate={{ y: [0, -5, 0] }}
@@ -175,7 +175,7 @@ export function AIChatDrawer({ isOpen, onClose }: AIChatDrawerProps) {
                   <button
                     key={suggestion}
                     onClick={() => setInputValue(suggestion)}
-                    className="flex-shrink-0 px-3 py-1.5 bg-dark-surface text-text-secondary text-sm rounded-full hover:bg-dark-elevated hover:text-text-primary transition-colors"
+                    className="flex-shrink-0 px-3 py-1.5 bg-stone-700 text-stone-300 text-sm rounded-full hover:bg-stone-700 hover:text-stone-50 transition-colors"
                   >
                     {suggestion}
                   </button>
@@ -184,8 +184,8 @@ export function AIChatDrawer({ isOpen, onClose }: AIChatDrawerProps) {
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-dark-border">
-              <div className="flex items-center gap-2 bg-dark-surface rounded-full px-4 py-2">
+            <div className="p-4 border-t border-stone-700">
+              <div className="flex items-center gap-2 bg-stone-700 rounded-full px-4 py-2">
                 <input
                   ref={inputRef}
                   type="text"
@@ -193,12 +193,12 @@ export function AIChatDrawer({ isOpen, onClose }: AIChatDrawerProps) {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask Hapien anything..."
-                  className="flex-1 bg-transparent text-text-primary placeholder-text-muted outline-none"
+                  className="flex-1 bg-transparent text-stone-50 placeholder-stone-400 outline-none"
                 />
                 <button
                   onClick={handleSend}
                   disabled={!inputValue.trim() || isTyping}
-                  className="p-2 text-coral-500 disabled:text-text-muted disabled:cursor-not-allowed transition-colors"
+                  className="p-2 text-coral-500 disabled:text-stone-400 disabled:cursor-not-allowed transition-colors"
                 >
                   <Send className="w-5 h-5" />
                 </button>

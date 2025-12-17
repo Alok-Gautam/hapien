@@ -117,27 +117,6 @@ export const categoryConfig = {
   },
 } as const
 
-export const communityTypeConfig = {
-  society: {
-    label: 'Residential Society',
-    emoji: '🏠',
-    color: 'bg-amber-50',
-    textColor: 'text-amber-700',
-  },
-  campus: {
-    label: 'College Campus',
-    emoji: '🎓',
-    color: 'bg-sage-50',
-    textColor: 'text-sage-700',
-  },
-  office: {
-    label: 'Office Complex',
-    emoji: '🏢',
-    color: 'bg-stone-100',
-    textColor: 'text-stone-700',
-  },
-} as const
-
 export const visibilityConfig = {
   friends: {
     label: 'Friends Only',

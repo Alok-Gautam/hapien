@@ -55,7 +55,7 @@ export default function AuthPage() {
 
   if (emailSent) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
+      <div className="min-h-screen bg-stone-900 flex items-center justify-center p-4">
         <div className="fixed inset-0 bg-mesh pointer-events-none opacity-30" />
         
         <motion.div
@@ -63,25 +63,25 @@ export default function AuthPage() {
           animate={{ opacity: 1, scale: 1 }}
           className="relative z-10 w-full max-w-md"
         >
-          <div className="bg-dark-card rounded-3xl shadow-soft p-8 text-center border border-dark-border">
+          <div className="bg-stone-800 rounded-3xl shadow-soft p-8 text-center border border-stone-700">
             <div className="w-16 h-16 bg-primary-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <Mail className="w-8 h-8 text-primary-400" />
             </div>
 
-            <h1 className="font-display text-2xl font-bold text-neutral-100 mb-3">
+            <h1 className="font-display text-2xl font-bold text-stone-50 mb-3">
               Check your email
             </h1>
             
-            <p className="text-neutral-400 mb-6">
-              We sent a magic link to <span className="text-neutral-200 font-medium">{email}</span>
+            <p className="text-stone-400 mb-6">
+              We sent a magic link to <span className="text-stone-300 font-medium">{email}</span>
             </p>
 
-            <div className="bg-dark-hover rounded-2xl p-4 mb-6 border border-dark-border">
+            <div className="bg-stone-700 rounded-2xl p-4 mb-6 border border-stone-700">
               <div className="flex items-start gap-3 text-left">
                 <Check className="w-5 h-5 text-primary-400 flex-shrink-0 mt-0.5" />
                 <div className="text-sm text-neutral-300">
                   <p className="font-medium mb-1">Click the link in your email</p>
-                  <p className="text-neutral-500">
+                  <p className="text-stone-500">
                     The link will log you in automatically. It expires in 1 hour.
                   </p>
                 </div>
@@ -94,12 +94,12 @@ export default function AuthPage() {
                   setEmailSent(false)
                   setEmail('')
                 }}
-                className="text-sm text-neutral-400 hover:text-neutral-300 transition-colors"
+                className="text-sm text-stone-400 hover:text-neutral-300 transition-colors"
               >
                 Use a different email
               </button>
 
-              <p className="text-xs text-neutral-500">
+              <p className="text-xs text-stone-500">
                 Didn't receive it? Check your spam folder
               </p>
             </div>
@@ -110,7 +110,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
+    <div className="min-h-screen bg-stone-900 flex items-center justify-center p-4">
       {/* Background decoration */}
       <div className="fixed inset-0 bg-mesh pointer-events-none opacity-30" />
 
@@ -125,17 +125,17 @@ export default function AuthPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-2xl shadow-glow mb-4">
             <Sparkles className="w-8 h-8 text-white" />
           </div>
-          <h1 className="font-display text-4xl font-bold text-neutral-100 mb-2">
+          <h1 className="font-display text-4xl font-bold text-stone-50 mb-2">
             Welcome to Hapien
           </h1>
-          <p className="text-neutral-400">
+          <p className="text-stone-400">
             Connect with your community
           </p>
         </div>
 
         {/* Auth Card */}
-        <div className="bg-dark-card rounded-3xl shadow-soft p-8 border border-dark-border">
-          <h2 className="font-display text-2xl font-bold text-neutral-100 mb-6">
+        <div className="bg-stone-800 rounded-3xl shadow-soft p-8 border border-stone-700">
+          <h2 className="font-display text-2xl font-bold text-stone-50 mb-6">
             Sign in with email
           </h2>
 
@@ -146,7 +146,7 @@ export default function AuthPage() {
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              leftIcon={<Mail className="w-5 h-5 text-neutral-500" />}
+              leftIcon={<Mail className="w-5 h-5 text-stone-500" />}
               required
               autoComplete="email"
               autoFocus
@@ -163,15 +163,15 @@ export default function AuthPage() {
             </Button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-dark-border">
-            <p className="text-sm text-neutral-400 text-center">
+          <div className="mt-6 pt-6 border-t border-stone-700">
+            <p className="text-sm text-stone-400 text-center">
               We'll send you a magic link to sign in. No password needed!
             </p>
           </div>
         </div>
 
         {/* Footer */}
-        <p className="text-center text-sm text-neutral-500 mt-6">
+        <p className="text-center text-sm text-stone-500 mt-6">
           By continuing, you agree to Hapien's Terms of Service and Privacy Policy
         </p>
       </motion.div>

@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import {
-  Building2,
-  GraduationCap,
   Home,
   Check,
   X,
@@ -27,7 +25,6 @@ type CommunityRequest = {
   id: string
   requested_by: string
   name: string
-  type: 'society' | 'campus' | 'office'
   location: string
   description: string | null
   status: 'pending' | 'approved' | 'rejected'
@@ -39,18 +36,6 @@ type CommunityRequest = {
     email: string
     avatar_url: string | null
   }
-}
-
-const COMMUNITY_TYPE_ICONS = {
-  society: Home,
-  campus: GraduationCap,
-  office: Building2,
-}
-
-const COMMUNITY_TYPE_LABELS = {
-  society: 'Residential Society',
-  campus: 'College Campus',
-  office: 'Office Complex',
 }
 
 export default function AdminCommunitiesPage() {
@@ -115,10 +100,9 @@ export default function AdminCommunitiesPage() {
         .from('communities') as any)
         .insert({
           name: request.name,
-          type: request.type,
           location: request.location,
           description: request.description,
-          created_by: request.requested_by,
+          admin_id: request.requested_by,
         })
         .select()
         .single()
@@ -196,13 +180,13 @@ export default function AdminCommunitiesPage() {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
+      <div className="min-h-screen bg-stone-900 flex items-center justify-center p-4">
         <Card className="max-w-md w-full text-center p-8">
           <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-neutral-100 mb-2">
+          <h1 className="text-2xl font-bold text-stone-50 mb-2">
             Access Denied
           </h1>
-          <p className="text-neutral-400 mb-6">
+          <p className="text-stone-400 mb-6">
             You don't have permission to access this page.
           </p>
           <Button onClick={() => router.push('/feed')}>
@@ -216,14 +200,14 @@ export default function AdminCommunitiesPage() {
   return (
     <AppShell>
 
-      <main className="min-h-screen pt-16 pb-24 bg-dark-bg">
+      <main className="min-h-screen pt-16 pb-24 bg-stone-900">
         <div className="max-w-4xl mx-auto px-4 py-6">
           {/* Header */}
           <div className="mb-6">
-            <h1 className="font-display text-3xl font-bold text-neutral-100 mb-2">
+            <h1 className="font-display text-3xl font-bold text-stone-50 mb-2">
               Community Requests
             </h1>
-            <p className="text-neutral-400">
+            <p className="text-stone-400">
               Review and approve community creation requests
             </p>
           </div>
@@ -238,7 +222,7 @@ export default function AdminCommunitiesPage() {
                   'px-4 py-2 rounded-xl font-medium text-sm transition-all whitespace-nowrap',
                   filterStatus === status
                     ? 'bg-primary-500 text-white shadow-glow'
-                    : 'bg-dark-card text-neutral-400 hover:text-neutral-200 border border-dark-border'
+                    : 'bg-stone-800 text-stone-400 hover:text-stone-300 border border-stone-700'
                 )}
               >
                 {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -251,19 +235,19 @@ export default function AdminCommunitiesPage() {
             <div className="space-y-4">
               {[...Array(3)].map((_, i) => (
                 <Card key={i} className="p-6 animate-pulse">
-                  <div className="h-6 bg-dark-hover rounded w-1/3 mb-4" />
-                  <div className="h-4 bg-dark-hover rounded w-2/3 mb-2" />
-                  <div className="h-4 bg-dark-hover rounded w-1/2" />
+                  <div className="h-6 bg-stone-700 rounded w-1/3 mb-4" />
+                  <div className="h-4 bg-stone-700 rounded w-2/3 mb-2" />
+                  <div className="h-4 bg-stone-700 rounded w-1/2" />
                 </Card>
               ))}
             </div>
           ) : requests.length === 0 ? (
             <Card className="p-12 text-center">
-              <Clock className="w-12 h-12 text-neutral-500 mx-auto mb-4" />
+              <Clock className="w-12 h-12 text-stone-500 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-neutral-300 mb-2">
                 No {filterStatus !== 'all' && filterStatus} requests
               </h3>
-              <p className="text-neutral-500">
+              <p className="text-stone-500">
                 {filterStatus === 'pending'
                   ? 'All caught up! No pending requests to review.'
                   : 'No requests found with this status.'}
@@ -272,7 +256,6 @@ export default function AdminCommunitiesPage() {
           ) : (
             <div className="space-y-4">
               {requests.map((request) => {
-                const Icon = COMMUNITY_TYPE_ICONS[request.type]
                 return (
                   <motion.div
                     key={request.id}
@@ -282,13 +265,13 @@ export default function AdminCommunitiesPage() {
                     <Card className="p-6">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-start gap-4 flex-1">
-                          <div className="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center flex-shrink-0">
-                            <Icon className="w-6 h-6 text-primary-400" />
+                          <div className="w-12 h-12 rounded-xl bg-violet-900/20 flex items-center justify-center flex-shrink-0">
+                            <Home className="w-6 h-6 text-violet-400" />
                           </div>
 
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
-                              <h3 className="text-lg font-semibold text-neutral-100 truncate">
+                              <h3 className="text-lg font-semibold text-stone-50 truncate">
                                 {request.name}
                               </h3>
                               <Badge
@@ -304,11 +287,7 @@ export default function AdminCommunitiesPage() {
                               </Badge>
                             </div>
 
-                            <p className="text-sm text-neutral-400 mb-2">
-                              {COMMUNITY_TYPE_LABELS[request.type]}
-                            </p>
-
-                            <div className="flex items-center gap-4 text-sm text-neutral-500 mb-3">
+                            <div className="flex items-center gap-4 text-sm text-stone-500 mb-3">
                               <div className="flex items-center gap-1">
                                 <MapPin className="w-4 h-4" />
                                 {request.location}
@@ -320,13 +299,13 @@ export default function AdminCommunitiesPage() {
                             </div>
 
                             {request.description && (
-                              <p className="text-sm text-neutral-400 mb-3">
+                              <p className="text-sm text-stone-400 mb-3">
                                 {request.description}
                               </p>
                             )}
 
                             {request.admin_notes && (
-                              <div className="bg-dark-hover rounded-lg p-3 text-sm text-neutral-400">
+                              <div className="bg-stone-700 rounded-lg p-3 text-sm text-stone-400">
                                 <span className="font-medium">Admin notes:</span>{' '}
                                 {request.admin_notes}
                               </div>
@@ -358,7 +337,7 @@ export default function AdminCommunitiesPage() {
                         </div>
                       )}
 
-                      <div className="text-xs text-neutral-600 mt-3">
+                      <div className="text-xs text-stone-400 mt-3">
                         Requested {new Date(request.created_at).toLocaleDateString('en-IN', {
                           day: 'numeric',
                           month: 'short',

@@ -150,15 +150,15 @@ function AuthCallbackContent() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
+      <div className="min-h-screen bg-stone-900 flex items-center justify-center p-4">
         <Card className="max-w-md w-full p-8 text-center">
           <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <AlertCircle className="w-8 h-8 text-red-400" />
           </div>
-          <h2 className="text-xl font-bold text-neutral-100 mb-4">
+          <h2 className="text-xl font-bold text-stone-50 mb-4">
             Authentication Failed
           </h2>
-          <p className="text-neutral-400 mb-6 whitespace-pre-line text-left text-sm">
+          <p className="text-stone-400 mb-6 whitespace-pre-line text-left text-sm">
             {error}
           </p>
           <div className="flex gap-3">
@@ -180,13 +180,13 @@ function AuthCallbackContent() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-bg flex items-center justify-center">
+    <div className="min-h-screen bg-stone-900 flex items-center justify-center">
       <div className="text-center">
         <Loader2 className="w-12 h-12 text-primary-400 animate-spin mx-auto mb-4" />
-        <h2 className="text-xl font-semibold text-neutral-100 mb-2">
+        <h2 className="text-xl font-semibold text-stone-50 mb-2">
           {status}
         </h2>
-        <p className="text-neutral-400">
+        <p className="text-stone-400">
           Please wait while we verify your login
         </p>
       </div>
@@ -197,10 +197,10 @@ function AuthCallbackContent() {
 export default function AuthCallbackPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center">
+      <div className="min-h-screen bg-stone-900 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-primary-400 animate-spin mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-neutral-100 mb-2">
+          <h2 className="text-xl font-semibold text-stone-50 mb-2">
             Loading...
           </h2>
         </div>

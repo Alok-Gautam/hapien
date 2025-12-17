@@ -16,9 +16,9 @@ import { Button } from '@/components/ui'
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-stone-900">
       {/* Background decoration */}
-      <div className="fixed inset-0 bg-mesh-warm pointer-events-none" />
+      <div className="fixed inset-0 bg-mesh-dark pointer-events-none" />
 
       {/* Header */}
       <header className="relative z-10 px-4 py-4">
@@ -33,7 +33,7 @@ export default function LandingPage() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <span className="font-display text-2xl font-bold text-stone-900">
+            <span className="font-display text-2xl font-bold text-stone-50">
               Hapien
             </span>
           </Link>
@@ -56,7 +56,7 @@ export default function LandingPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur border border-stone-200 rounded-full text-sm font-medium text-amber-600 mb-6">
+                <span className="inline-flex items-center gap-2 px-4 py-2 bg-stone-800/80 backdrop-blur border border-stone-700 rounded-full text-sm font-medium text-amber-400 mb-6">
                   <Sparkles className="w-4 h-4" />
                   Welcome to the Happy Sapien Network
                 </span>
@@ -66,7 +66,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-900 leading-tight mb-6"
+                className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-50 leading-tight mb-6"
               >
                 Where real connections{' '}
                 <span className="gradient-text">flourish</span> through shared
@@ -114,7 +114,7 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="font-display text-3xl lg:text-4xl font-bold text-stone-900 mb-4">
+              <h2 className="font-display text-3xl lg:text-4xl font-bold text-stone-50 mb-4">
                 Everything you need to stay connected
               </h2>
               <p className="text-lg text-stone-600 max-w-2xl mx-auto">
@@ -130,14 +130,14 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white/80 backdrop-blur border border-stone-200 rounded-2xl p-6 hover:shadow-soft-lg hover:-translate-y-1 transition-all duration-300"
+                  className="bg-stone-800/80 backdrop-blur border border-stone-700 rounded-2xl p-6 hover:shadow-soft-lg hover:-translate-y-1 transition-all duration-300"
                 >
                   <div
                     className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${feature.color}`}
                   >
                     <feature.icon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="font-display text-xl font-semibold text-stone-900 mb-2">
+                  <h3 className="font-display text-xl font-semibold text-stone-50 mb-2">
                     {feature.title}
                   </h3>
                   <p className="text-stone-600">{feature.description}</p>
@@ -168,7 +168,7 @@ export default function LandingPage() {
                   size="lg"
                   variant="secondary"
                   rightIcon={<ArrowRight className="w-5 h-5" />}
-                  className="bg-white text-amber-600 hover:bg-stone-50"
+                  className="bg-stone-800 text-amber-400 hover:bg-stone-800"
                 >
                   Join Hapien Today
                 </Button>
@@ -179,7 +179,7 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 px-4 py-8 border-t border-stone-200">
+      <footer className="relative z-10 px-4 py-8 border-t border-stone-700">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 relative">
@@ -191,7 +191,7 @@ export default function LandingPage() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <span className="font-display font-semibold text-stone-900">
+            <span className="font-display font-semibold text-stone-50">
               Hapien
             </span>
           </div>
@@ -211,21 +211,21 @@ const features = [
     description:
       'Join residential societies, college campuses, or office complexes. Your network stays within your trusted circles.',
     icon: Users,
-    color: 'bg-amber-500',
+    color: 'bg-amber-900/200',
   },
   {
     title: 'Hangouts',
     description:
       'Create and discover local meetups. From sports to food to learning - find your people doing what you love.',
     icon: Calendar,
-    color: 'bg-rose-500',
+    color: 'bg-rose-900/200',
   },
   {
     title: 'Hyperlocal',
     description:
       'Connect with people in your neighborhood. Real connections happen in real places.',
     icon: MapPin,
-    color: 'bg-sage-500',
+    color: 'bg-sage-900/200',
   },
   {
     title: 'Friends Graph',

@@ -120,7 +120,7 @@ export function WallPost({ targetUserId, targetUserName, onPostCreated }: WallPo
             }}
             onFocus={() => setIsExpanded(true)}
             rows={isExpanded ? 3 : 1}
-            className="w-full resize-none bg-transparent text-neutral-100 placeholder:text-neutral-400 focus:outline-none"
+            className="w-full resize-none bg-transparent text-stone-50 placeholder:text-stone-400 focus:outline-none"
           />
 
           {/* Media previews */}
@@ -133,7 +133,7 @@ export function WallPost({ targetUserId, targetUserName, onPostCreated }: WallPo
               {mediaPreviews.map((preview, index) => (
                 <div
                   key={preview}
-                  className="relative aspect-square rounded-xl overflow-hidden bg-dark-elevated"
+                  className="relative aspect-square rounded-xl overflow-hidden bg-stone-700"
                 >
                   <img
                     src={preview}
@@ -165,7 +165,7 @@ export function WallPost({ targetUserId, targetUserName, onPostCreated }: WallPo
                 />
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="p-2 text-primary-500 hover:text-primary-400 hover:bg-primary-100 rounded-lg transition-colors"
+                  className="p-2 text-primary-500 hover:text-primary-400 hover:bg-primary-900/20 rounded-lg transition-colors"
                   title="Add photos or videos"
                 >
                   <ImageIcon className="w-5 h-5" />

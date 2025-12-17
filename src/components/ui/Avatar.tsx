@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { cn, getInitials, generateAvatarColor } from '@/utils/helpers'
 
@@ -37,10 +38,10 @@ const onlineIndicatorSizes = {
 
 // Connection strength ring colors (warm palette)
 const connectionRingClasses: Record<ConnectionStrength, string> = {
-  none: 'ring-stone-200',
-  new: 'ring-stone-300',
-  growing: 'ring-amber-300',
-  strong: 'ring-amber-500',
+  none: 'ring-stone-600',
+  new: 'ring-stone-500',
+  growing: 'ring-amber-500',
+  strong: 'ring-amber-400',
   deep: 'ring-rose-500',
   kindred: 'ring-rose-600 animate-warm-glow',
 }
@@ -55,38 +56,60 @@ export function Avatar({
   connectionStrength,
   showConnectionRing = false,
 }: AvatarProps) {
+  const [imgError, setImgError] = useState(false)
+
+  // Reset error state when src changes
+  useEffect(() => {
+    setImgError(false)
+  }, [src])
+
   const initials = getInitials(name)
   const bgColor = generateAvatarColor(name)
 
   const shouldShowRing = showConnectionRing && connectionStrength
   const ringClass = connectionStrength ? connectionRingClasses[connectionStrength] : ''
 
+  const showImage = src && !imgError
+  const isBlobUrl = src?.startsWith('blob:')
+
   return (
     <div className={cn('relative inline-flex', className)}>
-      {src ? (
+      {showImage ? (
         <div
           className={cn(
             'relative rounded-full overflow-hidden',
-            'ring-2 ring-offset-2 ring-offset-white',
-            shouldShowRing ? ringClass : 'ring-white',
+            'ring-2 ring-offset-2 ring-offset-stone-900',
+            shouldShowRing ? ringClass : 'ring-stone-700',
             'transition-all duration-300',
             'hover:ring-offset-4 hover:scale-105',
             sizeClasses[size]
           )}
         >
-          <Image
-            src={src}
-            alt={name}
-            fill
-            className="object-cover"
-          />
+          {isBlobUrl ? (
+            // Use regular img for blob URLs (preview)
+            <img
+              src={src}
+              alt={name}
+              className="w-full h-full object-cover"
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            // Use Next.js Image for remote URLs
+            <Image
+              src={src}
+              alt={name}
+              fill
+              className="object-cover"
+              onError={() => setImgError(true)}
+            />
+          )}
         </div>
       ) : (
         <div
           className={cn(
             'rounded-full flex items-center justify-center font-semibold text-white',
-            'ring-2 ring-offset-2 ring-offset-white',
-            shouldShowRing ? ringClass : 'ring-white',
+            'ring-2 ring-offset-2 ring-offset-stone-900',
+            shouldShowRing ? ringClass : 'ring-stone-700',
             'transition-all duration-300',
             'hover:ring-offset-4 hover:scale-105',
             sizeClasses[size],
@@ -99,9 +122,9 @@ export function Avatar({
       {showOnlineStatus && (
         <span
           className={cn(
-            'absolute bottom-0 right-0 rounded-full ring-2 ring-white',
+            'absolute bottom-0 right-0 rounded-full ring-2 ring-stone-800',
             onlineIndicatorSizes[size],
-            isOnline ? 'bg-sage-500' : 'bg-stone-300'
+            isOnline ? 'bg-sage-500' : 'bg-stone-500'
           )}
         />
       )}
@@ -135,15 +158,15 @@ export function AvatarGroup({ avatars, users, max = 4, size = 'sm', showConnecti
           size={size}
           connectionStrength={avatar.connectionStrength}
           showConnectionRing={showConnectionRings}
-          className="ring-2 ring-white"
+          className="ring-2 ring-stone-800"
         />
       ))}
       {remainingCount > 0 && (
         <div
           className={cn(
             'rounded-full flex items-center justify-center',
-            'bg-stone-100 text-stone-500 font-medium',
-            'ring-2 ring-white',
+            'bg-stone-700 text-stone-300 font-medium',
+            'ring-2 ring-stone-800',
             sizeClasses[size]
           )}
         >
@@ -211,7 +234,7 @@ export function ConnectionBadge({ strength, size = 'sm' }: ConnectionBadgeProps)
     <div
       className={cn(
         'rounded-full flex items-center justify-center',
-        'bg-white shadow-soft-sm border border-stone-100',
+        'bg-stone-800 shadow-soft-sm border border-stone-700',
         sizeClasses[size]
       )}
     >

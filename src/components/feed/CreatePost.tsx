@@ -126,7 +126,7 @@ export function CreatePost({ communityId, onPostCreated }: CreatePostProps) {
             }}
             onFocus={() => setIsExpanded(true)}
             rows={isExpanded ? 3 : 1}
-            className="w-full resize-none bg-transparent text-neutral-100 placeholder:text-neutral-400 focus:outline-none"
+            className="w-full resize-none bg-transparent text-stone-50 placeholder:text-stone-400 focus:outline-none"
           />
 
           {/* Media previews */}
@@ -140,7 +140,7 @@ export function CreatePost({ communityId, onPostCreated }: CreatePostProps) {
               {mediaPreviews.map((preview, index) => (
                 <div
                   key={preview}
-                  className="relative aspect-square rounded-xl overflow-hidden bg-dark-elevated"
+                  className="relative aspect-square rounded-xl overflow-hidden bg-stone-700"
                 >
                   <img
                     src={preview}
@@ -160,7 +160,7 @@ export function CreatePost({ communityId, onPostCreated }: CreatePostProps) {
 
           {/* Actions */}
           {isExpanded && (
-            <div className="flex items-center justify-between mt-4 pt-4 border-t border-dark-border">
+            <div className="flex items-center justify-between mt-4 pt-4 border-t border-stone-700">
               <div className="flex items-center gap-1">
                 <input
                   ref={fileInputRef}
@@ -172,20 +172,20 @@ export function CreatePost({ communityId, onPostCreated }: CreatePostProps) {
                 />
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="p-2 text-neutral-500 hover:text-primary-500 hover:bg-primary-900/30 rounded-lg transition-colors"
+                  className="p-2 text-stone-500 hover:text-primary-500 hover:bg-primary-900/30 rounded-lg transition-colors"
                   title="Add photos or videos"
                 >
                   <ImageIcon className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="p-2 text-neutral-500 hover:text-primary-500 hover:bg-primary-900/30 rounded-lg transition-colors"
+                  className="p-2 text-stone-500 hover:text-primary-500 hover:bg-primary-900/30 rounded-lg transition-colors"
                   title="Add video"
                 >
                   <Video className="w-5 h-5" />
                 </button>
                 <button
-                  className="p-2 text-neutral-500 hover:text-primary-500 hover:bg-primary-900/30 rounded-lg transition-colors"
+                  className="p-2 text-stone-500 hover:text-primary-500 hover:bg-primary-900/30 rounded-lg transition-colors"
                   title="Add location"
                 >
                   <MapPin className="w-5 h-5" />
@@ -195,7 +195,7 @@ export function CreatePost({ communityId, onPostCreated }: CreatePostProps) {
                 <div className="relative ml-2">
                   <button
                     onClick={() => setShowVisibilityMenu(!showVisibilityMenu)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-neutral-400 hover:bg-dark-elevated rounded-lg transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-stone-400 hover:bg-stone-700 rounded-lg transition-colors"
                   >
                     <Users className="w-4 h-4" />
                     <span>{visibilityConfig[visibility].label}</span>
@@ -203,7 +203,7 @@ export function CreatePost({ communityId, onPostCreated }: CreatePostProps) {
                   </button>
 
                   {showVisibilityMenu && (
-                    <div className="absolute top-full left-0 mt-1 w-56 bg-dark-card rounded-xl shadow-soft border border-dark-border-lg border border-dark-border py-1 z-10">
+                    <div className="absolute top-full left-0 mt-1 w-56 bg-stone-800 rounded-xl shadow-soft border border-stone-700-lg border border-stone-700 py-1 z-10">
                       {Object.entries(visibilityConfig).slice(0, 3).map(([key, config]) => (
                         <button
                           key={key}
@@ -212,12 +212,12 @@ export function CreatePost({ communityId, onPostCreated }: CreatePostProps) {
                             setShowVisibilityMenu(false)
                           }}
                           className={cn(
-                            'w-full px-4 py-2 text-left hover:bg-dark-bg transition-colors',
+                            'w-full px-4 py-2 text-left hover:bg-stone-900 transition-colors',
                             visibility === key && 'bg-primary-900/30'
                           )}
                         >
-                          <p className="font-medium text-neutral-100">{config.label}</p>
-                          <p className="text-xs text-neutral-500">{config.description}</p>
+                          <p className="font-medium text-stone-50">{config.label}</p>
+                          <p className="text-xs text-stone-500">{config.description}</p>
                         </button>
                       ))}
                     </div>

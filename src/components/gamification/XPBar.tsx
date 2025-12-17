@@ -33,7 +33,7 @@ export function XPBar({
           <span>{formatXP(currentXP)} XP</span>
         </div>
         {showStreak && streakDays > 0 && (
-          <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-dark-surface text-coral-500">
+          <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-stone-700 text-coral-500">
             <span>🔥</span>
             <span>{streakDays}</span>
           </div>
@@ -47,7 +47,7 @@ export function XPBar({
       <div className={`flex items-center gap-3 ${className}`}>
         <div className="flex items-center gap-2">
           <span className="text-sm font-bold text-gold-500">Lvl {progress.currentLevel}</span>
-          <div className="w-24 h-2 rounded-full bg-dark-surface overflow-hidden">
+          <div className="w-24 h-2 rounded-full bg-stone-700 overflow-hidden">
             <motion.div
               className="h-full rounded-full"
               style={{ background: 'linear-gradient(90deg, #FFB800 0%, #FF8C00 100%)' }}
@@ -57,14 +57,14 @@ export function XPBar({
             />
           </div>
         </div>
-        <span className="text-xs text-text-muted">{formatXP(progress.xpNeeded)} to go</span>
+        <span className="text-xs text-stone-400">{formatXP(progress.xpNeeded)} to go</span>
       </div>
     );
   }
 
   // Full variant
   return (
-    <div className={`card-dark p-4 ${className}`}>
+    <div className={`bg-stone-800 border border-stone-700 rounded-xl p-4 ${className}`}>
       {/* Level and Title */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">
@@ -75,8 +75,8 @@ export function XPBar({
             {progress.currentLevel}
           </div>
           <div>
-            <p className="text-lg font-bold text-text-primary">{progress.title}</p>
-            <p className="text-sm text-text-muted">Level {progress.currentLevel}</p>
+            <p className="text-lg font-bold text-stone-50">{progress.title}</p>
+            <p className="text-sm text-stone-400">Level {progress.currentLevel}</p>
           </div>
         </div>
         <div className="text-right">
@@ -96,7 +96,7 @@ export function XPBar({
 
       {/* Progress Bar */}
       <div className="relative">
-        <div className="w-full h-3 rounded-full bg-dark-surface overflow-hidden">
+        <div className="w-full h-3 rounded-full bg-stone-700 overflow-hidden">
           <motion.div
             className="h-full rounded-full relative"
             style={{ background: 'linear-gradient(90deg, #FFB800 0%, #FF8C00 100%)' }}
@@ -116,7 +116,7 @@ export function XPBar({
         </div>
 
         {/* Progress text */}
-        <div className="flex justify-between mt-2 text-xs text-text-muted">
+        <div className="flex justify-between mt-2 text-xs text-stone-400">
           <span>{formatXP(progress.xpProgress)} XP in this level</span>
           <span>{formatXP(progress.xpNeeded)} XP to Level {progress.currentLevel + 1}</span>
         </div>
@@ -124,11 +124,11 @@ export function XPBar({
 
       {/* Next Unlock Preview */}
       {progress.nextUnlock && (
-        <div className="mt-4 pt-3 border-t border-dark-border">
+        <div className="mt-4 pt-3 border-t border-stone-700">
           <div className="flex items-center gap-2 text-sm">
             <TrendingUp className="w-4 h-4 text-jade-500" />
-            <span className="text-text-muted">Next unlock at Level {progress.nextUnlock.level}:</span>
-            <span className="text-text-primary font-medium">
+            <span className="text-stone-400">Next unlock at Level {progress.nextUnlock.level}:</span>
+            <span className="text-stone-50 font-medium">
               {progress.nextUnlock.icon} {progress.nextUnlock.description}
             </span>
           </div>
@@ -158,18 +158,18 @@ export function QuickStats({ meetups, newFaces, streak, className = '' }: QuickS
   return (
     <div className={`grid grid-cols-3 gap-4 ${className}`}>
       <div className="text-center">
-        <p className="text-2xl font-bold text-text-primary">{meetups}</p>
-        <p className="text-xs text-text-muted">Meetups</p>
+        <p className="text-2xl font-bold text-stone-50">{meetups}</p>
+        <p className="text-xs text-stone-400">Meetups</p>
       </div>
       <div className="text-center">
-        <p className="text-2xl font-bold text-text-primary">{newFaces}</p>
-        <p className="text-xs text-text-muted">New Faces</p>
+        <p className="text-2xl font-bold text-stone-50">{newFaces}</p>
+        <p className="text-xs text-stone-400">New Faces</p>
       </div>
       <div className="text-center">
         <p className="text-2xl font-bold text-coral-500 flex items-center justify-center gap-1">
           🔥 {streak}
         </p>
-        <p className="text-xs text-text-muted">Day Streak</p>
+        <p className="text-xs text-stone-400">Day Streak</p>
       </div>
     </div>
   );
