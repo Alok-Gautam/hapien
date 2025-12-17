@@ -74,6 +74,7 @@ export default function CommunityDetailPage() {
         .single()
 
       if (error) throw error
+      console.log('Community data loaded:', communityData)
       setCommunity(communityData as Community)
 
       // Fetch user's membership status
@@ -284,8 +285,8 @@ export default function CommunityDetailPage() {
                   <TypeIcon className="w-3 h-3 mr-1" />
                   {typeConfig.label}
                 </Badge>
-                <h1 className="text-3xl font-display font-bold text-white">
-                  {community.name}
+                <h1 className="text-3xl font-display font-bold text-white break-words">
+                  {community?.name || 'Community Name'}
                 </h1>
                 {community.description && (
                   <p className="text-neutral-400 mt-2">{community.description}</p>
@@ -294,7 +295,9 @@ export default function CommunityDetailPage() {
                   {community.location && (
                     <span className="flex items-center gap-1">
                       <MapPin className="w-4 h-4" />
-                      {community.location.address}
+                      {typeof community.location === 'string'
+                        ? community.location
+                        : (community.location as any)?.address || 'Location'}
                     </span>
                   )}
                   <span className="flex items-center gap-1">
