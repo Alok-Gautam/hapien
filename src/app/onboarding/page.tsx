@@ -117,6 +117,16 @@ export default function OnboardingPage() {
     console.log('Starting community request submission...')
 
     try {
+      // Get current session to ensure we have the right user
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+
+      if (sessionError || !session?.user?.id) {
+        console.error('Session error:', sessionError)
+        throw new Error('Authentication session expired. Please log in again.')
+      }
+
+      console.log('Using user ID:', session.user.id)
+
       const { data, error } = await (supabase
         .from('community_requests') as any)
         .insert({
@@ -124,21 +134,21 @@ export default function OnboardingPage() {
           type: requestData.type,
           location: requestData.location.trim(),
           description: requestData.description.trim() || null,
-          requested_by: authUser.id,
-          status: 'pending',
+          requested_by: session.user.id,
         })
         .select()
 
       if (error) {
         console.error('Database error:', error)
-        throw new Error(error.message)
+        console.error('Error details:', error.code, error.message, error.details)
+        throw new Error(error.message || 'Failed to submit community request')
       }
 
       console.log('Request submitted successfully:', data)
       toast.success('Community request submitted! We\'ll review it soon.')
       setShowRequestModal(false)
       setRequestData({ name: '', type: 'society', location: '', description: '' })
-      
+
     } catch (error) {
       console.error('Request submission error:', error)
       toast.error(error instanceof Error ? error.message : 'Failed to submit request. Please try again.')
