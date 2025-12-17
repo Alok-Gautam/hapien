@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
@@ -53,6 +53,9 @@ export default function OnboardingPage() {
   // Interests state
   const [selectedInterests, setSelectedInterests] = useState<string[]>([])
 
+  // Community search results state
+  const [communityResults, setCommunityResults] = useState<any[]>([])
+
   // Community request modal state
   const [showRequestModal, setShowRequestModal] = useState(false)
   const [isSubmittingRequest, setIsSubmittingRequest] = useState(false)
@@ -64,6 +67,32 @@ export default function OnboardingPage() {
   })
 
   const stepIndex = STEPS.indexOf(currentStep)
+
+  // Search communities
+  useEffect(() => {
+    const searchCommunities = async () => {
+      if (!communitySearch.trim()) {
+        setCommunityResults([])
+        return
+      }
+
+      try {
+        const { data } = await (supabase
+          .from('communities') as any)
+          .select('*')
+          .ilike('name', `%${communitySearch}%`)
+          .limit(10)
+
+        setCommunityResults(data || [])
+      } catch (error) {
+        console.error('Error searching communities:', error)
+        setCommunityResults([])
+      }
+    }
+
+    const debounce = setTimeout(searchCommunities, 300)
+    return () => clearTimeout(debounce)
+  }, [communitySearch, supabase])
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -190,6 +219,14 @@ export default function OnboardingPage() {
       toast.success('Community created! You can now join it.')
       setShowRequestModal(false)
       setRequestData({ name: '', type: 'society', location: '', description: '' })
+
+      // Trigger search to show the newly created community
+      setCommunitySearch(requestData.name.trim())
+
+      // Optionally auto-select the newly created community
+      if (communityData?.id) {
+        setSelectedCommunity(communityData.id)
+      }
 
     } catch (error) {
       console.error('Request submission error:', error)
@@ -555,6 +592,39 @@ export default function OnboardingPage() {
                       className="w-full pl-10 pr-4 py-3 bg-dark-hover border border-dark-border rounded-xl text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
+
+                  {/* Search Results */}
+                  {communityResults.length > 0 && (
+                    <div className="space-y-2 max-h-48 overflow-y-auto">
+                      {communityResults.map((community) => (
+                        <button
+                          key={community.id}
+                          onClick={() => {
+                            setSelectedCommunity(community.id)
+                            setCommunitySearch('')
+                            setCommunityResults([])
+                          }}
+                          className={`w-full p-3 rounded-xl text-left border-2 transition-all ${
+                            selectedCommunity === community.id
+                              ? 'bg-primary-500/20 border-primary-500'
+                              : 'bg-dark-hover border-dark-border hover:border-neutral-500'
+                          }`}
+                        >
+                          <p className="font-medium text-neutral-100">{community.name}</p>
+                          <p className="text-sm text-neutral-400">{community.type}</p>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Selected Community Display */}
+                  {selectedCommunity && (
+                    <div className="p-3 bg-primary-500/10 border border-primary-500/30 rounded-xl">
+                      <p className="text-sm text-primary-300">
+                        ✓ Community selected
+                      </p>
+                    </div>
+                  )}
 
                   <p className="text-sm text-neutral-400 text-center">
                     Can't find yours?{' '}
