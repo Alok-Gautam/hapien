@@ -38,8 +38,8 @@ export default function AuthPage() {
         throw error
       }
 
-      console.log('✓ Google OAuth initiated')
-      // User will be redirected to Google
+      console.log('✓ Google OAuth initiated, redirecting to Google...')
+      // User will be redirected to Google for authorization
     } catch (error: any) {
       console.error('✗ OAuth error:', error)
       toast.error(error.message || 'Failed to sign in with Google. Please try again.')

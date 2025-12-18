@@ -20,12 +20,22 @@ function AuthCallbackContent() {
   useEffect(() => {
     const supabase = createClient()
     let attempts = 0
-    const maxAttempts = 20 // 20 attempts * 500ms = 10 seconds max (increased for OAuth)
+    const maxAttempts = 30 // 30 attempts * 500ms = 15 seconds max (increased for OAuth)
     const interval = 500
     let isActive = true // Track if component is still mounted
 
     // Detect if this is OAuth callback or magic link callback
     const isOAuthCallback = window.location.search.includes('code=')
+
+    // Detect if running in PWA vs browser
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches ||
+                  (window.navigator as any).standalone === true
+    const isInBrowser = !isPWA
+
+    console.log('=== Auth callback started ===')
+    console.log('URL:', window.location.href)
+    console.log('Auth type:', isOAuthCallback ? 'OAuth (Google)' : 'Magic Link')
+    console.log('Running in:', isPWA ? 'PWA' : 'Browser')
 
     const handleSuccessfulAuth = async (session: any) => {
       if (!isActive) return
@@ -108,8 +118,19 @@ function AuthCallbackContent() {
 
         if (attempts >= maxAttempts) {
           console.log('✗ Timeout - no session after max attempts')
+          console.log('Running in browser (not PWA):', isInBrowser)
+
           if (isActive) {
-            if (isOAuthCallback) {
+            if (isOAuthCallback && isInBrowser) {
+              // OAuth callback opened in Safari instead of PWA
+              setError(
+                'Google sign-in completed in Safari. To continue:\n\n' +
+                '1. Close this Safari tab\n' +
+                '2. Open the Hapien app from your home screen\n' +
+                '3. You should now be logged in!\n\n' +
+                'If you\'re still not logged in, try signing in again from within the Hapien app.'
+              )
+            } else if (isOAuthCallback) {
               setError(
                 'Google sign-in failed. This can happen if:\n\n' +
                 '• The authorization was cancelled\n' +
@@ -157,10 +178,6 @@ function AuthCallbackContent() {
     }
 
     // Start polling after a short delay to let Supabase process the code
-    console.log('=== Auth callback started ===')
-    console.log('URL:', window.location.href)
-    console.log('Auth type:', isOAuthCallback ? 'OAuth (Google)' : 'Magic Link')
-
     // For OAuth, start immediately; for magic links, wait 500ms
     const initialDelay = isOAuthCallback ? 100 : 500
     setTimeout(poll, initialDelay)
