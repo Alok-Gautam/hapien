@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect, useCallback, use } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { formatDistanceToNow } from 'date-fns'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -25,10 +25,6 @@ import { PostWithRelations, Comment, User } from '@/types/database'
 import { cn } from '@/utils/helpers'
 import toast from 'react-hot-toast'
 
-interface PostPageProps {
-  params: Promise<{ id: string }>
-}
-
 const REACTION_TYPES = [
   { type: 'like', icon: Heart, label: 'Like', activeColor: 'text-tertiary-500' },
   { type: 'love', icon: Sparkles, label: 'Love', activeColor: 'text-secondary-500' },
@@ -39,8 +35,9 @@ interface CommentWithUser extends Comment {
   user: User
 }
 
-export default function PostPage({ params }: PostPageProps) {
-  const { id } = use(params)
+export default function PostPage() {
+  const params = useParams()
+  const id = params.id as string
   const { user, isLoading: authLoading } = useAuth()
   const router = useRouter()
   const supabase = createClient()

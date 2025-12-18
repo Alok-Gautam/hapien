@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, useCallback, use } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect, useCallback } from 'react'
+import { useRouter, useParams } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { AppShell } from '@/components/layout'
 import { Button, Card, Input, Textarea } from '@/components/ui'
@@ -12,12 +12,9 @@ import { Hangout, HangoutCategory } from '@/types/database'
 import { cn, categoryConfig } from '@/utils/helpers'
 import toast from 'react-hot-toast'
 
-interface EditHangoutPageProps {
-  params: Promise<{ id: string }>
-}
-
-export default function EditHangoutPage({ params }: EditHangoutPageProps) {
-  const { id } = use(params)
+export default function EditHangoutPage() {
+  const params = useParams()
+  const id = params.id as string
   const router = useRouter()
   const { user, isLoading: authLoading } = useAuth()
   const supabase = createClient()
