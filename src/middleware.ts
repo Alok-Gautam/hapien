@@ -92,6 +92,7 @@ export async function middleware(request: NextRequest) {
 
   // If user is not authenticated and trying to access protected route, redirect to login
   if (!user && !isPublicRoute) {
+    console.log('[Middleware] No session found, redirecting to login from:', pathname)
     const redirectUrl = new URL('/auth/login', request.url)
     redirectUrl.searchParams.set('redirectTo', pathname)
     return NextResponse.redirect(redirectUrl)

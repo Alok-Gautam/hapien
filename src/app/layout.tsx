@@ -68,6 +68,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* PWA and iOS-specific meta tags for better storage persistence */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Hapien" />
+        <meta name="mobile-web-app-capable" content="yes" />
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* Plus Jakarta Sans - Body font */}

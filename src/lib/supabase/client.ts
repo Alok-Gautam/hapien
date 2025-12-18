@@ -5,6 +5,7 @@ import { sessionStorage } from '@/lib/auth/sessionStorage'
 // Singleton instance
 let supabaseClient: ReturnType<typeof createBrowserClient<Database>> | null = null
 let isRestoringSession = false
+let restorationPromise: Promise<void> | null = null
 
 export function createClient() {
   // Only create client in browser environment
@@ -61,39 +62,51 @@ export function createClient() {
     },
     cookies: {
       get(name) {
-        const value = typeof document !== 'undefined'
-          ? document.cookie
-              .split('; ')
-              .find(row => row.startsWith(`${name}=`))
-              ?.split('=')[1]
-          : undefined
+        if (typeof document === 'undefined') return undefined
+
+        const value = document.cookie
+          .split('; ')
+          .find(row => row.startsWith(`${name}=`))
+          ?.split('=')[1]
+
         return value
       },
       set(name, value, options) {
         if (typeof document === 'undefined') return
 
+        const domain = window.location.hostname
         const cookieOptions = {
           ...options,
           sameSite: 'lax' as const,
           path: '/',
+          domain: domain === 'localhost' ? undefined : domain,
           secure: window.location.protocol === 'https:',
           maxAge: 365 * 24 * 60 * 60, // 1 year
         }
 
-        const cookieString = `${name}=${value}; path=${cookieOptions.path}; max-age=${cookieOptions.maxAge}; samesite=${cookieOptions.sameSite}${cookieOptions.secure ? '; secure' : ''}`
+        let cookieString = `${name}=${value}; path=${cookieOptions.path}; max-age=${cookieOptions.maxAge}; samesite=${cookieOptions.sameSite}`
+        if (cookieOptions.secure) cookieString += '; secure'
+        if (cookieOptions.domain) cookieString += `; domain=${cookieOptions.domain}`
+
         document.cookie = cookieString
+        console.log('[Supabase] Cookie set:', name, 'domain:', cookieOptions.domain)
       },
       remove(name, options) {
         if (typeof document === 'undefined') return
 
+        const domain = window.location.hostname
         const cookieOptions = {
           ...options,
           sameSite: 'lax' as const,
           path: '/',
+          domain: domain === 'localhost' ? undefined : domain,
           maxAge: -1,
         }
 
-        document.cookie = `${name}=; path=${cookieOptions.path}; max-age=${cookieOptions.maxAge}; samesite=${cookieOptions.sameSite}`
+        let cookieString = `${name}=; path=${cookieOptions.path}; max-age=${cookieOptions.maxAge}; samesite=${cookieOptions.sameSite}`
+        if (cookieOptions.domain) cookieString += `; domain=${cookieOptions.domain}`
+
+        document.cookie = cookieString
       },
     },
   })
@@ -120,33 +133,56 @@ export function createClient() {
     }
   })
 
-  // Try to restore session from IndexedDB if no active session
-  if (!isRestoringSession) {
+  // Eagerly try to restore session from IndexedDB if no active session
+  if (!isRestoringSession && !restorationPromise) {
     isRestoringSession = true
 
-    supabaseClient.auth.getSession().then(async ({ data: { session } }) => {
+    restorationPromise = supabaseClient.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) {
         console.log('[Supabase] No active session, checking IndexedDB backup')
         const storedSession = await sessionStorage.getSession()
 
         if (storedSession) {
           console.log('[Supabase] Restoring session from IndexedDB backup')
+          console.log('[Supabase] Session expires at:', new Date(storedSession.expires_at * 1000).toLocaleString())
+
           try {
-            await supabaseClient!.auth.setSession({
+            const { data, error } = await supabaseClient!.auth.setSession({
               access_token: storedSession.access_token,
               refresh_token: storedSession.refresh_token,
             })
+
+            if (error) throw error
+
             console.log('[Supabase] Session restored successfully')
+            console.log('[Supabase] User:', data.user?.email)
           } catch (error) {
             console.error('[Supabase] Failed to restore session:', error)
             // Clear invalid session
             await sessionStorage.clearSession()
           }
+        } else {
+          console.log('[Supabase] No backup session found in IndexedDB')
         }
+      } else {
+        console.log('[Supabase] Active session found:', session.user?.email)
       }
+      isRestoringSession = false
+    }).catch((error) => {
+      console.error('[Supabase] Error during session restoration:', error)
       isRestoringSession = false
     })
   }
 
   return supabaseClient
+}
+
+// Helper function to ensure session is ready
+export async function ensureSession() {
+  if (restorationPromise) {
+    await restorationPromise
+  }
+  const client = createClient()
+  const { data: { session } } = await client.auth.getSession()
+  return session
 }
