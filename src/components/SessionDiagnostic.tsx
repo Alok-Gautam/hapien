@@ -67,10 +67,10 @@ export function SessionDiagnostic() {
     setIsChecking(false)
   }
 
-  const copyToClipboard = async () => {
-    if (!diagnostics) return
+  const generateReport = () => {
+    if (!diagnostics) return ''
 
-    const text = `
+    return `
 🔍 HAPIEN SESSION DIAGNOSTIC REPORT
 Generated: ${diagnostics.timestamp}
 
@@ -102,7 +102,35 @@ Names: ${diagnostics.checks.cookies?.names?.join(', ') || 'None'}
 Device: ${navigator.userAgent}
 Time: ${new Date().toISOString()}
     `.trim()
+  }
 
+  const shareReport = async () => {
+    const text = generateReport()
+
+    // Check if Web Share API is available (iOS Safari supports this)
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Hapien Session Diagnostic',
+          text: text
+        })
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      } catch (err: any) {
+        // User cancelled or error occurred
+        if (err.name !== 'AbortError') {
+          console.error('Share failed:', err)
+          // Fallback to copy
+          copyToClipboard(text)
+        }
+      }
+    } else {
+      // Fallback to copy for desktop
+      copyToClipboard(text)
+    }
+  }
+
+  const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text)
       setCopied(true)
@@ -171,13 +199,13 @@ Time: ${new Date().toISOString()}
             {isChecking ? '⏳ Checking...' : '🔄 Refresh'}
           </Button>
           <Button
-            onClick={copyToClipboard}
+            onClick={shareReport}
             size="sm"
             variant="secondary"
             className="flex-1"
             disabled={!diagnostics}
           >
-            {copied ? '✅ Copied!' : '📋 Copy'}
+            {copied ? '✅ Shared!' : '📤 Share'}
           </Button>
         </div>
 
@@ -238,7 +266,7 @@ Time: ${new Date().toISOString()}
             )}
 
             <div className="mt-3 pt-3 border-t border-stone-700 text-stone-500 text-xs">
-              💡 Tap "Copy" to copy diagnostic info, then paste it anywhere to share
+              💡 Tap "Share" to share via WhatsApp, Email, Messages, etc.
             </div>
           </div>
         )}
