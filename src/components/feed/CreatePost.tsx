@@ -126,35 +126,59 @@ export function CreatePost({ communityId, onPostCreated }: CreatePostProps) {
             }}
             onFocus={() => setIsExpanded(true)}
             rows={isExpanded ? 3 : 1}
-            className="w-full resize-none bg-transparent text-stone-50 placeholder:text-stone-400 focus:outline-none"
+            className={cn(
+              "w-full resize-none text-stone-50 placeholder:text-stone-400 focus:outline-none transition-all",
+              isExpanded
+                ? "bg-stone-800/50 rounded-xl p-3 border border-stone-700 focus:border-primary-500"
+                : "bg-transparent"
+            )}
           />
 
           {/* Media previews */}
           {mediaPreviews.length > 0 && (
-            <div className={cn(
-              'grid gap-2 mt-3',
-              mediaPreviews.length === 1 && 'grid-cols-1',
-              mediaPreviews.length === 2 && 'grid-cols-2',
-              mediaPreviews.length >= 3 && 'grid-cols-2',
-            )}>
-              {mediaPreviews.map((preview, index) => (
-                <div
-                  key={preview}
-                  className="relative aspect-square rounded-xl overflow-hidden bg-stone-700"
-                >
-                  <img
-                    src={preview}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
+            <div className="mt-3">
+              {/* Media counter */}
+              <div className="flex items-center justify-between mb-2 px-1">
+                <p className="text-sm text-stone-400">
+                  {mediaPreviews.length} / 4 {mediaPreviews.length === 1 ? 'photo' : 'photos'}
+                </p>
+                {media.length < 4 && (
                   <button
-                    onClick={() => removeMedia(index)}
-                    className="absolute top-2 right-2 p-1 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="text-xs text-primary-400 hover:text-primary-300 font-medium"
                   >
-                    <X className="w-4 h-4" />
+                    + Add more
                   </button>
-                </div>
-              ))}
+                )}
+              </div>
+
+              {/* Media grid */}
+              <div className={cn(
+                'grid gap-2',
+                mediaPreviews.length === 1 && 'grid-cols-1',
+                mediaPreviews.length === 2 && 'grid-cols-2',
+                mediaPreviews.length >= 3 && 'grid-cols-2',
+              )}>
+                {mediaPreviews.map((preview, index) => (
+                  <div
+                    key={preview}
+                    className="relative aspect-square rounded-xl overflow-hidden bg-stone-700"
+                  >
+                    <img
+                      src={preview}
+                      alt={`Photo ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      onClick={() => removeMedia(index)}
+                      className="absolute top-2 right-2 p-1.5 bg-black/60 backdrop-blur-sm rounded-full text-white hover:bg-black/80 transition-colors"
+                      aria-label="Remove photo"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
@@ -172,20 +196,20 @@ export function CreatePost({ communityId, onPostCreated }: CreatePostProps) {
                 />
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="p-2 text-stone-500 hover:text-primary-500 hover:bg-primary-900/30 rounded-lg transition-colors"
+                  className="p-2 text-stone-300 hover:text-primary-400 hover:bg-primary-900/30 rounded-lg transition-colors"
                   title="Add photos or videos"
                 >
                   <ImageIcon className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="p-2 text-stone-500 hover:text-primary-500 hover:bg-primary-900/30 rounded-lg transition-colors"
+                  className="p-2 text-stone-300 hover:text-primary-400 hover:bg-primary-900/30 rounded-lg transition-colors"
                   title="Add video"
                 >
                   <Video className="w-5 h-5" />
                 </button>
                 <button
-                  className="p-2 text-stone-500 hover:text-primary-500 hover:bg-primary-900/30 rounded-lg transition-colors"
+                  className="p-2 text-stone-300 hover:text-primary-400 hover:bg-primary-900/30 rounded-lg transition-colors"
                   title="Add location"
                 >
                   <MapPin className="w-5 h-5" />
@@ -229,6 +253,8 @@ export function CreatePost({ communityId, onPostCreated }: CreatePostProps) {
                 onClick={handlePost}
                 isLoading={isLoading}
                 disabled={!content.trim() && media.length === 0}
+                size="lg"
+                className="min-w-[100px] font-semibold"
               >
                 Post
               </Button>
