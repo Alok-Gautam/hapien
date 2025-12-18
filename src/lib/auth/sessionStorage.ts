@@ -179,5 +179,98 @@ class SessionStorage {
   }
 }
 
-// Export singleton instance
-export const sessionStorage = new SessionStorage()
+/**
+ * Multi-storage session manager that uses both IndexedDB and localStorage
+ * for redundancy. Increases survival rate across iOS PWA restarts.
+ */
+class MultiStorageSession {
+  private indexedDBStorage = new SessionStorage()
+
+  async saveSession(session: {
+    access_token: string
+    refresh_token: string
+    expires_at: number
+    user?: { id: string }
+  }): Promise<void> {
+    // Save to IndexedDB (primary)
+    await this.indexedDBStorage.saveSession(session)
+
+    // Also save to localStorage as backup
+    try {
+      const sessionData = JSON.stringify({
+        access_token: session.access_token,
+        refresh_token: session.refresh_token,
+        expires_at: session.expires_at,
+        user_id: session.user?.id || '',
+        timestamp: Date.now(),
+      })
+      localStorage.setItem('hapien-auth-backup', sessionData)
+      console.log('[MultiStorage] ✅ Saved to localStorage backup')
+    } catch (error) {
+      console.error('[MultiStorage] ❌ localStorage save failed:', error)
+    }
+  }
+
+  async getSession(): Promise<StoredSession | null> {
+    // Try IndexedDB first (primary)
+    try {
+      const indexedSession = await this.indexedDBStorage.getSession()
+      if (indexedSession) {
+        console.log('[MultiStorage] ✅ Retrieved from IndexedDB')
+        return indexedSession
+      }
+    } catch (error) {
+      console.error('[MultiStorage] ❌ IndexedDB retrieval failed:', error)
+    }
+
+    // Fall back to localStorage
+    try {
+      const localData = localStorage.getItem('hapien-auth-backup')
+      if (localData) {
+        const session = JSON.parse(localData) as StoredSession
+
+        // Validate expiry
+        if (session.expires_at && session.expires_at < Date.now() / 1000) {
+          console.log('[MultiStorage] localStorage session expired')
+          this.clearSession()
+          return null
+        }
+
+        // Validate age (30 days max)
+        const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000)
+        if (session.timestamp < thirtyDaysAgo) {
+          console.log('[MultiStorage] localStorage session too old')
+          this.clearSession()
+          return null
+        }
+
+        console.log('[MultiStorage] ✅ Retrieved from localStorage backup')
+        return session
+      }
+    } catch (error) {
+      console.error('[MultiStorage] ❌ localStorage retrieval failed:', error)
+    }
+
+    return null
+  }
+
+  async clearSession(): Promise<void> {
+    // Clear from both storage mechanisms
+    await this.indexedDBStorage.clearSession()
+
+    try {
+      localStorage.removeItem('hapien-auth-backup')
+      console.log('[MultiStorage] ✅ Cleared localStorage backup')
+    } catch (error) {
+      console.error('[MultiStorage] ❌ localStorage clear failed:', error)
+    }
+  }
+
+  async hasSession(): Promise<boolean> {
+    const session = await this.getSession()
+    return session !== null
+  }
+}
+
+// Export multi-storage singleton instance
+export const sessionStorage = new MultiStorageSession()

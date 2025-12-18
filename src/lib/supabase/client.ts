@@ -79,12 +79,23 @@ export function createClient() {
       set(name, value, options) {
         if (typeof document === 'undefined') return
 
-        const domain = window.location.hostname
+        // Detect if running in iOS PWA mode
+        const isPWA = window.matchMedia('(display-mode: standalone)').matches ||
+                      (window.navigator as any).standalone === true ||
+                      document.referrer.includes('android-app://')
+
+        const hostname = window.location.hostname
+        const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1'
+
+        // For iOS PWA, omit domain to improve persistence in standalone mode
+        // iOS handles cookies differently in standalone PWA mode
+        const domain = isPWA ? undefined : (isLocalhost ? undefined : hostname)
+
         const cookieOptions = {
           ...options,
           sameSite: 'lax' as const,
           path: '/',
-          domain: domain === 'localhost' ? undefined : domain,
+          domain,
           secure: window.location.protocol === 'https:',
           maxAge: 365 * 24 * 60 * 60, // 1 year
         }
@@ -94,17 +105,28 @@ export function createClient() {
         if (cookieOptions.domain) cookieString += `; domain=${cookieOptions.domain}`
 
         document.cookie = cookieString
-        console.log('[Supabase] Cookie set:', name, 'domain:', cookieOptions.domain)
+        console.log('[Supabase] Cookie set:', name, {
+          domain: cookieOptions.domain,
+          isPWA,
+          secure: cookieOptions.secure
+        })
       },
       remove(name, options) {
         if (typeof document === 'undefined') return
 
-        const domain = window.location.hostname
+        // Use same PWA detection as set()
+        const isPWA = window.matchMedia('(display-mode: standalone)').matches ||
+                      (window.navigator as any).standalone === true
+
+        const hostname = window.location.hostname
+        const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1'
+        const domain = isPWA ? undefined : (isLocalhost ? undefined : hostname)
+
         const cookieOptions = {
           ...options,
           sameSite: 'lax' as const,
           path: '/',
-          domain: domain === 'localhost' ? undefined : domain,
+          domain,
           maxAge: -1,
         }
 
