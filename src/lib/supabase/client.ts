@@ -1,8 +1,10 @@
 import { createBrowserClient } from '@supabase/ssr'
 import { Database } from '@/types/database'
+import { sessionStorage } from '@/lib/auth/sessionStorage'
 
 // Singleton instance
 let supabaseClient: ReturnType<typeof createBrowserClient<Database>> | null = null
+let isRestoringSession = false
 
 export function createClient() {
   // Only create client in browser environment
@@ -95,6 +97,56 @@ export function createClient() {
       },
     },
   })
+
+  // Setup auth state listener to sync with IndexedDB
+  supabaseClient.auth.onAuthStateChange(async (event, session) => {
+    console.log('[Supabase] Auth state changed:', event)
+
+    if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+      // Save session to IndexedDB for backup
+      if (session) {
+        console.log('[Supabase] Saving session to IndexedDB backup')
+        await sessionStorage.saveSession({
+          access_token: session.access_token,
+          refresh_token: session.refresh_token,
+          expires_at: session.expires_at || 0,
+          user: session.user,
+        })
+      }
+    } else if (event === 'SIGNED_OUT') {
+      // Clear IndexedDB backup
+      console.log('[Supabase] Clearing session from IndexedDB backup')
+      await sessionStorage.clearSession()
+    }
+  })
+
+  // Try to restore session from IndexedDB if no active session
+  if (!isRestoringSession) {
+    isRestoringSession = true
+
+    supabaseClient.auth.getSession().then(async ({ data: { session } }) => {
+      if (!session) {
+        console.log('[Supabase] No active session, checking IndexedDB backup')
+        const storedSession = await sessionStorage.getSession()
+
+        if (storedSession) {
+          console.log('[Supabase] Restoring session from IndexedDB backup')
+          try {
+            await supabaseClient!.auth.setSession({
+              access_token: storedSession.access_token,
+              refresh_token: storedSession.refresh_token,
+            })
+            console.log('[Supabase] Session restored successfully')
+          } catch (error) {
+            console.error('[Supabase] Failed to restore session:', error)
+            // Clear invalid session
+            await sessionStorage.clearSession()
+          }
+        }
+      }
+      isRestoringSession = false
+    })
+  }
 
   return supabaseClient
 }
