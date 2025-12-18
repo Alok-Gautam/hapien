@@ -110,13 +110,59 @@ export function CreatePost({ communityId, onPostCreated }: CreatePostProps) {
 
   return (
     <Card variant="elevated" padding="md">
-      <div className="flex gap-3">
-        <Avatar
-          src={user.avatar_url}
-          name={user.name || 'User'}
-          size="md"
-        />
-        <div className="flex-1">
+      <div>
+        {/* Row 1: Avatar and metadata */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <Avatar
+              src={user.avatar_url}
+              name={user.name || 'User'}
+              size="md"
+            />
+            <div>
+              <p className="font-semibold text-stone-50">{user.name}</p>
+              <p className="text-xs text-stone-500">Just now</p>
+            </div>
+          </div>
+
+          {/* Visibility selector (moved from toolbar) */}
+          {isExpanded && (
+            <div className="relative">
+              <button
+                onClick={() => setShowVisibilityMenu(!showVisibilityMenu)}
+                className="flex items-center gap-1 px-2 py-1.5 text-sm text-stone-400 hover:bg-stone-700 rounded-lg transition-colors"
+              >
+                <Users className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden sm:inline">{visibilityConfig[visibility].label}</span>
+                <ChevronDown className="w-3.5 h-3.5 flex-shrink-0" />
+              </button>
+
+              {showVisibilityMenu && (
+                <div className="absolute top-full right-0 mt-1 w-56 bg-stone-800 rounded-xl shadow-soft border border-stone-700 py-1 z-10">
+                  {Object.entries(visibilityConfig).slice(0, 3).map(([key, config]) => (
+                    <button
+                      key={key}
+                      onClick={() => {
+                        setVisibility(key as PostVisibility)
+                        setShowVisibilityMenu(false)
+                      }}
+                      className={cn(
+                        'w-full px-4 py-2 text-left hover:bg-stone-900 transition-colors',
+                        visibility === key && 'bg-primary-900/30'
+                      )}
+                    >
+                      <p className="font-medium text-stone-50">{config.label}</p>
+                      <p className="text-xs text-stone-500">{config.description}</p>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Row 2: Content area (full width) */}
+        <div>
           <textarea
             placeholder="What's on your mind?"
             value={content}
@@ -218,39 +264,6 @@ export function CreatePost({ communityId, onPostCreated }: CreatePostProps) {
                 >
                   <MapPin className="w-5 h-5" />
                 </button>
-
-                {/* Visibility selector */}
-                <div className="relative ml-1">
-                  <button
-                    onClick={() => setShowVisibilityMenu(!showVisibilityMenu)}
-                    className="flex items-center gap-1 px-2 py-1.5 text-sm text-stone-400 hover:bg-stone-700 rounded-lg transition-colors"
-                  >
-                    <Users className="w-4 h-4 flex-shrink-0" />
-                    <span className="hidden sm:inline">{visibilityConfig[visibility].label}</span>
-                    <ChevronDown className="w-3.5 h-3.5 flex-shrink-0" />
-                  </button>
-
-                  {showVisibilityMenu && (
-                    <div className="absolute top-full left-0 mt-1 w-56 bg-stone-800 rounded-xl shadow-soft border border-stone-700-lg border border-stone-700 py-1 z-10">
-                      {Object.entries(visibilityConfig).slice(0, 3).map(([key, config]) => (
-                        <button
-                          key={key}
-                          onClick={() => {
-                            setVisibility(key as PostVisibility)
-                            setShowVisibilityMenu(false)
-                          }}
-                          className={cn(
-                            'w-full px-4 py-2 text-left hover:bg-stone-900 transition-colors',
-                            visibility === key && 'bg-primary-900/30'
-                          )}
-                        >
-                          <p className="font-medium text-stone-50">{config.label}</p>
-                          <p className="text-xs text-stone-500">{config.description}</p>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
               </div>
 
               {/* Post button - centered */}
