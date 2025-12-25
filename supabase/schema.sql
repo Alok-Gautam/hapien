@@ -414,6 +414,43 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 -- ('Sample Society', 'society', 'YOUR_USER_ID', 'A sample residential society');
 
 -- =====================================================
+-- PAYMENTS TABLE
+-- =====================================================
+CREATE TABLE IF NOT EXISTS public.payments (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  razorpay_order_id TEXT UNIQUE NOT NULL,
+  razorpay_payment_id TEXT,
+  razorpay_signature TEXT,
+  amount INTEGER NOT NULL, -- in paisa
+  currency TEXT NOT NULL DEFAULT 'INR',
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'completed', 'failed', 'refunded')),
+  payment_type TEXT NOT NULL CHECK (payment_type IN ('hangout', 'subscription', 'feature')),
+  reference_id UUID, -- hangout_id or other reference
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes for payment lookups
+CREATE INDEX IF NOT EXISTS idx_payments_user ON public.payments(user_id);
+CREATE INDEX IF NOT EXISTS idx_payments_order ON public.payments(razorpay_order_id);
+CREATE INDEX IF NOT EXISTS idx_payments_status ON public.payments(status);
+CREATE INDEX IF NOT EXISTS idx_payments_type ON public.payments(payment_type);
+
+-- Enable RLS on payments
+ALTER TABLE public.payments ENABLE ROW LEVEL SECURITY;
+
+-- Payments policies
+CREATE POLICY "Users can view own payments" ON public.payments FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "System can create payments" ON public.payments FOR INSERT WITH CHECK (true);
+CREATE POLICY "System can update payments" ON public.payments FOR UPDATE USING (true);
+
+-- Trigger for updated_at
+CREATE TRIGGER update_payments_updated_at BEFORE UPDATE ON public.payments
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- =====================================================
 -- STORAGE BUCKETS
 -- =====================================================
 -- Run these in Supabase Dashboard -> Storage
