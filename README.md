@@ -224,3 +224,5 @@ Private project for Hapien.com
 ---
 
 Built with ❤️ for creating meaningful connections in local communities.
+
+ 
