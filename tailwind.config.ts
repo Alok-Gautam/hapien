@@ -9,156 +9,155 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Primary - Purple/Violet (Euphoria palette)
-        violet: {
-          50: '#F5F3FF',
-          100: '#EDE9FE',
-          200: '#DDD6FE',
-          300: '#C4B5FD',
-          400: '#A78BFA',
-          500: '#8B5CF6',
-          600: '#7C3AED',
-          700: '#6D28D9',
-          800: '#5B21B6',
-          900: '#4C1D95',
-          950: '#3F157A',
+              // Primary - Grayscale (Black & White theme)        violet: {
+          50: '#FAFAFA',
+          100: '#F5F5F5',
+          200: '#E5E5E5',
+          300: '#D4D4D4',
+          400: '#A3A3A3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0A0A0A',
         },
         // Secondary - Magenta/Pink
         magenta: {
-          50: '#FDF4FF',
-          100: '#FAE8FF',
-          200: '#F5D0FE',
-          300: '#F0ABFC',
-          400: '#E879F9',
-          500: '#D946EF',
-          600: '#AA31AC',
-          700: '#6E32A2',
-          800: '#5D146F',
-          900: '#4A1259',
-          950: '#2E0A38',
+          50: '#0A0A0A',
+          100: '#F5F5F5',
+          200: '#E5E5E5',
+          300: '#D4D4D4',
+          400: '#A3A3A3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0A0A0A',
         },
         // Accent - Periwinkle/Lavender
         periwinkle: {
-          50: '#F0F1FF',
-          100: '#E0E3FF',
-          200: '#C7CBFF',
-          300: '#A5ACFF',
-          400: '#727EF5',
-          500: '#5B68E8',
-          600: '#4B55D4',
-          700: '#3D45B0',
-          800: '#33398A',
-          900: '#2D326E',
-          950: '#1C1F42',
+          50: '#FAFAFA',
+          100: '#F5F5F5',
+          200: '#E5E5E5',
+          300: '#D4D4D4',
+          400: '#A3A3A3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0A0A0A',
         },
         // Neutral - Deep Navy/Purple
         stone: {
-          50: '#F8F7FF',
-          100: '#EEEDFF',
-          200: '#DEDCFF',
-          300: '#C4C1E0',
-          400: '#9B97C0',
-          500: '#736F9A',
-          600: '#504D73',
-          700: '#2D2A4D',
-          800: '#1A1833',
-          900: '#010040',
-          950: '#000020',
+          50: '#0A0A0A',
+          100: '#F5F5F5',
+          200: '#E5E5E5',
+          300: '#D4D4D4',
+          400: '#A3A3A3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0A0A0A',
         },
         // Premium Accent - Electric
         gold: {
-          light: '#C4B5FD',
-          DEFAULT: '#727EF5',
-          dark: '#5B68E8',
+          light: '#D4D4D4',
+          DEFAULT: '#A3A3A3',
+          dark: '#737373',
         },
         // Legacy support - map to new purple palette
         primary: {
-          50: '#F5F3FF',
-          100: '#EDE9FE',
-          200: '#DDD6FE',
-          300: '#C4B5FD',
-          400: '#A78BFA',
-          500: '#8B5CF6',
-          600: '#7C3AED',
-          700: '#6D28D9',
-          800: '#5B21B6',
-          900: '#4C1D95',
-          950: '#3F157A',
+          50: '#FAFAFA',
+          100: '#F5F5F5',
+          200: '#E5E5E5',
+          300: '#D4D4D4',
+          400: '#A3A3A3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0A0A0A',
         },
         secondary: {
-          50: '#FDF4FF',
-          100: '#FAE8FF',
-          200: '#F5D0FE',
-          300: '#F0ABFC',
-          400: '#E879F9',
-          500: '#D946EF',
-          600: '#AA31AC',
-          700: '#6E32A2',
-          800: '#5D146F',
-          900: '#4A1259',
-          950: '#2E0A38',
+          50: '#0A0A0A',
+          100: '#F5F5F5',
+          200: '#E5E5E5',
+          300: '#D4D4D4',
+          400: '#A3A3A3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0A0A0A',
         },
         tertiary: {
-          50: '#F0F1FF',
-          100: '#E0E3FF',
-          200: '#C7CBFF',
-          300: '#A5ACFF',
-          400: '#727EF5',
-          500: '#5B68E8',
-          600: '#4B55D4',
-          700: '#3D45B0',
-          800: '#33398A',
-          900: '#2D326E',
-          950: '#1C1F42',
+          50: '#FAFAFA',
+          100: '#F5F5F5',
+          200: '#E5E5E5',
+          300: '#D4D4D4',
+          400: '#A3A3A3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0A0A0A',
         },
         // Keep neutral for backwards compatibility
         neutral: {
-          50: '#F8F7FF',
-          100: '#EEEDFF',
-          200: '#DEDCFF',
-          300: '#C4C1E0',
-          400: '#9B97C0',
-          500: '#736F9A',
-          600: '#504D73',
-          700: '#2D2A4D',
-          800: '#1A1833',
-          850: '#010040',
-          900: '#010040',
-          950: '#000020',
+          50: '#0A0A0A',
+          100: '#F5F5F5',
+          200: '#E5E5E5',
+          300: '#D4D4D4',
+          400: '#A3A3A3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          850: '#171717',
+          900: '#171717',
+          950: '#0A0A0A',
         },
         // Category colors - Euphoria palette
         category: {
-          sports: '#727EF5',    // periwinkle
-          food: '#AA31AC',      // magenta
-          shopping: '#E879F9',  // light magenta
-          learning: '#8B5CF6',  // violet
-          chill: '#A78BFA',     // light violet
-          coffee: '#6E32A2',    // deep purple
-          walk: '#C4B5FD',      // lavender
-          hobby: '#F0ABFC',     // pink
+          sports: '#A3A3A3',    // periwinkle
+          food: '#525252',      // magenta
+          shopping: '#A3A3A3',  // light magenta
+          learning: '#737373',  // violet
+          chill: '#A3A3A3',     // light violet
+          coffee: '#404040',    // deep purple
+          walk: '#D4D4D4',      // lavender
+          hobby: '#D4D4D4',     // pink
         },
         // Connection strength colors
         connection: {
-          new: '#9B97C0',       // muted purple
-          growing: '#A78BFA',   // violet-400
-          strong: '#8B5CF6',    // violet-500
-          deep: '#AA31AC',      // magenta
-          kindred: '#E879F9',   // bright magenta
+          new: '#A3A3A3',       // muted purple
+          growing: '#A3A3A3',   // violet-400
+          strong: '#737373',    // violet-500
+          deep: '#525252',      // magenta
+          kindred: '#A3A3A3',   // bright magenta
         },
         // Dark mode colors
         dark: {
-          bg: '#010040',        // deep navy
-          card: '#1A1833',      // dark purple
-          surface: '#1A1833',   // dark purple
-          elevated: '#2D2A4D',  // medium purple
-          hover: '#2D2A4D',     // medium purple
-          border: '#504D73',    // muted purple
+          bg: '#171717',        // deep navy
+          card: '#262626',      // dark purple
+          surface: '#262626',   // dark purple
+          elevated: '#404040',  // medium purple
+          hover: '#404040',     // medium purple
+          border: '#525252',    // muted purple
         },
         // Text colors for dark mode
         text: {
-          primary: '#F8F7FF',   // almost white with purple tint
-          secondary: '#C4C1E0', // light purple
-          muted: '#9B97C0',     // muted purple
+          primary: '#0A0A0A',   // almost white with purple tint
+          secondary: '#D4D4D4', // light purple
+          muted: '#A3A3A3',     // muted purple
         },
         // Sage replacement for success states
         sage: {
