@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Razorpay from 'razorpay'
-import { createClient } from '@/lib/supabase/server'
-
+import { createClient } from '../../../../lib/supabase/server'
 // Initialize Razorpay
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID!,
