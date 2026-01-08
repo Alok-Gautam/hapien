@@ -1,0 +1,6 @@
+
+> @hapien/mobile@1.0.0 lint /Users/alokg/abhranta/hapien/apps/mobile
+> eslint .
+
+sh: eslint: command not found
+ ELIFECYCLE  Command failed.

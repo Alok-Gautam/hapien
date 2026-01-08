@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect to Hapien Dev Server</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 18px 40px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        .button:active {
+            transform: scale(0.95);
+        }
+        .url {
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+            word-break: break-all;
+        }
+        .instructions {
+            margin-top: 30px;
+            font-size: 16px;
+            opacity: 0.8;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Hapien Dev Server</h1>
+    <p>Tap the button below to open in Expo Go</p>
+
+    <a href="exp://192.168.1.2:8081" class="button" id="openButton">
+        Open in Expo Go
+    </a>
+
+    <div class="url">exp://192.168.1.2:8081</div>
+
+    <script>
+        document.getElementById('openButton').addEventListener('click', function(e) {
+            setTimeout(function() {
+                window.location = 'exp://192.168.1.2:8081';
+            }, 100);
+        });
+    </script>
+
+    <div class="instructions">
+        Make sure:
+        <br>• Expo Go is installed on your iPhone
+        <br>• Your iPhone and Mac are on the same WiFi
+        <br>• The development server is running
+    </div>
+</body>
+</html>
